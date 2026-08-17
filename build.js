@@ -13,8 +13,8 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { business, serviceArea, locations, milestones, coreValues } from './src/content/business.js';
-import { sessions, deliverables, products, galleries } from './src/content/sessions.js';
-import { testimonials, reviewGaps } from './src/content/social-proof.js';
+import { sessions, deliverables, products, galleries, miniSession } from './src/content/sessions.js';
+import { testimonials, reviewGaps, socialPosts, socialSummary } from './src/content/social-proof.js';
 import { shawna, process as processSteps, faq, rightNow } from './src/content/experience.js';
 import { voices } from './src/content/voice.js';
 import { collectPlaceholders } from './src/content/_placeholder.js';
@@ -29,8 +29,8 @@ const read = (p) => readFileSync(join(__dirname, p), 'utf8');
 
 const content = {
   business, serviceArea, locations, milestones, coreValues,
-  sessions, deliverables, products, galleries,
-  testimonials, reviewGaps, shawna, process: processSteps, faq, rightNow,
+  sessions, deliverables, products, galleries, miniSession,
+  testimonials, reviewGaps, socialPosts, socialSummary, shawna, process: processSteps, faq, rightNow,
 };
 
 /* ── render one architecture ─────────────────────────────────────────────── */

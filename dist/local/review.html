@@ -388,6 +388,7 @@ body {
 .nav-actions { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
 .nav-phone { font-family: var(--label-font); font-size: 13px; font-weight: 600; color: var(--ink); }
 .nav-actions .btn { padding: 11px 20px; }
+.nav-call { display: none; }
 
 /* ── 02 hero ── */
 .hero { gap: 40px; padding-top: clamp(48px, 8vw, 104px); }
@@ -436,6 +437,36 @@ body {
 .timeline p { font-size: 13.5px; color: var(--muted); line-height: 1.55; }
 
 /* ── 05 sessions ── */
+.sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
+
+/* At-a-glance comparison. The deep blocks below are better for one package;
+   this is for deciding between two. */
+.cmp-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: var(--radius-lg); background: var(--surface); }
+.cmp {
+  border-collapse: collapse; width: 100%; min-width: 620px; font-size: 14.5px;
+  /* Tables do not inherit colour or font from their parent in quirks mode, so
+     state both rather than relying on inheritance from .page. */
+  color: var(--ink); font-family: var(--body-font);
+}
+.cmp th, .cmp td { text-align: left; padding: 13px 16px; border-bottom: 1px solid var(--rule); }
+.cmp thead th {
+  font-family: var(--label-font); font-size: 10px; letter-spacing: .11em; text-transform: uppercase;
+  color: var(--muted); font-weight: 600; background: var(--surface-alt); white-space: nowrap;
+}
+.cmp tbody th { font-weight: 700; white-space: nowrap; }
+.cmp tbody tr:last-child td, .cmp tbody tr:last-child th { border-bottom: none; }
+.cmp-price { font-family: var(--display-font); font-size: 19px; font-weight: var(--display-weight); white-space: nowrap; }
+.cmp-mini th, .cmp-mini td { background: var(--accent-soft); }
+
+/* A short, cheap option is the strongest thing to offer someone who has been
+   putting off booking. */
+.mini {
+  display: flex; align-items: center; justify-content: space-between; gap: 22px; flex-wrap: wrap;
+  border: 1px dashed var(--accent); border-radius: var(--radius-lg); padding: 22px 26px; background: var(--accent-soft);
+}
+.mini h3 { font-size: 20px; margin: 4px 0 6px; }
+.mini p { font-size: 14.5px; color: var(--ink-soft); max-width: 54ch; }
+
 .sess-grid { display: flex; flex-direction: column; gap: 22px; }
 .sess {
   display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
@@ -504,6 +535,11 @@ body {
 .step p { font-size: 14.5px; color: var(--muted); line-height: 1.6; }
 
 /* ── 09 reviews ── */
+/* Leading with one quote keeps the band from reading as broken at three
+   reviews, and still scales when there are twelve. */
+.rev-lead { margin-bottom: 16px; }
+.rev-lead .rev { background: var(--accent-soft); border-color: var(--accent); }
+.rev-lead blockquote { font-family: var(--display-font); font-size: clamp(19px, 2.2vw, 26px); line-height: 1.4; color: var(--ink); }
 .rev-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 16px; }
 .rev { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius-lg); padding: 22px; display: flex; flex-direction: column; gap: 11px; }
 .rev-stars { color: var(--accent); font-size: 13px; letter-spacing: .12em; }
@@ -600,6 +636,10 @@ body {
 .insta-head { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
 .insta-head a { font-family: var(--label-font); font-size: 12px; font-weight: 600; color: var(--accent-ink); }
 .insta-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+.ig-tile { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.ig-likes { font-family: var(--label-font); font-size: 11px; font-weight: 600; color: var(--accent-ink); }
+.ig-cap { font-size: 12.5px; color: var(--muted); line-height: 1.45;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 
 /* ── 15 footer ── */
 .foot {
@@ -643,11 +683,13 @@ body {
 .frame-mobile .trustbar-inner { grid-template-columns: repeat(2, 1fr); gap: 22px 12px; }
 .frame-mobile .gal-grid { columns: 1; }
 .frame-mobile .values, .frame-mobile .timeline li { grid-template-columns: 1fr; }
-.frame-mobile .insta-row { grid-template-columns: repeat(3, 1fr); }
+.frame-mobile .insta-row { grid-template-columns: repeat(2, 1fr); }
+.frame-mobile .mini { flex-direction: column; align-items: flex-start; }
 .frame-mobile .foot { grid-template-columns: 1fr 1fr; }
 .frame-mobile .nav-links { display: none; }
 .frame-mobile .nav { padding-inline: 20px; flex-wrap: nowrap; gap: 12px; }
 .frame-mobile .nav-phone { display: none; }
+.frame-mobile .nav-call { display: inline-block; }
 .frame-mobile .nav-actions .btn { padding: 10px 15px; font-size: 11px; }
 .frame-mobile .hero { padding-top: 32px; }
 .frame-mobile .hero-h1 { font-size: 34px; }
@@ -667,6 +709,8 @@ body {
 @media (max-width: 560px) {
   .trustbar-inner { grid-template-columns: repeat(2, 1fr); gap: 22px 12px; }
   .nav-links { display: none; }
+  .nav-phone { display: none; }
+  .nav-call { display: inline-block; }
   .foot { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) { .page * { transition: none !important; animation: none !important; } }
@@ -808,7 +852,7 @@ body {
 
     <div class="ch-group ch-toggles">
       <label class="tog"><input type="checkbox" id="phToggle" checked><span>Mark placeholders</span></label>
-      <button class="ch-link" id="openReport" type="button">Needs Shawna (51)</button>
+      <button class="ch-link" id="openReport" type="button">Needs Shawna (53)</button>
     </div>
   </div>
 
@@ -863,6 +907,7 @@ body {
   </nav>
   <div class="nav-actions">
     <a class="nav-phone" href="tel:+18157158647">(815) 715-8647</a>
+    <a class="nav-call btn btn-ghost" href="tel:+18157158647" aria-label="Call (815) 715-8647">Call</a>
     <a class="btn btn-primary" href="#gallery-enquire">Book a Session</a>
   </div>
 </header>
@@ -881,7 +926,7 @@ body {
   </section>
 <section class="band trustbar">
     <div class="trustbar-inner">
-      <div class="trust-item"><span class="trust-n">12 yrs</span><span class="trust-l">Behind the camera</span></div><div class="trust-item"><span class="trust-n"><span data-ph="1" title="Placeholder — The three testimonials supplied are all five stars, but that is not a real average. What does Google actually show?">5.0</span> ★</span><span class="trust-l">3 reviews</span></div><div class="trust-item"><span class="trust-n">30 miles</span><span class="trust-l">Travel included</span></div><div class="trust-item"><span class="trust-n">24 hrs</span><span class="trust-l">Reply to every enquiry</span></div>
+      <div class="trust-item"><span class="trust-n">12 yrs</span><span class="trust-l">Behind the camera</span></div><div class="trust-item"><span class="trust-n"><span data-ph="1" title="Placeholder — Not in the profile. Roughly how many sessions have you photographed?">300+</span></span><span class="trust-l">Sessions delivered</span></div><div class="trust-item"><span class="trust-n"><span data-ph="1" title="Placeholder — The three testimonials supplied are all five stars, but that is not a real average. What does Google actually show?">5.0</span> ★</span><span class="trust-l">3 reviews</span></div><div class="trust-item"><span class="trust-n">24 hrs</span><span class="trust-l">Reply to every enquiry</span></div>
     </div>
   </section>
 <section id="gallery-work" class="band gallery">
@@ -955,7 +1000,46 @@ body {
     <p class="eyebrow">Sessions</p>
     <h2>Four ways to sit for a portrait</h2>
   </div>
-    <p class="band-lede">Every session includes a planning call, a private gallery and a print release. Prices below are placeholders until confirmed.</p>
+    <p class="band-lede">Every session includes an online gallery and a print release.</p>
+    <div class="cmp-wrap">
+      <table class="cmp">
+        <thead><tr><th scope="col">Session</th><th scope="col">Length</th><th scope="col">Images</th><th scope="col">Included</th><th scope="col">From</th></tr></thead>
+        <tbody>
+          <tr>
+            <th scope="row">Family</th>
+            <td>1–2 hours</td>
+            <td>25+ edited digital images</td>
+            <td>Print release included</td>
+            <td class="cmp-price">$299</td>
+          </tr><tr>
+            <th scope="row">Senior Portraits</th>
+            <td>1–1.5 hours</td>
+            <td>20+ edited digital images</td>
+            <td>Yearbook-ready crop included</td>
+            <td class="cmp-price">$249</td>
+          </tr><tr>
+            <th scope="row">Personal Branding</th>
+            <td>2–3 hours</td>
+            <td>40+ edited digital images</td>
+            <td>Brand consultation call included</td>
+            <td class="cmp-price">$399</td>
+          </tr><tr>
+            <th scope="row">Pet Photography</th>
+            <td>45 minutes – 1 hour</td>
+            <td>15+ edited digital images</td>
+            <td>Treats and toys provided</td>
+            <td class="cmp-price">$199</td>
+          </tr>
+          <tr class="cmp-mini">
+            <th scope="row">Mini sessions</th>
+            <td>20 minutes</td>
+            <td>15 edited photos</td>
+            <td>2 outfit changes</td>
+            <td class="cmp-price"><span data-ph="1" title="Placeholder — no price given for mini sessions">ask</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <div class="sess-grid"><article class="sess sess-pop">
       <div class="sess-art"><figure class="ph-photo " style="aspect-ratio:3/2;--a:130deg;--s:28%">
   <span class="ph-photo-tag">Family — sample</span>
@@ -1057,6 +1141,14 @@ body {
         </div>
       </div>
     </article></div>
+    <aside class="mini">
+      <div>
+        <p class="eyebrow">Not ready for a full session?</p>
+        <h3>Mini sessions</h3>
+        <p>Twenty minutes, two outfit changes and fifteen edited photos. A shorter, lighter option for when a full session is more than you need.</p>
+      </div>
+      <a class="btn btn-ghost" href="#gallery-enquire">Ask about minis</a>
+    </aside>
   </section>
 <section class="band receive">
     
@@ -1081,11 +1173,11 @@ body {
     <h2>What people say afterwards</h2>
   </div>
     <p class="band-lede"><span data-ph="1" title="Placeholder — The three testimonials supplied are all five stars, but that is not a real average. What does Google actually show?">5.0</span> average across <span data-ph="1" title="Placeholder — Only three reviews were supplied. How many do you have across Google, Facebook and Yelp?">3</span> reviews.</p>
-    <div class="rev-grid"><figure class="rev">
+    <div class="rev-lead"><figure class="rev">
       <div class="rev-stars" aria-label="5 out of 5">★★★★★</div>
       <blockquote>The most amazing photography experience we’ve ever had. Every photo tells a story and captures the love in our family perfectly.</blockquote>
       <figcaption>Jane D. <span>· family</span><span class="rev-src rev-src-missing">source pending</span></figcaption>
-    </figure><figure class="rev">
+    </figure></div><div class="rev-grid"><figure class="rev">
       <div class="rev-stars" aria-label="5 out of 5">★★★★★</div>
       <blockquote>Best pet photos we’ve ever had! She captured our dog’s personality in every single shot. We couldn’t be happier!</blockquote>
       <figcaption>Mike R. <span>· pets</span><span class="rev-src rev-src-missing">source pending</span></figcaption>
@@ -1104,7 +1196,7 @@ body {
   </div>
     <p class="band-lede"><span data-ph="1" title="Placeholder — Draft copy built around your confirmed travel radius. Rewrite it in your own words.">Based in Plainfield and photographing across the southwest suburbs — Naperville, Joliet, Oswego, Shorewood and the towns in between.</span></p>
     <div data-ph="1" data-ph-block="1" title="Placeholder — These are the towns inside your confirmed 30-mile radius. Are they the right ones to name, and is any missing?"><ul class="towns"><li>Plainfield</li><li>Naperville</li><li>Joliet</li><li>Oswego</li><li>Shorewood</li><li>Yorkville</li><li>Romeoville</li><li>Bolingbrook</li></ul></div>
-    <p class="where-note">Travel within 30 miles of Plainfield is included. Beyond that, a small travel fee applies.</p>
+    <p class="where-note">Travel within 30 miles of Plainfield is included. Beyond that, a small travel fee applies. Fully insured.</p>
     <div data-ph="1" data-ph-block="1" title="Placeholder — The places are taken from your real portfolio galleries. The one-line descriptions are our drafts — correct anything that is wrong."><div class="loc-grid"><article class="loc">
       <figure class="ph-photo " style="aspect-ratio:3/2;--a:150deg;--s:24%">
   <span class="ph-photo-tag">Settler's Park</span>
@@ -1262,21 +1354,45 @@ body {
 <section class="band insta">
     <div class="insta-head">
       <p class="eyebrow">Lately on Instagram</p>
-      <a href="https://instagram.com/skybyrdphotography">@skybyrdphotography</a>
+      <a href="https://instagram.com/skybyrdphotography">@skybyrdphotography · 11 recent posts</a>
     </div>
-    <div class="insta-row"><figure class="ph-photo " style="aspect-ratio:1/1;--a:170deg;--s:20%">
-  <span class="ph-photo-tag">feed</span>
-</figure><figure class="ph-photo " style="aspect-ratio:1/1;--a:207deg;--s:11%">
-  <span class="ph-photo-tag">feed</span>
-</figure><figure class="ph-photo " style="aspect-ratio:1/1;--a:154deg;--s:24%">
-  <span class="ph-photo-tag">feed</span>
-</figure><figure class="ph-photo " style="aspect-ratio:1/1;--a:191deg;--s:15%">
-  <span class="ph-photo-tag">feed</span>
-</figure><figure class="ph-photo " style="aspect-ratio:1/1;--a:138deg;--s:28%">
-  <span class="ph-photo-tag">feed</span>
-</figure><figure class="ph-photo " style="aspect-ratio:1/1;--a:175deg;--s:19%">
-  <span class="ph-photo-tag">feed</span>
-</figure></div>
+    <div class="insta-row"><a class="ig-tile" href="https://instagram.com/skybyrdphotography">
+      <figure class="ph-photo " style="aspect-ratio:1/1;--a:170deg;--s:20%">
+  <span class="ph-photo-tag">Video</span>
+</figure>
+      <span class="ig-likes">♥ 534</span>
+      <span class="ig-cap">POV: You booked a Skybyrd session and the golden hour delivered…</span>
+    </a><a class="ig-tile" href="https://instagram.com/skybyrdphotography">
+      <figure class="ph-photo " style="aspect-ratio:1/1;--a:207deg;--s:11%">
+  <span class="ph-photo-tag">Video</span>
+</figure>
+      <span class="ig-likes">♥ 489</span>
+      <span class="ig-cap">Behind the scenes of a pet photography session 🐶 Cooper couldn’t stop wagging his tail!</span>
+    </a><a class="ig-tile" href="https://instagram.com/skybyrdphotography">
+      <figure class="ph-photo " style="aspect-ratio:1/1;--a:154deg;--s:24%">
+  <span class="ph-photo-tag">Carousel</span>
+</figure>
+      <span class="ig-likes">♥ 421</span>
+      <span class="ig-cap">One year of Skybyrd Photography 🎉 Swipe to see some of our most-loved shots…</span>
+    </a><a class="ig-tile" href="https://instagram.com/skybyrdphotography">
+      <figure class="ph-photo " style="aspect-ratio:1/1;--a:191deg;--s:15%">
+  <span class="ph-photo-tag">Carousel</span>
+</figure>
+      <span class="ig-likes">♥ 367</span>
+      <span class="ig-cap">The Martinez family reunion was EVERYTHING 💕 Three generations, one beautiful afternoon…</span>
+    </a><a class="ig-tile" href="https://instagram.com/skybyrdphotography">
+      <figure class="ph-photo " style="aspect-ratio:1/1;--a:138deg;--s:28%">
+  <span class="ph-photo-tag">Carousel</span>
+</figure>
+      <span class="ig-likes">♥ 312</span>
+      <span class="ig-cap">Swipe through some of our favourite moments from the Chen family session →</span>
+    </a><a class="ig-tile" href="https://instagram.com/skybyrdphotography">
+      <figure class="ph-photo " style="aspect-ratio:1/1;--a:175deg;--s:19%">
+  <span class="ph-photo-tag">Image</span>
+</figure>
+      <span class="ig-likes">♥ 278</span>
+      <span class="ig-cap">That moment when the light hits just right ☀️ Emma’s senior portraits are proof that magic hour is real…</span>
+    </a></div>
   </section>
 <footer class="foot">
     <div class="foot-brand">
@@ -1313,6 +1429,7 @@ body {
   </nav>
   <div class="nav-actions">
     <a class="nav-phone" href="tel:+18157158647">(815) 715-8647</a>
+    <a class="nav-call btn btn-ghost" href="tel:+18157158647" aria-label="Call (815) 715-8647">Call</a>
     <a class="btn btn-primary" href="#booking-enquire">See the Work</a>
   </div>
 </header>
@@ -1331,7 +1448,7 @@ body {
     </section>
 <section class="band trustbar">
     <div class="trustbar-inner">
-      <div class="trust-item"><span class="trust-n">12 yrs</span><span class="trust-l">Behind the camera</span></div><div class="trust-item"><span class="trust-n"><span data-ph="1" title="Placeholder — The three testimonials supplied are all five stars, but that is not a real average. What does Google actually show?">5.0</span> ★</span><span class="trust-l">3 reviews</span></div><div class="trust-item"><span class="trust-n">30 miles</span><span class="trust-l">Travel included</span></div><div class="trust-item"><span class="trust-n">24 hrs</span><span class="trust-l">Reply to every enquiry</span></div>
+      <div class="trust-item"><span class="trust-n">12 yrs</span><span class="trust-l">Behind the camera</span></div><div class="trust-item"><span class="trust-n"><span data-ph="1" title="Placeholder — Not in the profile. Roughly how many sessions have you photographed?">300+</span></span><span class="trust-l">Sessions delivered</span></div><div class="trust-item"><span class="trust-n"><span data-ph="1" title="Placeholder — The three testimonials supplied are all five stars, but that is not a real average. What does Google actually show?">5.0</span> ★</span><span class="trust-l">3 reviews</span></div><div class="trust-item"><span class="trust-n">24 hrs</span><span class="trust-l">Reply to every enquiry</span></div>
     </div>
   </section>
 <section id="booking-sessions" class="band sessions sessions-blocks">
@@ -1340,7 +1457,46 @@ body {
     <p class="eyebrow">Sessions</p>
     <h2>Choose your session</h2>
   </div>
-    <p class="band-lede">Every session includes a planning call, a private gallery and a print release. Prices below are placeholders until confirmed.</p>
+    <p class="band-lede">Every session includes an online gallery and a print release.</p>
+    <div class="cmp-wrap">
+      <table class="cmp">
+        <thead><tr><th scope="col">Session</th><th scope="col">Length</th><th scope="col">Images</th><th scope="col">Included</th><th scope="col">From</th></tr></thead>
+        <tbody>
+          <tr>
+            <th scope="row">Family</th>
+            <td>1–2 hours</td>
+            <td>25+ edited digital images</td>
+            <td>Print release included</td>
+            <td class="cmp-price">$299</td>
+          </tr><tr>
+            <th scope="row">Senior Portraits</th>
+            <td>1–1.5 hours</td>
+            <td>20+ edited digital images</td>
+            <td>Yearbook-ready crop included</td>
+            <td class="cmp-price">$249</td>
+          </tr><tr>
+            <th scope="row">Personal Branding</th>
+            <td>2–3 hours</td>
+            <td>40+ edited digital images</td>
+            <td>Brand consultation call included</td>
+            <td class="cmp-price">$399</td>
+          </tr><tr>
+            <th scope="row">Pet Photography</th>
+            <td>45 minutes – 1 hour</td>
+            <td>15+ edited digital images</td>
+            <td>Treats and toys provided</td>
+            <td class="cmp-price">$199</td>
+          </tr>
+          <tr class="cmp-mini">
+            <th scope="row">Mini sessions</th>
+            <td>20 minutes</td>
+            <td>15 edited photos</td>
+            <td>2 outfit changes</td>
+            <td class="cmp-price"><span data-ph="1" title="Placeholder — no price given for mini sessions">ask</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <div class="sess-grid"><article class="sess sess-pop">
       <div class="sess-art"><figure class="ph-photo " style="aspect-ratio:3/2;--a:130deg;--s:28%">
   <span class="ph-photo-tag">Family — sample</span>
@@ -1442,6 +1598,14 @@ body {
         </div>
       </div>
     </article></div>
+    <aside class="mini">
+      <div>
+        <p class="eyebrow">Not ready for a full session?</p>
+        <h3>Mini sessions</h3>
+        <p>Twenty minutes, two outfit changes and fifteen edited photos. A shorter, lighter option for when a full session is more than you need.</p>
+      </div>
+      <a class="btn btn-ghost" href="#booking-enquire">Ask about minis</a>
+    </aside>
   </section>
 <section class="band now">
     <div class="now-inner">
@@ -1480,11 +1644,11 @@ body {
     <h2>From people who booked</h2>
   </div>
     <p class="band-lede"><span data-ph="1" title="Placeholder — The three testimonials supplied are all five stars, but that is not a real average. What does Google actually show?">5.0</span> average across <span data-ph="1" title="Placeholder — Only three reviews were supplied. How many do you have across Google, Facebook and Yelp?">3</span> reviews.</p>
-    <div class="rev-grid"><figure class="rev">
+    <div class="rev-lead"><figure class="rev">
       <div class="rev-stars" aria-label="5 out of 5">★★★★★</div>
       <blockquote>The most amazing photography experience we’ve ever had. Every photo tells a story and captures the love in our family perfectly.</blockquote>
       <figcaption>Jane D. <span>· family</span><span class="rev-src rev-src-missing">source pending</span></figcaption>
-    </figure><figure class="rev">
+    </figure></div><div class="rev-grid"><figure class="rev">
       <div class="rev-stars" aria-label="5 out of 5">★★★★★</div>
       <blockquote>Best pet photos we’ve ever had! She captured our dog’s personality in every single shot. We couldn’t be happier!</blockquote>
       <figcaption>Mike R. <span>· pets</span><span class="rev-src rev-src-missing">source pending</span></figcaption>
@@ -1548,7 +1712,7 @@ body {
   </div>
     <p class="band-lede"><span data-ph="1" title="Placeholder — Draft copy built around your confirmed travel radius. Rewrite it in your own words.">Based in Plainfield and photographing across the southwest suburbs — Naperville, Joliet, Oswego, Shorewood and the towns in between.</span></p>
     <div data-ph="1" data-ph-block="1" title="Placeholder — These are the towns inside your confirmed 30-mile radius. Are they the right ones to name, and is any missing?"><ul class="towns"><li>Plainfield</li><li>Naperville</li><li>Joliet</li><li>Oswego</li><li>Shorewood</li><li>Yorkville</li><li>Romeoville</li><li>Bolingbrook</li></ul></div>
-    <p class="where-note">Travel within 30 miles of Plainfield is included. Beyond that, a small travel fee applies.</p>
+    <p class="where-note">Travel within 30 miles of Plainfield is included. Beyond that, a small travel fee applies. Fully insured.</p>
     <div data-ph="1" data-ph-block="1" title="Placeholder — The places are taken from your real portfolio galleries. The one-line descriptions are our drafts — correct anything that is wrong."><div class="loc-grid"><article class="loc">
       <figure class="ph-photo " style="aspect-ratio:3/2;--a:150deg;--s:24%">
   <span class="ph-photo-tag">Settler's Park</span>
@@ -1712,21 +1876,45 @@ body {
 <section class="band insta">
     <div class="insta-head">
       <p class="eyebrow">Lately on Instagram</p>
-      <a href="https://instagram.com/skybyrdphotography">@skybyrdphotography</a>
+      <a href="https://instagram.com/skybyrdphotography">@skybyrdphotography · 11 recent posts</a>
     </div>
-    <div class="insta-row"><figure class="ph-photo " style="aspect-ratio:1/1;--a:170deg;--s:20%">
-  <span class="ph-photo-tag">feed</span>
-</figure><figure class="ph-photo " style="aspect-ratio:1/1;--a:207deg;--s:11%">
-  <span class="ph-photo-tag">feed</span>
-</figure><figure class="ph-photo " style="aspect-ratio:1/1;--a:154deg;--s:24%">
-  <span class="ph-photo-tag">feed</span>
-</figure><figure class="ph-photo " style="aspect-ratio:1/1;--a:191deg;--s:15%">
-  <span class="ph-photo-tag">feed</span>
-</figure><figure class="ph-photo " style="aspect-ratio:1/1;--a:138deg;--s:28%">
-  <span class="ph-photo-tag">feed</span>
-</figure><figure class="ph-photo " style="aspect-ratio:1/1;--a:175deg;--s:19%">
-  <span class="ph-photo-tag">feed</span>
-</figure></div>
+    <div class="insta-row"><a class="ig-tile" href="https://instagram.com/skybyrdphotography">
+      <figure class="ph-photo " style="aspect-ratio:1/1;--a:170deg;--s:20%">
+  <span class="ph-photo-tag">Video</span>
+</figure>
+      <span class="ig-likes">♥ 534</span>
+      <span class="ig-cap">POV: You booked a Skybyrd session and the golden hour delivered…</span>
+    </a><a class="ig-tile" href="https://instagram.com/skybyrdphotography">
+      <figure class="ph-photo " style="aspect-ratio:1/1;--a:207deg;--s:11%">
+  <span class="ph-photo-tag">Video</span>
+</figure>
+      <span class="ig-likes">♥ 489</span>
+      <span class="ig-cap">Behind the scenes of a pet photography session 🐶 Cooper couldn’t stop wagging his tail!</span>
+    </a><a class="ig-tile" href="https://instagram.com/skybyrdphotography">
+      <figure class="ph-photo " style="aspect-ratio:1/1;--a:154deg;--s:24%">
+  <span class="ph-photo-tag">Carousel</span>
+</figure>
+      <span class="ig-likes">♥ 421</span>
+      <span class="ig-cap">One year of Skybyrd Photography 🎉 Swipe to see some of our most-loved shots…</span>
+    </a><a class="ig-tile" href="https://instagram.com/skybyrdphotography">
+      <figure class="ph-photo " style="aspect-ratio:1/1;--a:191deg;--s:15%">
+  <span class="ph-photo-tag">Carousel</span>
+</figure>
+      <span class="ig-likes">♥ 367</span>
+      <span class="ig-cap">The Martinez family reunion was EVERYTHING 💕 Three generations, one beautiful afternoon…</span>
+    </a><a class="ig-tile" href="https://instagram.com/skybyrdphotography">
+      <figure class="ph-photo " style="aspect-ratio:1/1;--a:138deg;--s:28%">
+  <span class="ph-photo-tag">Carousel</span>
+</figure>
+      <span class="ig-likes">♥ 312</span>
+      <span class="ig-cap">Swipe through some of our favourite moments from the Chen family session →</span>
+    </a><a class="ig-tile" href="https://instagram.com/skybyrdphotography">
+      <figure class="ph-photo " style="aspect-ratio:1/1;--a:175deg;--s:19%">
+  <span class="ph-photo-tag">Image</span>
+</figure>
+      <span class="ig-likes">♥ 278</span>
+      <span class="ig-cap">That moment when the light hits just right ☀️ Emma’s senior portraits are proof that magic hour is real…</span>
+    </a></div>
   </section>
 <footer class="foot">
     <div class="foot-brand">
@@ -1763,6 +1951,7 @@ body {
   </nav>
   <div class="nav-actions">
     <a class="nav-phone" href="tel:+18157158647">(815) 715-8647</a>
+    <a class="nav-call btn btn-ghost" href="tel:+18157158647" aria-label="Call (815) 715-8647">Call</a>
     <a class="btn btn-primary" href="#story-enquire">View Portfolio</a>
   </div>
 </header>
@@ -1809,7 +1998,7 @@ body {
   </section>
 <section class="band trustbar">
     <div class="trustbar-inner">
-      <div class="trust-item"><span class="trust-n">12 yrs</span><span class="trust-l">Behind the camera</span></div><div class="trust-item"><span class="trust-n"><span data-ph="1" title="Placeholder — The three testimonials supplied are all five stars, but that is not a real average. What does Google actually show?">5.0</span> ★</span><span class="trust-l">3 reviews</span></div><div class="trust-item"><span class="trust-n">30 miles</span><span class="trust-l">Travel included</span></div><div class="trust-item"><span class="trust-n">24 hrs</span><span class="trust-l">Reply to every enquiry</span></div>
+      <div class="trust-item"><span class="trust-n">12 yrs</span><span class="trust-l">Behind the camera</span></div><div class="trust-item"><span class="trust-n"><span data-ph="1" title="Placeholder — Not in the profile. Roughly how many sessions have you photographed?">300+</span></span><span class="trust-l">Sessions delivered</span></div><div class="trust-item"><span class="trust-n"><span data-ph="1" title="Placeholder — The three testimonials supplied are all five stars, but that is not a real average. What does Google actually show?">5.0</span> ★</span><span class="trust-l">3 reviews</span></div><div class="trust-item"><span class="trust-n">24 hrs</span><span class="trust-l">Reply to every enquiry</span></div>
     </div>
   </section>
 <section id="story-reviews" class="band reviews">
@@ -1819,11 +2008,11 @@ body {
     <h2>What people said afterwards</h2>
   </div>
     <p class="band-lede"><span data-ph="1" title="Placeholder — The three testimonials supplied are all five stars, but that is not a real average. What does Google actually show?">5.0</span> average across <span data-ph="1" title="Placeholder — Only three reviews were supplied. How many do you have across Google, Facebook and Yelp?">3</span> reviews.</p>
-    <div class="rev-grid"><figure class="rev">
+    <div class="rev-lead"><figure class="rev">
       <div class="rev-stars" aria-label="5 out of 5">★★★★★</div>
       <blockquote>The most amazing photography experience we’ve ever had. Every photo tells a story and captures the love in our family perfectly.</blockquote>
       <figcaption>Jane D. <span>· family</span><span class="rev-src rev-src-missing">source pending</span></figcaption>
-    </figure><figure class="rev">
+    </figure></div><div class="rev-grid"><figure class="rev">
       <div class="rev-stars" aria-label="5 out of 5">★★★★★</div>
       <blockquote>Best pet photos we’ve ever had! She captured our dog’s personality in every single shot. We couldn’t be happier!</blockquote>
       <figcaption>Mike R. <span>· pets</span><span class="rev-src rev-src-missing">source pending</span></figcaption>
@@ -1842,7 +2031,7 @@ body {
   </div>
     <p class="band-lede"><span data-ph="1" title="Placeholder — Draft copy built around your confirmed travel radius. Rewrite it in your own words.">Based in Plainfield and photographing across the southwest suburbs — Naperville, Joliet, Oswego, Shorewood and the towns in between.</span></p>
     <div data-ph="1" data-ph-block="1" title="Placeholder — These are the towns inside your confirmed 30-mile radius. Are they the right ones to name, and is any missing?"><ul class="towns"><li>Plainfield</li><li>Naperville</li><li>Joliet</li><li>Oswego</li><li>Shorewood</li><li>Yorkville</li><li>Romeoville</li><li>Bolingbrook</li></ul></div>
-    <p class="where-note">Travel within 30 miles of Plainfield is included. Beyond that, a small travel fee applies.</p>
+    <p class="where-note">Travel within 30 miles of Plainfield is included. Beyond that, a small travel fee applies. Fully insured.</p>
     <div data-ph="1" data-ph-block="1" title="Placeholder — The places are taken from your real portfolio galleries. The one-line descriptions are our drafts — correct anything that is wrong."><div class="loc-grid"><article class="loc">
       <figure class="ph-photo " style="aspect-ratio:3/2;--a:150deg;--s:24%">
   <span class="ph-photo-tag">Settler's Park</span>
@@ -1893,7 +2082,46 @@ body {
     <p class="eyebrow">Sessions</p>
     <h2>The four kinds of session</h2>
   </div>
-    <p class="band-lede">Every session includes a planning call, a private gallery and a print release. Prices below are placeholders until confirmed.</p>
+    <p class="band-lede">Every session includes an online gallery and a print release.</p>
+    <div class="cmp-wrap">
+      <table class="cmp">
+        <thead><tr><th scope="col">Session</th><th scope="col">Length</th><th scope="col">Images</th><th scope="col">Included</th><th scope="col">From</th></tr></thead>
+        <tbody>
+          <tr>
+            <th scope="row">Family</th>
+            <td>1–2 hours</td>
+            <td>25+ edited digital images</td>
+            <td>Print release included</td>
+            <td class="cmp-price">$299</td>
+          </tr><tr>
+            <th scope="row">Senior Portraits</th>
+            <td>1–1.5 hours</td>
+            <td>20+ edited digital images</td>
+            <td>Yearbook-ready crop included</td>
+            <td class="cmp-price">$249</td>
+          </tr><tr>
+            <th scope="row">Personal Branding</th>
+            <td>2–3 hours</td>
+            <td>40+ edited digital images</td>
+            <td>Brand consultation call included</td>
+            <td class="cmp-price">$399</td>
+          </tr><tr>
+            <th scope="row">Pet Photography</th>
+            <td>45 minutes – 1 hour</td>
+            <td>15+ edited digital images</td>
+            <td>Treats and toys provided</td>
+            <td class="cmp-price">$199</td>
+          </tr>
+          <tr class="cmp-mini">
+            <th scope="row">Mini sessions</th>
+            <td>20 minutes</td>
+            <td>15 edited photos</td>
+            <td>2 outfit changes</td>
+            <td class="cmp-price"><span data-ph="1" title="Placeholder — no price given for mini sessions">ask</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <div class="sess-grid"><article class="sess sess-pop">
       <div class="sess-art"><figure class="ph-photo " style="aspect-ratio:3/2;--a:130deg;--s:28%">
   <span class="ph-photo-tag">Family — sample</span>
@@ -1995,6 +2223,14 @@ body {
         </div>
       </div>
     </article></div>
+    <aside class="mini">
+      <div>
+        <p class="eyebrow">Not ready for a full session?</p>
+        <h3>Mini sessions</h3>
+        <p>Twenty minutes, two outfit changes and fifteen edited photos. A shorter, lighter option for when a full session is more than you need.</p>
+      </div>
+      <a class="btn btn-ghost" href="#story-enquire">Ask about minis</a>
+    </aside>
   </section>
 <section class="band receive">
     
@@ -2162,21 +2398,45 @@ body {
 <section class="band insta">
     <div class="insta-head">
       <p class="eyebrow">Lately on Instagram</p>
-      <a href="https://instagram.com/skybyrdphotography">@skybyrdphotography</a>
+      <a href="https://instagram.com/skybyrdphotography">@skybyrdphotography · 11 recent posts</a>
     </div>
-    <div class="insta-row"><figure class="ph-photo " style="aspect-ratio:1/1;--a:170deg;--s:20%">
-  <span class="ph-photo-tag">feed</span>
-</figure><figure class="ph-photo " style="aspect-ratio:1/1;--a:207deg;--s:11%">
-  <span class="ph-photo-tag">feed</span>
-</figure><figure class="ph-photo " style="aspect-ratio:1/1;--a:154deg;--s:24%">
-  <span class="ph-photo-tag">feed</span>
-</figure><figure class="ph-photo " style="aspect-ratio:1/1;--a:191deg;--s:15%">
-  <span class="ph-photo-tag">feed</span>
-</figure><figure class="ph-photo " style="aspect-ratio:1/1;--a:138deg;--s:28%">
-  <span class="ph-photo-tag">feed</span>
-</figure><figure class="ph-photo " style="aspect-ratio:1/1;--a:175deg;--s:19%">
-  <span class="ph-photo-tag">feed</span>
-</figure></div>
+    <div class="insta-row"><a class="ig-tile" href="https://instagram.com/skybyrdphotography">
+      <figure class="ph-photo " style="aspect-ratio:1/1;--a:170deg;--s:20%">
+  <span class="ph-photo-tag">Video</span>
+</figure>
+      <span class="ig-likes">♥ 534</span>
+      <span class="ig-cap">POV: You booked a Skybyrd session and the golden hour delivered…</span>
+    </a><a class="ig-tile" href="https://instagram.com/skybyrdphotography">
+      <figure class="ph-photo " style="aspect-ratio:1/1;--a:207deg;--s:11%">
+  <span class="ph-photo-tag">Video</span>
+</figure>
+      <span class="ig-likes">♥ 489</span>
+      <span class="ig-cap">Behind the scenes of a pet photography session 🐶 Cooper couldn’t stop wagging his tail!</span>
+    </a><a class="ig-tile" href="https://instagram.com/skybyrdphotography">
+      <figure class="ph-photo " style="aspect-ratio:1/1;--a:154deg;--s:24%">
+  <span class="ph-photo-tag">Carousel</span>
+</figure>
+      <span class="ig-likes">♥ 421</span>
+      <span class="ig-cap">One year of Skybyrd Photography 🎉 Swipe to see some of our most-loved shots…</span>
+    </a><a class="ig-tile" href="https://instagram.com/skybyrdphotography">
+      <figure class="ph-photo " style="aspect-ratio:1/1;--a:191deg;--s:15%">
+  <span class="ph-photo-tag">Carousel</span>
+</figure>
+      <span class="ig-likes">♥ 367</span>
+      <span class="ig-cap">The Martinez family reunion was EVERYTHING 💕 Three generations, one beautiful afternoon…</span>
+    </a><a class="ig-tile" href="https://instagram.com/skybyrdphotography">
+      <figure class="ph-photo " style="aspect-ratio:1/1;--a:138deg;--s:28%">
+  <span class="ph-photo-tag">Carousel</span>
+</figure>
+      <span class="ig-likes">♥ 312</span>
+      <span class="ig-cap">Swipe through some of our favourite moments from the Chen family session →</span>
+    </a><a class="ig-tile" href="https://instagram.com/skybyrdphotography">
+      <figure class="ph-photo " style="aspect-ratio:1/1;--a:175deg;--s:19%">
+  <span class="ph-photo-tag">Image</span>
+</figure>
+      <span class="ig-likes">♥ 278</span>
+      <span class="ig-cap">That moment when the light hits just right ☀️ Emma’s senior portraits are proof that magic hour is real…</span>
+    </a></div>
   </section>
 <footer class="foot">
     <div class="foot-brand">
@@ -2211,7 +2471,7 @@ body {
   <div class="rp-wrap">
     <table class="rp-table">
       <thead><tr><th>Field</th><th>Current placeholder</th><th>What’s needed</th></tr></thead>
-      <tbody><tr><td class="rp-path">business.sessionsDelivered</td><td class="rp-val">300+</td><td class="rp-note">Not in the profile. Roughly how many sessions have you photographed?</td></tr><tr><td class="rp-path">business.rating</td><td class="rp-val">5.0</td><td class="rp-note">The three testimonials supplied are all five stars, but that is not a real average. What does Google actually show?</td></tr><tr><td class="rp-path">business.reviewCount</td><td class="rp-val">3</td><td class="rp-note">Only three reviews were supplied. How many do you have across Google, Facebook and Yelp?</td></tr><tr><td class="rp-path">business.bookingWindow</td><td class="rp-val">about two months out</td><td class="rp-note">Not in the profile. How far ahead are you taking bookings?</td></tr><tr><td class="rp-path">business.insured</td><td class="rp-val">true</td><td class="rp-note">Not in the profile. Are you insured? Worth stating plainly if so.</td></tr><tr><td class="rp-path">serviceArea.towns</td><td class="rp-val">Plainfield, Naperville, Joliet, Oswego, Shorewood, Yorkville, Romeoville, Bolingbrook</td><td class="rp-note">These are the towns inside your confirmed 30-mile radius. Are they the right ones to name, and is any missing?</td></tr><tr><td class="rp-path">serviceArea.blurb</td><td class="rp-val">Based in Plainfield and photographing across the southwest suburbs — Naperville, Joliet, Oswego, Shorewood and…</td><td class="rp-note">Draft copy built around your confirmed travel radius. Rewrite it in your own words.</td></tr><tr><td class="rp-path">locations</td><td class="rp-val">Settler's Park, Downtown Plainfield, The botanic garden, The dog park, The studio, Your own home</td><td class="rp-note">The places are taken from your real portfolio galleries. The one-line descriptions are our drafts — correct anything that is wrong.</td></tr><tr><td class="rp-path">sessions.0.sessionLength</td><td class="rp-val">60 minutes shooting</td><td class="rp-note">The profile lists Family as 1–2 hours but includes a 60-minute session. Is the longer figure the time to set aside, and 60 minutes the shooting time?</td></tr><tr><td class="rp-path">sessions.0.groupSize</td><td class="rp-val">Families of any size</td><td class="rp-note">Not in the profile. Is there a limit, or a charge above a certain number?</td></tr><tr><td class="rp-path">sessions.0.forWhom</td><td class="rp-val">Growing families, extended families, grandparents visiting, anyone overdue for a decent photo together.</td><td class="rp-note">Draft — not in the profile.</td></tr><tr><td class="rp-path">sessions.1.sessionLength</td><td class="rp-val">45 minutes shooting</td><td class="rp-note">Same question as Family — 1–1.5 hours listed, 45-minute session included.</td></tr><tr><td class="rp-path">sessions.1.forWhom</td><td class="rp-val">High school seniors and their parents, usually booked the summer before senior year.</td><td class="rp-note">Draft — not in the profile.</td></tr><tr><td class="rp-path">sessions.2.sessionLength</td><td class="rp-val">90 minutes shooting</td><td class="rp-note">Same question — 2–3 hours listed, 90-minute session included.</td></tr><tr><td class="rp-path">sessions.2.groupSize</td><td class="rp-val">One person</td><td class="rp-note">Not in the profile. Do you shoot teams, and at what rate?</td></tr><tr><td class="rp-path">sessions.2.forWhom</td><td class="rp-val">Small business owners, realtors, therapists, coaches — anyone whose face is part of the offer.</td><td class="rp-note">Draft — not in the profile.</td></tr><tr><td class="rp-path">sessions.3.sessionLength</td><td class="rp-val">30 minutes shooting</td><td class="rp-note">Same question — 45–60 minutes listed, 30-minute session included.</td></tr><tr><td class="rp-path">sessions.3.groupSize</td><td class="rp-val">One or two pets</td><td class="rp-note">Not in the profile. Is there a limit, and can their people join?</td></tr><tr><td class="rp-path">sessions.3.forWhom</td><td class="rp-val">Dogs mostly, though cats are very welcome — there is a rescue cat in the portfolio.</td><td class="rp-note">Drafted from your Luna gallery. Have you photographed anything beyond cats and dogs?</td></tr><tr><td class="rp-path">reviewGaps</td><td class="rp-val">Three reviews supplied; the band is built for six to twelve.</td><td class="rp-note">Can you pull more reviews from Google and Facebook? Also worth capturing the town and session type for each, and setting the platform so the source badge renders. No senior or branding client is quoted yet.</td></tr><tr><td class="rp-path">shawna.portrait</td><td class="rp-val">null</td><td class="rp-note">NEEDED: a real photograph of you. This is now the single biggest gap left in the mockups.</td></tr><tr><td class="rp-path">shawna.signature</td><td class="rp-val">— Shawna</td><td class="rp-note">How you want to sign off. First name, or something else?</td></tr><tr><td class="rp-path">process</td><td class="rp-val">…, …, …, …, …</td><td class="rp-note">Steps 01, 02, 03 and 05 come straight from your profile. Step 04 is our description of how a session runs — does it match how you’d put it?</td></tr><tr><td class="rp-path">faq.5.q</td><td class="rp-val">I’m not photogenic. Really.</td><td class="rp-note">Not in the profile — but it is the most common hesitation in portrait photography, and worth answering in your words.</td></tr><tr><td class="rp-path">faq.5.a</td><td class="rp-val">Nobody thinks they are. That is exactly why every session starts with getting to know you rather than posing y…</td><td class="rp-note">Draft, written around your “authentic moments” value.</td></tr><tr><td class="rp-path">faq.6.q</td><td class="rp-val">Do I need to pay a deposit to enquire?</td><td class="rp-note">Not in the profile. What are your deposit and cancellation terms?</td></tr><tr><td class="rp-path">faq.6.a</td><td class="rp-val">No. Sending the form costs nothing and commits you to nothing.</td><td class="rp-note">Draft — confirm before this goes live.</td></tr><tr><td class="rp-path">faq.7.q</td><td class="rp-val">Can we include grandparents or extended family?</td><td class="rp-note">Not in the profile. Is there a group-size limit or an extra charge?</td></tr><tr><td class="rp-path">faq.7.a</td><td class="rp-val">Please do. Extended family sessions are frequently the reason people book in the first place.</td><td class="rp-note">Draft — confirm.</td></tr><tr><td class="rp-path">rightNow.headline</td><td class="rp-val">Mini sessions are back</td><td class="rp-note">From an Instagram post, not your services list. Is this running now?</td></tr><tr><td class="rp-path">rightNow.body</td><td class="rp-val">Twenty minutes, two outfit changes and fifteen edited photos — a shorter, lighter option for when a full sessi…</td><td class="rp-note">Drafted from your mini-session Instagram post. Is this an ongoing offering, and what does it cost?</td></tr><tr><td class="rp-path">rightNow.urgency</td><td class="rp-val">Now booking</td><td class="rp-note">Only show a specific number of remaining slots if it is genuinely true.</td></tr><tr><td class="rp-path">rightNow.deadline</td><td class="rp-val">Outdoor sessions rescheduled free if it rains</td><td class="rp-note">Using your real rain policy as the reassurance line. Is there a seasonal deadline that matters more?</td></tr><tr><td class="rp-path">voice.gallery.eyebrow</td><td class="rp-val">Portrait studio · Plainfield, Illinois</td><td class="rp-note">Small line above the headline. Should it name the towns more widely?</td></tr><tr><td class="rp-path">voice.gallery.headline</td><td class="rp-val">Celebrate life and make our time stand still.</td><td class="rp-note">Shawna’s own tagline, used as the headline.</td></tr><tr><td class="rp-path">voice.gallery.sub</td><td class="rp-val">Family, seniors, personal branding and pets — photographed the way you actually are, in the light of an ordina…</td><td class="rp-note">Draft, from concept 01.</td></tr><tr><td class="rp-path">voice.gallery.ctaPrimary</td><td class="rp-val">View Portfolio</td><td class="rp-note">Wording on the main button. Does this sound like you?</td></tr><tr><td class="rp-path">voice.gallery.ctaSecondary</td><td class="rp-val">Book a Session</td><td class="rp-note">Wording on the second button. “Book” or something softer like “Get in touch”?</td></tr><tr><td class="rp-path">voice.gallery.closingLine</td><td class="rp-val">Sessions run about 90 minutes. Bring the dog, bring the grandparents, bring whoever makes it feel like yours.</td><td class="rp-note">From concept 01 — the best closing line in round one.</td></tr><tr><td class="rp-path">voice.booking.eyebrow</td><td class="rp-val">Now booking · Plainfield, Illinois</td><td class="rp-note">Small line above the headline. Only use “now booking” if it is always true.</td></tr><tr><td class="rp-path">voice.booking.headline</td><td class="rp-val">Never done this before? Most of my clients haven’t either.</td><td class="rp-note">Draft, expanded from concept 07’s sub-heading — the most disarming line in round one.</td></tr><tr><td class="rp-path">voice.booking.sub</td><td class="rp-val">Pick a session, send me a date, and I’ll walk you through the rest. No deposit to ask, and I reply within a da…</td><td class="rp-note">Draft, from concept 07.</td></tr><tr><td class="rp-path">voice.booking.ctaPrimary</td><td class="rp-val">Check Availability</td><td class="rp-note">Wording on the main button. Does this sound like you?</td></tr><tr><td class="rp-path">voice.booking.ctaSecondary</td><td class="rp-val">See the Work</td><td class="rp-note">Wording on the second button. Does this sound like you?</td></tr><tr><td class="rp-path">voice.booking.closingLine</td><td class="rp-val">No deposit to ask. Tell me who’s coming and roughly when, and I’ll send times that work.</td><td class="rp-note">From concept 07.</td></tr><tr><td class="rp-path">voice.story.eyebrow</td><td class="rp-val">Plainfield, Illinois · since 2014</td><td class="rp-note">Year needs confirming.</td></tr><tr><td class="rp-path">voice.story.headline</td><td class="rp-val">Hi, I’m the artist behind SkyByrd.</td><td class="rp-note">From concept 08.</td></tr><tr><td class="rp-path">voice.story.sub</td><td class="rp-val">I photograph families, seniors, small businesses and very good dogs around the southwest suburbs. Nothing stif…</td><td class="rp-note">Draft, merging concepts 03 and 08.</td></tr><tr><td class="rp-path">voice.story.ctaPrimary</td><td class="rp-val">Write to Me</td><td class="rp-note">Wording on the main button. Warmer than “Book” — is that right for you?</td></tr><tr><td class="rp-path">voice.story.ctaSecondary</td><td class="rp-val">View Portfolio</td><td class="rp-note">Wording on the second button. Does this sound like you?</td></tr><tr><td class="rp-path">voice.story.closingLine</td><td class="rp-val">If any of this sounds like what you’ve been meaning to do, write to me. Tell me who’s coming — that’s the whol…</td><td class="rp-note">From concept 08.</td></tr></tbody>
+      <tbody><tr><td class="rp-path">business.sessionsDelivered</td><td class="rp-val">300+</td><td class="rp-note">Not in the profile. Roughly how many sessions have you photographed?</td></tr><tr><td class="rp-path">business.rating</td><td class="rp-val">5.0</td><td class="rp-note">The three testimonials supplied are all five stars, but that is not a real average. What does Google actually show?</td></tr><tr><td class="rp-path">business.reviewCount</td><td class="rp-val">3</td><td class="rp-note">Only three reviews were supplied. How many do you have across Google, Facebook and Yelp?</td></tr><tr><td class="rp-path">business.bookingWindow</td><td class="rp-val">about two months out</td><td class="rp-note">Not in the profile. How far ahead are you taking bookings?</td></tr><tr><td class="rp-path">business.insured</td><td class="rp-val">true</td><td class="rp-note">Not in the profile. Are you insured? Worth stating plainly if so.</td></tr><tr><td class="rp-path">serviceArea.towns</td><td class="rp-val">Plainfield, Naperville, Joliet, Oswego, Shorewood, Yorkville, Romeoville, Bolingbrook</td><td class="rp-note">These are the towns inside your confirmed 30-mile radius. Are they the right ones to name, and is any missing?</td></tr><tr><td class="rp-path">serviceArea.blurb</td><td class="rp-val">Based in Plainfield and photographing across the southwest suburbs — Naperville, Joliet, Oswego, Shorewood and…</td><td class="rp-note">Draft copy built around your confirmed travel radius. Rewrite it in your own words.</td></tr><tr><td class="rp-path">locations</td><td class="rp-val">Settler's Park, Downtown Plainfield, The botanic garden, The dog park, The studio, Your own home</td><td class="rp-note">The places are taken from your real portfolio galleries. The one-line descriptions are our drafts — correct anything that is wrong.</td></tr><tr><td class="rp-path">sessions.0.sessionLength</td><td class="rp-val">60 minutes shooting</td><td class="rp-note">The profile lists Family as 1–2 hours but includes a 60-minute session. Is the longer figure the time to set aside, and 60 minutes the shooting time?</td></tr><tr><td class="rp-path">sessions.0.groupSize</td><td class="rp-val">Families of any size</td><td class="rp-note">Not in the profile. Is there a limit, or a charge above a certain number?</td></tr><tr><td class="rp-path">sessions.0.forWhom</td><td class="rp-val">Growing families, extended families, grandparents visiting, anyone overdue for a decent photo together.</td><td class="rp-note">Draft — not in the profile.</td></tr><tr><td class="rp-path">sessions.1.sessionLength</td><td class="rp-val">45 minutes shooting</td><td class="rp-note">Same question as Family — 1–1.5 hours listed, 45-minute session included.</td></tr><tr><td class="rp-path">sessions.1.forWhom</td><td class="rp-val">High school seniors and their parents, usually booked the summer before senior year.</td><td class="rp-note">Draft — not in the profile.</td></tr><tr><td class="rp-path">sessions.2.sessionLength</td><td class="rp-val">90 minutes shooting</td><td class="rp-note">Same question — 2–3 hours listed, 90-minute session included.</td></tr><tr><td class="rp-path">sessions.2.groupSize</td><td class="rp-val">One person</td><td class="rp-note">Not in the profile. Do you shoot teams, and at what rate?</td></tr><tr><td class="rp-path">sessions.2.forWhom</td><td class="rp-val">Small business owners, realtors, therapists, coaches — anyone whose face is part of the offer.</td><td class="rp-note">Draft — not in the profile.</td></tr><tr><td class="rp-path">sessions.3.sessionLength</td><td class="rp-val">30 minutes shooting</td><td class="rp-note">Same question — 45–60 minutes listed, 30-minute session included.</td></tr><tr><td class="rp-path">sessions.3.groupSize</td><td class="rp-val">One or two pets</td><td class="rp-note">Not in the profile. Is there a limit, and can their people join?</td></tr><tr><td class="rp-path">sessions.3.forWhom</td><td class="rp-val">Dogs mostly, though cats are very welcome — there is a rescue cat in the portfolio.</td><td class="rp-note">Drafted from your Luna gallery. Have you photographed anything beyond cats and dogs?</td></tr><tr><td class="rp-path">miniSession.price</td><td class="rp-val">null</td><td class="rp-note">No price was given for mini sessions. What do they cost, and are they seasonal or always available?</td></tr><tr><td class="rp-path">miniSession.seasonal</td><td class="rp-val">Spring</td><td class="rp-note">The post said “back for spring”. Do you run these year round, or only at certain times?</td></tr><tr><td class="rp-path">reviewGaps</td><td class="rp-val">Three reviews supplied; the band is built for six to twelve.</td><td class="rp-note">Can you pull more reviews from Google and Facebook? Also worth capturing the town and session type for each, and setting the platform so the source badge renders. No senior or branding client is quoted yet.</td></tr><tr><td class="rp-path">shawna.portrait</td><td class="rp-val">null</td><td class="rp-note">NEEDED: a real photograph of you. This is now the single biggest gap left in the mockups.</td></tr><tr><td class="rp-path">shawna.signature</td><td class="rp-val">— Shawna</td><td class="rp-note">How you want to sign off. First name, or something else?</td></tr><tr><td class="rp-path">process</td><td class="rp-val">…, …, …, …, …</td><td class="rp-note">Steps 01, 02, 03 and 05 come straight from your profile. Step 04 is our description of how a session runs — does it match how you’d put it?</td></tr><tr><td class="rp-path">faq.5.q</td><td class="rp-val">I’m not photogenic. Really.</td><td class="rp-note">Not in the profile — but it is the most common hesitation in portrait photography, and worth answering in your words.</td></tr><tr><td class="rp-path">faq.5.a</td><td class="rp-val">Nobody thinks they are. That is exactly why every session starts with getting to know you rather than posing y…</td><td class="rp-note">Draft, written around your “authentic moments” value.</td></tr><tr><td class="rp-path">faq.6.q</td><td class="rp-val">Do I need to pay a deposit to enquire?</td><td class="rp-note">Not in the profile. What are your deposit and cancellation terms?</td></tr><tr><td class="rp-path">faq.6.a</td><td class="rp-val">No. Sending the form costs nothing and commits you to nothing.</td><td class="rp-note">Draft — confirm before this goes live.</td></tr><tr><td class="rp-path">faq.7.q</td><td class="rp-val">Can we include grandparents or extended family?</td><td class="rp-note">Not in the profile. Is there a group-size limit or an extra charge?</td></tr><tr><td class="rp-path">faq.7.a</td><td class="rp-val">Please do. Extended family sessions are frequently the reason people book in the first place.</td><td class="rp-note">Draft — confirm.</td></tr><tr><td class="rp-path">rightNow.headline</td><td class="rp-val">Mini sessions are back</td><td class="rp-note">From an Instagram post, not your services list. Is this running now?</td></tr><tr><td class="rp-path">rightNow.body</td><td class="rp-val">Twenty minutes, two outfit changes and fifteen edited photos — a shorter, lighter option for when a full sessi…</td><td class="rp-note">Drafted from your mini-session Instagram post. Is this an ongoing offering, and what does it cost?</td></tr><tr><td class="rp-path">rightNow.urgency</td><td class="rp-val">Now booking</td><td class="rp-note">Only show a specific number of remaining slots if it is genuinely true.</td></tr><tr><td class="rp-path">rightNow.deadline</td><td class="rp-val">Outdoor sessions rescheduled free if it rains</td><td class="rp-note">Using your real rain policy as the reassurance line. Is there a seasonal deadline that matters more?</td></tr><tr><td class="rp-path">voice.gallery.eyebrow</td><td class="rp-val">Portrait studio · Plainfield, Illinois</td><td class="rp-note">Small line above the headline. Should it name the towns more widely?</td></tr><tr><td class="rp-path">voice.gallery.headline</td><td class="rp-val">Celebrate life and make our time stand still.</td><td class="rp-note">Shawna’s own tagline, used as the headline.</td></tr><tr><td class="rp-path">voice.gallery.sub</td><td class="rp-val">Family, seniors, personal branding and pets — photographed the way you actually are, in the light of an ordina…</td><td class="rp-note">Draft, from concept 01.</td></tr><tr><td class="rp-path">voice.gallery.ctaPrimary</td><td class="rp-val">View Portfolio</td><td class="rp-note">Wording on the main button. Does this sound like you?</td></tr><tr><td class="rp-path">voice.gallery.ctaSecondary</td><td class="rp-val">Book a Session</td><td class="rp-note">Wording on the second button. “Book” or something softer like “Get in touch”?</td></tr><tr><td class="rp-path">voice.gallery.closingLine</td><td class="rp-val">Sessions run about 90 minutes. Bring the dog, bring the grandparents, bring whoever makes it feel like yours.</td><td class="rp-note">From concept 01 — the best closing line in round one.</td></tr><tr><td class="rp-path">voice.booking.eyebrow</td><td class="rp-val">Now booking · Plainfield, Illinois</td><td class="rp-note">Small line above the headline. Only use “now booking” if it is always true.</td></tr><tr><td class="rp-path">voice.booking.headline</td><td class="rp-val">Never done this before? Most of my clients haven’t either.</td><td class="rp-note">Draft, expanded from concept 07’s sub-heading — the most disarming line in round one.</td></tr><tr><td class="rp-path">voice.booking.sub</td><td class="rp-val">Pick a session, send me a date, and I’ll walk you through the rest. No deposit to ask, and I reply within a da…</td><td class="rp-note">Draft, from concept 07.</td></tr><tr><td class="rp-path">voice.booking.ctaPrimary</td><td class="rp-val">Check Availability</td><td class="rp-note">Wording on the main button. Does this sound like you?</td></tr><tr><td class="rp-path">voice.booking.ctaSecondary</td><td class="rp-val">See the Work</td><td class="rp-note">Wording on the second button. Does this sound like you?</td></tr><tr><td class="rp-path">voice.booking.closingLine</td><td class="rp-val">No deposit to ask. Tell me who’s coming and roughly when, and I’ll send times that work.</td><td class="rp-note">From concept 07.</td></tr><tr><td class="rp-path">voice.story.eyebrow</td><td class="rp-val">Plainfield, Illinois · since 2014</td><td class="rp-note">Year needs confirming.</td></tr><tr><td class="rp-path">voice.story.headline</td><td class="rp-val">Hi, I’m the artist behind SkyByrd.</td><td class="rp-note">From concept 08.</td></tr><tr><td class="rp-path">voice.story.sub</td><td class="rp-val">I photograph families, seniors, small businesses and very good dogs around the southwest suburbs. Nothing stif…</td><td class="rp-note">Draft, merging concepts 03 and 08.</td></tr><tr><td class="rp-path">voice.story.ctaPrimary</td><td class="rp-val">Write to Me</td><td class="rp-note">Wording on the main button. Warmer than “Book” — is that right for you?</td></tr><tr><td class="rp-path">voice.story.ctaSecondary</td><td class="rp-val">View Portfolio</td><td class="rp-note">Wording on the second button. Does this sound like you?</td></tr><tr><td class="rp-path">voice.story.closingLine</td><td class="rp-val">If any of this sounds like what you’ve been meaning to do, write to me. Tell me who’s coming — that’s the whol…</td><td class="rp-note">From concept 08.</td></tr></tbody>
     </table>
   </div>
 </dialog>

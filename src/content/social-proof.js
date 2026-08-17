@@ -39,3 +39,25 @@ export const reviewGaps = P(
 export function quoteFor(sessionId, list) {
   return list.find((t) => t.session === sessionId) || list[0];
 }
+
+// Real posts from the profile's social summary. The Instagram band was showing
+// six empty tiles; these give it actual captions and engagement, which is both
+// more convincing and a truer preview of how the live feed will read.
+//
+// Top six by engagement, Instagram only — the band is labelled Instagram.
+export const socialPosts = R(
+  [
+    { id: 'ig-9',  type: 'Video',    likes: 534, caption: 'POV: You booked a Skybyrd session and the golden hour delivered…' },
+    { id: 'ig-3',  type: 'Video',    likes: 489, caption: 'Behind the scenes of a pet photography session 🐶 Cooper couldn’t stop wagging his tail!' },
+    { id: 'ig-11', type: 'Carousel', likes: 421, caption: 'One year of Skybyrd Photography 🎉 Swipe to see some of our most-loved shots…' },
+    { id: 'ig-6',  type: 'Carousel', likes: 367, caption: 'The Martinez family reunion was EVERYTHING 💕 Three generations, one beautiful afternoon…' },
+    { id: 'ig-2',  type: 'Carousel', likes: 312, caption: 'Swipe through some of our favourite moments from the Chen family session →' },
+    { id: 'ig-4',  type: 'Image',    likes: 278, caption: 'That moment when the light hits just right ☀️ Emma’s senior portraits are proof that magic hour is real…' },
+  ],
+  'business profile — social media activity, top six Instagram posts by engagement'
+);
+
+export const socialSummary = R(
+  { posts: 18, instagram: 11, facebook: 7 },
+  'business profile — social media activity'
+);

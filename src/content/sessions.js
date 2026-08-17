@@ -136,3 +136,20 @@ export const galleries = R(
   ],
   'business profile — portfolio galleries'
 );
+
+// A real fifth offering that only appeared in an Instagram post, not the
+// services list. Worth surfacing properly: a short, cheap, low-commitment
+// option is the strongest thing you can put in front of someone who has been
+// putting off booking — which by Shawna's own account is most people.
+export const miniSession = {
+  name: R('Mini sessions', 'business profile — Instagram post ig-10'),
+  blurb: R(
+    'Twenty minutes, two outfit changes and fifteen edited photos. A shorter, lighter option for when a full session is more than you need.',
+    'business profile — Instagram post ig-10'
+  ),
+  duration: R('20 minutes', 'business profile — Instagram post'),
+  imageCount: R('15 edited photos', 'business profile — Instagram post'),
+  outfits: R('2 outfit changes', 'business profile — Instagram post'),
+  price: P(null, 'No price was given for mini sessions. What do they cost, and are they seasonal or always available?'),
+  seasonal: P('Spring', 'The post said “back for spring”. Do you run these year round, or only at certain times?'),
+};

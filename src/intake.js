@@ -20,6 +20,8 @@ const GROUPS = [
     intro: 'Your bio and values now come straight from your profile, so the words are yours. What is still missing is a photograph of you — and for a solo studio that is the single most valuable asset on the whole site. People hire a person, not a business.' },
   { key: 'sessions', title: 'Session details', effort: 'quick',
     intro: 'Pricing, inclusions and image counts are all in from your profile and no longer flagged. What is left is smaller: each package lists both a duration range and a shorter session length, and we want to be sure we are reading that right. Group sizes are the other gap.' },
+  { key: 'miniSession', title: 'Mini sessions', effort: 'quick',
+    intro: 'We found these in an Instagram post, not your services list — twenty minutes, two outfit changes, fifteen photos. They are now a fifth row in the pricing table and a callout under it, because a short, low-commitment option is the strongest thing to put in front of someone who has been putting off booking. Two things missing: the price, and whether they run year round.' },
   { key: 'business', title: 'The numbers', effort: 'quick',
     intro: 'Your contact details, founding year, response time and travel radius are all confirmed. These five are the figures the profile did not cover — mostly things a visitor uses to judge whether you are established.' },
   { key: 'faq', title: 'Three extra questions', effort: 'review',

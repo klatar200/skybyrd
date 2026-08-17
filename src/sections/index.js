@@ -28,6 +28,7 @@ export function nav(c, voice, o = {}) {
   </nav>
   <div class="nav-actions">
     <a class="nav-phone" href="${v(c.business.contact.phoneHref)}">${t(c.business.contact.phone)}</a>
+    <a class="nav-call btn btn-ghost" href="${v(c.business.contact.phoneHref)}" aria-label="Call ${esc(v(c.business.contact.phone))}">Call</a>
     ${btn(v(voice.ctaSecondary), { primary: true, href: H(o, 'enquire') })}
   </div>
 </header>`;
@@ -68,8 +69,8 @@ export function trustBar(c) {
   const b = c.business;
   const items = [
     { n: t(b.yearsShooting) + ' yrs', l: 'Behind the camera' },
+    { n: t(b.sessionsDelivered), l: 'Sessions delivered' },
     { n: t(b.rating) + ' ★', l: `${v(b.reviewCount)} reviews` },
-    { n: t(c.serviceArea.radius), l: 'Travel included' },
     { n: '24 hrs', l: 'Reply to every enquiry' },
   ];
   return `<section class="band trustbar">
@@ -134,8 +135,37 @@ export function sessionTypes(c, voice, o = {}) {
     .join('');
   return `<section id="${A(o, 'sessions')}" class="band sessions sessions-${layout}">
     ${heading(voice.sectionTitles.sessions, { eyebrow: 'Sessions' })}
-    <p class="band-lede">Every session includes a planning call, a private gallery and a print release. Prices below are placeholders until confirmed.</p>
+    <p class="band-lede">Every session includes an online gallery and a print release.</p>
+    <div class="cmp-wrap">
+      <table class="cmp">
+        <thead><tr><th scope="col">Session</th><th scope="col">Length</th><th scope="col">Images</th><th scope="col">Included</th><th scope="col">From</th></tr></thead>
+        <tbody>
+          ${c.sessions.map((s) => `<tr>
+            <th scope="row">${t(s.name)}</th>
+            <td>${t(s.duration)}</td>
+            <td>${t(s.imageCount)}</td>
+            <td>${t(s.priceNote)}</td>
+            <td class="cmp-price">${t(s.price)}</td>
+          </tr>`).join('')}
+          <tr class="cmp-mini">
+            <th scope="row">${t(c.miniSession.name)}</th>
+            <td>${t(c.miniSession.duration)}</td>
+            <td>${t(c.miniSession.imageCount)}</td>
+            <td>${t(c.miniSession.outfits)}</td>
+            <td class="cmp-price">${c.miniSession.price.value === null ? '<span data-ph="1" title="Placeholder — no price given for mini sessions">ask</span>' : t(c.miniSession.price)}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <div class="sess-grid">${cards}</div>
+    <aside class="mini">
+      <div>
+        <p class="eyebrow">Not ready for a full session?</p>
+        <h3>${t(c.miniSession.name)}</h3>
+        <p>${t(c.miniSession.blurb)}</p>
+      </div>
+      ${btn('Ask about minis', { primary: false, href: H(o, 'enquire') })}
+    </aside>
   </section>`;
 }
 
@@ -182,8 +212,8 @@ export function howItWorks(c, voice) {
 /* ── 09 ─ Reviews ──────────────────────────────────────────────────────── */
 export function reviews(c, voice, o = {}) {
   const list = v(c.testimonials);
-  const cards = list
-    .map((r) => {
+  const [lead, ...rest] = list;
+  const card = (r) => {
       const stars = r.stars || 5;
       const meta = [r.town, r.session].filter(Boolean).join(' · ');
       return `<figure class="rev">
@@ -191,12 +221,12 @@ export function reviews(c, voice, o = {}) {
       <blockquote>${esc(r.quote)}</blockquote>
       <figcaption>${esc(r.name)}${meta ? ` <span>· ${esc(meta)}</span>` : ''}${r.source ? `<span class="rev-src">${esc(r.source)}</span>` : '<span class="rev-src rev-src-missing">source pending</span>'}</figcaption>
     </figure>`;
-    })
-    .join('');
+  };
+  const cards = rest.map(card).join('');
   return `<section id="${A(o, 'reviews')}" class="band reviews">
     ${heading(voice.sectionTitles.reviews, { eyebrow: 'Reviews' })}
     <p class="band-lede">${t(c.business.rating)} average across ${t(c.business.reviewCount)} reviews.</p>
-    ${phWrap(c.testimonials, `<div class="rev-grid">${cards}</div>`)}
+    ${phWrap(c.testimonials, `<div class="rev-lead">${card(lead)}</div><div class="rev-grid">${cards}</div>`)}
     <p class="rev-gap">${t(c.reviewGaps)}</p>
   </section>`;
 }
@@ -216,7 +246,7 @@ export function whereIShoot(c, voice, o = {}) {
     ${heading(voice.sectionTitles.where, { eyebrow: 'Service area' })}
     <p class="band-lede">${t(c.serviceArea.blurb)}</p>
     ${phWrap(c.serviceArea.towns, `<ul class="towns">${towns}</ul>`)}
-    <p class="where-note">${t(c.serviceArea.travelNote)}</p>
+    <p class="where-note">${t(c.serviceArea.travelNote)}${v(c.business.insured) ? ' Fully insured.' : ''}</p>
     ${phWrap(c.locations, `<div class="loc-grid">${locs}</div>`)}
   </section>`;
 }
@@ -305,11 +335,18 @@ export function enquiry(c, voice, o = {}) {
 
 /* ── Instagram — one row of six, below the CTA ─────────────────────────── */
 export function instagram(c) {
-  const tiles = Array.from({ length: 6 }, (_, i) => photo('feed', { ratio: '1/1', label: '', seed: 50 + i })).join('');
+  const tiles = v(c.socialPosts)
+    .map((post, i) => `<a class="ig-tile" href="${v(c.business.social.instagramUrl)}">
+      ${photo('feed', { ratio: '1/1', label: post.type, seed: 50 + i })}
+      <span class="ig-likes">♥ ${esc(post.likes)}</span>
+      <span class="ig-cap">${esc(post.caption)}</span>
+    </a>`)
+    .join('');
+  const sum = v(c.socialSummary);
   return `<section class="band insta">
     <div class="insta-head">
       <p class="eyebrow">Lately on Instagram</p>
-      <a href="${v(c.business.social.instagramUrl)}">${t(c.business.social.instagram)}</a>
+      <a href="${v(c.business.social.instagramUrl)}">${t(c.business.social.instagram)} · ${esc(sum.instagram)} recent posts</a>
     </div>
     <div class="insta-row">${tiles}</div>
   </section>`;
