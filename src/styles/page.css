@@ -137,6 +137,18 @@
 .meet-copy { display: flex; flex-direction: column; gap: 20px; }
 .prose { display: flex; flex-direction: column; gap: 16px; max-width: var(--measure); color: var(--ink-soft); font-size: 17px; line-height: 1.75; }
 .meet-sig { font-family: var(--display-font); font-size: 20px; color: var(--ink); }
+.meet-quote {
+  font-family: var(--display-font); font-size: clamp(19px, 2vw, 24px); line-height: 1.4;
+  color: var(--accent-ink); border-left: 2px solid var(--accent); padding-left: 18px; font-style: italic;
+}
+.values { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 18px; padding-top: 8px; border-top: 1px solid var(--rule); }
+.values h3 { font-family: var(--body-font); font-size: 14.5px; font-weight: 700; letter-spacing: 0; margin-bottom: 4px; }
+.values p { font-size: 13.5px; color: var(--muted); line-height: 1.55; }
+.timeline { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 14px; padding-top: 18px; border-top: 1px solid var(--rule); }
+.timeline li { display: grid; grid-template-columns: 54px minmax(0, 1fr); gap: 14px; align-items: baseline; }
+.tl-y { font-family: var(--label-font); font-size: 12px; font-weight: 700; color: var(--accent-ink); font-variant-numeric: tabular-nums; }
+.timeline h3 { font-family: var(--body-font); font-size: 14.5px; font-weight: 700; letter-spacing: 0; margin-bottom: 2px; }
+.timeline p { font-size: 13.5px; color: var(--muted); line-height: 1.55; }
 
 /* ── 05 sessions ── */
 .sess-grid { display: flex; flex-direction: column; gap: 22px; }
@@ -164,6 +176,7 @@
 .sess-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; border-block: 1px solid var(--rule); padding: 14px 0; }
 .sess-facts dt { font-family: var(--label-font); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
 .sess-facts dd { margin: 2px 0 0; font-size: 14px; font-weight: 600; }
+.sess-facts dd small { display: block; font-size: 12px; font-weight: 400; color: var(--muted); margin-top: 1px; }
 .sess-inc { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 7px; }
 .sess-inc li { position: relative; padding-left: 20px; font-size: 14.5px; color: var(--ink-soft); }
 .sess-inc li::before { content: '✓'; position: absolute; left: 0; color: var(--accent-ink); font-weight: 700; }
@@ -184,8 +197,12 @@
   border: 1px solid var(--rule-strong); background: transparent; color: var(--muted);
 }
 .gal-f.on { background: var(--ink); color: var(--ground); border-color: var(--ink); }
-.gal-grid { columns: 4; column-gap: 14px; }
-.gal-grid .ph-photo { margin-bottom: 14px; break-inside: avoid; }
+.gal-grid { columns: 3; column-gap: 16px; }
+.gal-item { display: block; break-inside: avoid; margin-bottom: 22px; }
+.gal-meta { padding-top: 9px; display: flex; flex-direction: column; gap: 3px; }
+.gal-meta h3 { font-family: var(--body-font); font-size: 15.5px; font-weight: 700; letter-spacing: 0; }
+.gal-meta span { font-family: var(--label-font); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent-ink); }
+.gal-meta p { font-size: 13.5px; color: var(--muted); line-height: 1.55; margin-top: 3px; }
 
 /* ── 07 receive ── */
 .recv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; }
@@ -212,6 +229,7 @@
 /* A pending source must not look like a real platform badge — the whole point
    of this mockup is being honest about what is not yet real. */
 .rev-src-missing { border-style: dashed; color: var(--muted); opacity: .8; }
+.rev-gap { font-size: 13.5px; color: var(--muted); font-style: italic; }
 .sess-for { font-size: 14px; color: var(--muted); }
 .sess-for span { font-family: var(--label-font); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent-ink); margin-right: 7px; font-weight: 600; }
 .where-note { font-size: 14.5px; color: var(--muted); }
@@ -278,6 +296,7 @@
 .enq-alt a { color: var(--accent-ink); font-weight: 600; }
 .enq-form { display: flex; flex-direction: column; gap: 13px; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius-lg); padding: clamp(20px, 2.6vw, 30px); }
 .enq-form label { display: flex; flex-direction: column; gap: 6px; font-family: var(--label-font); font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.enq-form label em { font-style: normal; font-size: 9.5px; color: var(--accent-ink); margin-left: 5px; }
 .enq-form input, .enq-form select, .enq-form textarea {
   font-family: var(--body-font); font-size: 15px; padding: 11px 13px;
   border: 1px solid var(--rule-strong); border-radius: var(--radius);
@@ -337,7 +356,8 @@
 .frame-mobile .enquire,
 .frame-mobile .now-inner { grid-template-columns: 1fr; }
 .frame-mobile .trustbar-inner { grid-template-columns: repeat(2, 1fr); gap: 22px 12px; }
-.frame-mobile .gal-grid { columns: 2; }
+.frame-mobile .gal-grid { columns: 1; }
+.frame-mobile .values, .frame-mobile .timeline li { grid-template-columns: 1fr; }
 .frame-mobile .insta-row { grid-template-columns: repeat(3, 1fr); }
 .frame-mobile .foot { grid-template-columns: 1fr 1fr; }
 .frame-mobile .nav-links { display: none; }
@@ -355,6 +375,7 @@
 @media (max-width: 900px) {
   .hero-split, .meet, .sess, .enquire, .now-inner { grid-template-columns: 1fr; }
   .gal-grid { columns: 2; }
+  .values { grid-template-columns: 1fr; }
   .foot { grid-template-columns: 1fr 1fr; }
   .insta-row { grid-template-columns: repeat(3, 1fr); }
 }

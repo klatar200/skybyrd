@@ -1,118 +1,138 @@
 import { R, P } from './_placeholder.js';
 
-// Round one showed these as four cards with a one-line quip. A buyer deciding
-// on senior portraits needs a block, not eight words — so each type now carries
-// who it suits, what is included, duration, price and its own call to action.
+// Real pricing and inclusions, from the business profile supplied 17 Aug 2026.
+// This replaces the invented $450/$525/$680/$275 carried over from round one —
+// the actual prices are materially lower, so any earlier mockup shown to a
+// client would have misrepresented the business.
 //
-// ALL PRICING IS INVENTED. It came from concepts 07 and 10 and was presented
-// there as fact. Shawna will read it as a proposal, so it is flagged
-// everywhere it renders until she confirms real figures.
+// One thing to settle: the profile gives each package both a "duration" range
+// and a shorter "session" length in its inclusions (Family is 1–2 hours, but
+// includes a 60-minute session). We read the range as the time to set aside and
+// the shorter figure as time actually shooting, and render both. Flagged below.
 
 export const sessions = [
   {
     id: 'family',
-    name: R('Family', 'services list'),
-    tag: R('The one people put off for years', ''),
-    forWhom: P('Growing families, extended families, grandparents visiting, anyone overdue for a decent photo together.', 'Draft.'),
-    blurb: P(
-      'Everyone in one frame, nobody performing. We walk, we talk, and I photograph what happens in between the bits you think of as the photo.',
-      'Draft — closest to concept 03’s voice, which read best.'
+    name: R('Family', 'business profile'),
+    tag: R('Cherished moments with the people who matter most', 'business profile — specialties'),
+    blurb: R(
+      'Capture the love and connection of your family in a relaxed, fun session. Whether at the studio or your favourite outdoor location, we’ll create timeless memories you’ll cherish forever.',
+      'business profile — package description'
     ),
-    duration: P('90 minutes', 'From concept 07.'),
-    groupSize: P('Up to 8 people', 'From concept 07.'),
-    locations: P('One location of your choosing', 'Confirm.'),
-    imageCount: P('40+ edited images', 'From concept 07.'),
-    price: P('$450', 'INVENTED in concept 07. What do you actually charge for this?'),
-    priceNote: P('Additional people $25 each', 'Invented. Do you charge extra for larger groups?'),
-    includes: P(
-      ['Pre-session call and wardrobe guidance', '90 minutes on location', '40+ edited high-resolution images', 'Private online gallery within two weeks', 'Print release for personal use'],
-      'Draft inclusions — confirm each line.'
+    duration: R('1–2 hours', 'business profile'),
+    sessionLength: P('60 minutes shooting', 'The profile lists Family as 1–2 hours but includes a 60-minute session. Is the longer figure the time to set aside, and 60 minutes the shooting time?'),
+    groupSize: P('Families of any size', 'Not in the profile. Is there a limit, or a charge above a certain number?'),
+    locations: R('Studio or an outdoor location of your choosing', 'business profile'),
+    imageCount: R('25+ edited digital images', 'business profile'),
+    price: R('$299', 'business profile'),
+    priceNote: R('Print release included', 'business profile'),
+    forWhom: P('Growing families, extended families, grandparents visiting, anyone overdue for a decent photo together.', 'Draft — not in the profile.'),
+    includes: R(
+      ['60-minute session', '25+ edited digital images', 'Online gallery for sharing', 'Print release included', 'Location scouting assistance'],
+      'business profile'
     ),
     popular: true,
   },
   {
     id: 'seniors',
-    name: R('Seniors', 'services list'),
-    tag: R('One last year at home', ''),
-    forWhom: P('High school seniors and their parents, usually booked the summer before senior year.', 'Draft.'),
-    blurb: P(
-      'The year they became themselves, photographed before it goes by. Two locations, three outfits, and enough time that nobody feels rushed.',
-      'Draft.'
+    name: R('Senior Portraits', 'business profile'),
+    tag: R('Portraits that capture your personality and confidence', 'business profile — specialties'),
+    blurb: R(
+      'Celebrate this milestone with portraits that capture your unique personality. Multiple outfit changes, creative locations, and a session that’s all about you.',
+      'business profile — package description'
     ),
-    duration: P('2 hours', 'From concept 07.'),
-    groupSize: P('The senior, plus family for a few frames', 'Confirm.'),
-    locations: P('Two locations', 'From concept 07.'),
-    imageCount: P('50+ edited images', 'Invented.'),
-    price: P('$525', 'INVENTED in concept 07. What do you actually charge for this?'),
-    priceNote: P('Cap and gown add-on available', 'Invented — do you offer this?'),
-    includes: P(
-      ['Planning call with the senior, not just the parents', 'Two locations, three outfit changes', '50+ edited high-resolution images', 'Private gallery within two weeks', 'Graduation announcement files sized and ready'],
-      'Draft inclusions.'
+    duration: R('1–1.5 hours', 'business profile'),
+    sessionLength: P('45 minutes shooting', 'Same question as Family — 1–1.5 hours listed, 45-minute session included.'),
+    groupSize: R('The senior, with family for a few frames', 'business profile — implied by package'),
+    locations: R('Creative locations of your choosing', 'business profile'),
+    imageCount: R('20+ edited digital images', 'business profile'),
+    price: R('$249', 'business profile'),
+    priceNote: R('Yearbook-ready crop included', 'business profile'),
+    forWhom: P('High school seniors and their parents, usually booked the summer before senior year.', 'Draft — not in the profile.'),
+    includes: R(
+      ['45-minute session', '20+ edited digital images', '2 outfit changes', 'Online gallery for sharing', 'Yearbook-ready crop included'],
+      'business profile'
     ),
     popular: false,
   },
   {
     id: 'branding',
-    name: R('Personal Branding', 'services list'),
-    tag: R('Headshots that don’t look like headshots', ''),
-    forWhom: P('Small business owners, realtors, therapists, coaches — anyone whose face is part of the offer.', 'Draft.'),
-    blurb: P(
-      'A library of images that sound like the person running the business. Not one stiff headshot, but a year of things to post.',
-      'Draft.'
+    name: R('Personal Branding', 'business profile'),
+    tag: R('Authentic imagery that tells your story', 'business profile — specialties'),
+    blurb: R(
+      'Elevate your brand with professional imagery that tells your story. Perfect for entrepreneurs, creatives and professionals who want to stand out.',
+      'business profile — package description'
     ),
-    duration: P('Half day', 'From concept 07.'),
-    groupSize: P('One person, or small teams by arrangement', 'Confirm team pricing.'),
-    locations: P('Your workplace, the studio, or both', 'Confirm.'),
-    imageCount: P('60+ edited images', 'Invented.'),
-    price: P('$680', 'INVENTED in concept 07. What do you actually charge for this?'),
-    priceNote: P('Team rates available', 'Invented — do you shoot teams, and at what rate?'),
-    includes: P(
-      ['Strategy call about how you will actually use the images', 'Half day of shooting', '60+ edited images in web and print sizes', 'Cropped variants for LinkedIn, Instagram and your website', 'Commercial usage rights'],
-      'Draft inclusions — commercial rights in particular needs confirming.'
+    duration: R('2–3 hours', 'business profile'),
+    sessionLength: P('90 minutes shooting', 'Same question — 2–3 hours listed, 90-minute session included.'),
+    groupSize: P('One person', 'Not in the profile. Do you shoot teams, and at what rate?'),
+    locations: R('Studio or on location', 'business profile'),
+    imageCount: R('40+ edited digital images', 'business profile'),
+    price: R('$399', 'business profile'),
+    priceNote: R('Brand consultation call included', 'business profile'),
+    forWhom: P('Small business owners, realtors, therapists, coaches — anyone whose face is part of the offer.', 'Draft — not in the profile.'),
+    includes: R(
+      ['90-minute session', '40+ edited digital images', '3 outfit and scene changes', 'Social-media optimised crops', 'Brand consultation call'],
+      'business profile'
     ),
     popular: false,
   },
   {
     id: 'pets',
-    name: R('Pets', 'services list'),
-    tag: R('Members of the family, obviously', ''),
-    forWhom: P('Dogs mostly, though I have photographed cats, horses and one very patient rabbit.', 'Invented detail — is this true? It is a lovely line if so.'),
-    blurb: P(
-      'Treats allowed, chaos expected. Studio or your favourite trail, and we work at their pace rather than mine.',
-      'Draft — this line survives from round one.'
+    name: R('Pet Photography', 'business profile'),
+    tag: R('Your furry family members deserve the spotlight too', 'business profile — specialties'),
+    blurb: R(
+      'Your furry, feathered or scaled family members deserve the spotlight too. Playful, heartwarming portraits that capture their unique personality.',
+      'business profile — package description'
     ),
-    duration: P('45 minutes', 'From concept 07.'),
-    groupSize: P('Up to 2 pets, humans welcome', 'Confirm.'),
-    locations: P('Studio or a trail of your choosing', 'Confirm.'),
-    imageCount: P('25+ edited images', 'Invented.'),
-    price: P('$275', 'INVENTED in concept 07. What do you actually charge for this?'),
-    priceNote: P('Add your people for $75', 'Invented.'),
-    includes: P(
-      ['A short chat about what makes them comfortable', '45 minutes, at their pace', '25+ edited images', 'Private gallery within two weeks', 'Treats provided, and used shamelessly'],
-      'Draft inclusions.'
+    duration: R('45 minutes – 1 hour', 'business profile'),
+    sessionLength: P('30 minutes shooting', 'Same question — 45–60 minutes listed, 30-minute session included.'),
+    groupSize: P('One or two pets', 'Not in the profile. Is there a limit, and can their people join?'),
+    locations: R('Pet-safe studio, or on location', 'business profile'),
+    imageCount: R('15+ edited digital images', 'business profile'),
+    price: R('$199', 'business profile'),
+    priceNote: R('Treats and toys provided', 'business profile'),
+    forWhom: P('Dogs mostly, though cats are very welcome — there is a rescue cat in the portfolio.', 'Drafted from your Luna gallery. Have you photographed anything beyond cats and dogs?'),
+    includes: R(
+      ['30-minute session', '15+ edited digital images', 'Pet-safe studio environment', 'Treats and toys provided', 'Online gallery for sharing'],
+      'business profile'
     ),
     popular: false,
   },
 ];
 
-// What the money actually buys. Round one said this nowhere except a passing
-// line in concept 10 — and it was the most reassuring content in that concept.
-export const deliverables = P(
+export const deliverables = R(
   [
-    { stat: '2 weeks', label: 'Gallery delivery', detail: 'Often sooner. You will get a private link by email.' },
-    { stat: '40+', label: 'Edited images', detail: 'Colour graded and retouched by hand. No batch presets.' },
-    { stat: '10 years', label: 'Archived', detail: 'Re-download any time. People lose phones; I keep backups.' },
-    { stat: 'Included', label: 'Print release', detail: 'Print them anywhere you like, at any size, forever.' },
+    { stat: '2–3 weeks', label: 'Gallery delivery', detail: 'You’ll get a link to view, download and share your images.' },
+    { stat: '48 hours', label: 'Rush available', detail: 'Need them sooner? Rush delivery is a $75 add-on.' },
+    { stat: 'Included', label: 'Print release', detail: 'Print your images wherever you like, at any size.' },
+    { stat: 'Online', label: 'Gallery for sharing', detail: 'Private, and easy to send to family.' },
   ],
-  'All four figures invented from concept 10. Confirm delivery time, image counts, archive policy and print rights.'
+  'business profile — FAQ and package inclusions'
 );
 
-export const products = P(
+// Real add-on menu. Replaces the invented print and album pricing.
+export const products = R(
   [
-    { name: 'Framed prints', blurb: 'Chosen from your gallery and delivered ready to hang.', from: 'from $85' },
-    { name: 'Albums', blurb: 'A hand-bound book of the whole session. The thing people actually keep.', from: 'from $340' },
-    { name: 'Canvases', blurb: 'For the wall you have been meaning to do something with.', from: 'from $190' },
-    { name: 'Gift certificates', blurb: 'A session for someone else — new babies, new homes, big birthdays.', from: 'any amount' },
+    { name: 'Wall art prints', blurb: 'Museum-quality prints, ready to hang.', from: 'from $50' },
+    { name: 'Album design', blurb: 'A custom-designed photo album, twenty pages.', from: '$150' },
+    { name: 'Rush delivery', blurb: 'Your gallery within 48 hours of the session.', from: '$75' },
+    { name: 'Extra edits', blurb: 'Additional retouched images beyond your package.', from: '$25 each' },
   ],
-  'Entirely invented. Do you sell prints, albums or gift certificates, and at roughly what prices? This is usually where studio revenue per client comes from.'
+  'business profile — add-on services'
+);
+
+// Real portfolio work. Round one used generic category tiles; these are actual
+// sessions with names, locations and image counts.
+export const galleries = R(
+  [
+    { title: 'The Johnson Family Session', cat: 'family', count: 18, blurb: 'A beautiful autumn afternoon in Settler’s Park. The Johnsons brought their signature energy and warmth to every frame.' },
+    { title: 'Emma’s Senior Portraits', cat: 'seniors', count: 14, blurb: 'A downtown golden-hour session. From brick-lined alleys to a sunlit rooftop, every shot captures her personality.' },
+    { title: 'Elevated Brand: Sarah Chen', cat: 'branding', count: 12, blurb: 'Headshots and lifestyle branding for the founder of a boutique wellness studio. Clean, confident, modern.' },
+    { title: 'Cooper & Friends', cat: 'pets', count: 16, blurb: 'An energetic session at the dog park with Cooper the golden retriever and his best furry friends.' },
+    { title: 'The Martinez Family', cat: 'family', count: 20, blurb: 'A lively session at the botanic garden. Three generations, endless laughter, unforgettable moments.' },
+    { title: 'Jake’s Graduation', cat: 'seniors', count: 15, blurb: 'From the football field to the forest trail — an adventurous outdoor session marking the end of high school.' },
+    { title: 'Luna the Rescue Cat', cat: 'pets', count: 10, blurb: 'An in-home session capturing Luna’s quirks, from window perches to cardboard-box adventures.' },
+  ],
+  'business profile — portfolio galleries'
 );

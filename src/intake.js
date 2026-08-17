@@ -16,28 +16,24 @@ const EFFORT = {
 // Ordered by what unblocks the most. Pricing first — it is the single most
 // commonly asked question and the placeholder most likely to be misread.
 const GROUPS = [
-  { key: 'sessions', title: 'Your sessions and pricing', effort: 'quick',
-    intro: 'The longest group, but most of it you can answer without thinking — durations, group sizes, image counts. The four prices are the ones that matter most: every figure currently on the page was invented, and price is the first thing your visitors look for. If a number is not settled yet, “starts at” is fine. Hiding price altogether costs more enquiries than a rough figure does.' },
   { key: 'shawna', title: 'About you', effort: 'think',
-    intro: 'This block matters more than anything else on the page — people hire a person, not a studio. We drafted something from your public bio, but it should be in your words. A photograph of you is the single most valuable missing asset on the whole site.' },
-  { key: 'business', title: 'The business facts', effort: 'quick',
-    intro: 'Contact details are already correct and verified. These are the numbers around them. Note the first question — the earlier mockups contradicted themselves on this.' },
-  { key: 'deliverables', title: 'What clients get', effort: 'quick',
-    intro: 'What the money actually buys. This was almost entirely missing from the first round, and it is one of the most reassuring things you can put on the page.' },
-  { key: 'rightNow', title: 'Availability and seasons', effort: 'quick',
-    intro: 'Portrait work runs on deadlines and the site should use them. Only put a specific number of remaining slots on the page if it is genuinely true.' },
+    intro: 'Your bio and values now come straight from your profile, so the words are yours. What is still missing is a photograph of you — and for a solo studio that is the single most valuable asset on the whole site. People hire a person, not a business.' },
+  { key: 'sessions', title: 'Session details', effort: 'quick',
+    intro: 'Pricing, inclusions and image counts are all in from your profile and no longer flagged. What is left is smaller: each package lists both a duration range and a shorter session length, and we want to be sure we are reading that right. Group sizes are the other gap.' },
+  { key: 'business', title: 'The numbers', effort: 'quick',
+    intro: 'Your contact details, founding year, response time and travel radius are all confirmed. These five are the figures the profile did not cover — mostly things a visitor uses to judge whether you are established.' },
+  { key: 'faq', title: 'Three extra questions', effort: 'review',
+    intro: 'Five of your FAQs came straight from the profile and are already live on the page, unflagged. We added three more that portrait clients commonly ask but your profile did not cover. Correct them or tell us to drop them.' },
   { key: 'serviceArea', title: 'Where you work', effort: 'quick',
-    intro: 'The biggest change from the first round. Every earlier mockup said “Plainfield” and stopped, which means nobody searching in Naperville or Joliet would ever find you.' },
+    intro: 'Your 30-mile radius is confirmed and stated on the page. The town list is our reading of what falls inside it — worth a glance, because naming towns is the main way people in Naperville or Joliet will find you at all.' },
   { key: 'locations', title: 'Your favourite places to shoot', effort: 'think',
-    intro: 'Named places are more persuasive than adjectives — they help people picture their own session, and they bring in searches nobody else is competing for. Four to six real ones is plenty.' },
+    intro: 'These come from the places named in your real galleries — Settler’s Park, downtown, the botanic garden, the dog park. The one-line descriptions are ours.' },
+  { key: 'rightNow', title: 'Availability and seasons', effort: 'quick',
+    intro: 'The only band with nothing from your profile behind it. We drafted it around your mini-sessions Instagram post. Portrait work runs on deadlines and this is where the site should use them — but only show a specific number of slots if it is genuinely true.' },
+  { key: 'reviewGaps', title: 'Getting more reviews', effort: 'gather',
+    intro: 'Your three testimonials are in and rendering. The band was built to hold six to twelve, and it looks thin at three — this is the second-biggest content gap after your photograph.' },
   { key: 'process', title: 'How a session goes', effort: 'review',
-    intro: 'Drafted from your own descriptions in the earlier round. This was the best writing in the whole set, so we kept it — but check the timings are right.' },
-  { key: 'faq', title: 'Common questions', effort: 'review',
-    intro: 'Ten questions drafted from what people usually ask. This block quietly does more work than any other: it removes the hesitation that stops bookings, and it is what Google and AI assistants quote back to people. Correct any answer that is not how you actually work.' },
-  { key: 'testimonials', title: 'Reviews', effort: 'gather',
-    intro: 'You have real reviews on Google, Facebook and Yelp, and the mockups are currently running invented ones instead. Real ones with a platform badge are worth several times a nice anonymous quote.' },
-  { key: 'products', title: 'Prints and products', effort: 'gather',
-    intro: 'Entirely invented, because we do not know what you sell. This is usually where studio revenue per client comes from, so it is worth filling in even roughly.' },
+    intro: 'Four of the five steps come from your profile — the form, the 24-hour reply, the style guide and the 2–3 week gallery. Only the description of the session itself is ours.' },
   { key: 'voice', title: 'Headlines and wording', effort: 'review',
     intro: 'Lowest priority — read these once you have picked a direction. Each of the three layouts has its own voice, so you can choose how the site sounds separately from how it looks.' },
 ];
@@ -214,15 +210,15 @@ footer.end b{color:var(--ink2)}
 <header class="top">
   <p class="kicker">SkyByrd Photography · website round two</p>
   <h1>What we need from you, Shawna</h1>
-  <p class="lede">The mockups are built and they work — but ${meta.count} details in them are our best guess rather than your actual business. This sheet lists every one, grouped by how long it takes to answer. Print it and write on it, or reply to any of it by email; either is fine.</p>
+  <p class="lede">Your business profile filled in most of the mockups. ${meta.count} details are still our best guess rather than your actual business — down from 78 before the profile arrived. This sheet lists every one, grouped by how long it takes to answer. Print it and write on it, or reply by email; either is fine.</p>
 </header>
 
 <div class="summary">
   <div>
     <h3>How to use this</h3>
-    <p>Start at the top — the groups are ordered by how much they unblock. <strong>Pricing first</strong>, because every figure currently on the page was invented and it is the first thing your visitors will look for.</p>
-    <p style="margin-top:12px">You do not need to answer everything before we go further. The first three groups alone would make the mockups honest enough to show anyone.</p>
-    <p style="margin-top:12px">Contact details, your business name, your tagline and your service positioning are <strong>already correct</strong> — we verified those, and they are not in this list.</p>
+    <p>Your business profile answered most of this. Pricing, inclusions, your bio and values, your FAQs, your portfolio, your add-on menu, your career timeline and all your contact details are <strong>in and confirmed</strong> — none of them appear below.</p>
+    <p style="margin-top:12px">What is left is the smaller set the profile did not cover. Groups are ordered by how much each unblocks.</p>
+    <p style="margin-top:12px">The one thing worth doing before anything else is not on this list: <strong>a photograph of you</strong>, and a set of your own images to replace the grey placeholder frames.</p>
   </div>
   <div>
     <h3>What is in here</h3>

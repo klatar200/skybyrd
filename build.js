@@ -12,9 +12,9 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { business, serviceArea, locations } from './src/content/business.js';
-import { sessions, deliverables, products } from './src/content/sessions.js';
-import { testimonials } from './src/content/social-proof.js';
+import { business, serviceArea, locations, milestones, coreValues } from './src/content/business.js';
+import { sessions, deliverables, products, galleries } from './src/content/sessions.js';
+import { testimonials, reviewGaps } from './src/content/social-proof.js';
 import { shawna, process as processSteps, faq, rightNow } from './src/content/experience.js';
 import { voices } from './src/content/voice.js';
 import { collectPlaceholders } from './src/content/_placeholder.js';
@@ -22,13 +22,15 @@ import { palettes, paletteList, paletteCss } from './src/tokens/palettes.js';
 import { architectures } from './src/architectures.js';
 import { sections } from './src/sections/index.js';
 import { renderIntake } from './src/intake.js';
+import { schemaScript, buildSchema } from './src/schema.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const read = (p) => readFileSync(join(__dirname, p), 'utf8');
 
 const content = {
-  business, serviceArea, locations, sessions, deliverables, products,
-  testimonials, shawna, process: processSteps, faq, rightNow,
+  business, serviceArea, locations, milestones, coreValues,
+  sessions, deliverables, products, galleries,
+  testimonials, reviewGaps, shawna, process: processSteps, faq, rightNow,
 };
 
 /* ── render one architecture ─────────────────────────────────────────────── */
@@ -120,7 +122,10 @@ const archNotes = architectures
   </div>`)
   .join('');
 
-const html = `<title>SkyByrd Mockup Studio</title>
+const schema = buildSchema(content);
+
+const html = `<title>Skybyrd Mockup Studio</title>
+${schemaScript(content)}
 <style>
 ${chromeCss}
 ${pageCss}
@@ -131,7 +136,7 @@ ${paletteBlocks}
   <div class="chrome-bar">
     <div class="ch-brand">
       <span class="ch-dot"></span>
-      <div><strong>SkyByrd</strong><span>Mockup studio · round two</span></div>
+      <div><strong>Skybyrd</strong><span>Mockup studio · round two</span></div>
     </div>
 
     <div class="ch-group" id="archGroup">
@@ -244,7 +249,7 @@ ${paletteBlocks}
         b.classList.toggle('on', on);
         b.setAttribute('aria-pressed', String(on));
       });
-      grid.querySelectorAll('.ph-photo').forEach(function (tile) {
+      grid.querySelectorAll('.gal-item').forEach(function (tile) {
         tile.hidden = cat !== 'all' && tile.getAttribute('data-cat') !== cat;
       });
     });
@@ -291,7 +296,8 @@ console.log(`  ${architectures.length} architectures × ${paletteList.length} pa
 console.log(`  ${architectures[0].bands.length} bands per page`);
 console.log(`  ${(html.length / 1024).toFixed(0)} KB → dist/review.html`);
 console.log(`  ${(intake.length / 1024).toFixed(0)} KB → dist/intake.html`);
-console.log(`  standalone copies for local viewing → dist/local/\n`);
+console.log(`  standalone copies for local viewing → dist/local/`);
+console.log(`  LocalBusiness + Person + FAQPage schema emitted (${schema.realFaqCount} verified Q&As)\n`);
 console.log(`  ${placeholders.length} placeholders awaiting Shawna:`);
 for (const p of placeholders.slice(0, 8)) console.log(`    · ${p.path}`);
 if (placeholders.length > 8) console.log(`    · …and ${placeholders.length - 8} more (see the report in the canvas)`);

@@ -67,10 +67,10 @@ export function hero(c, voice, o = {}) {
 export function trustBar(c) {
   const b = c.business;
   const items = [
+    { n: t(b.yearsShooting) + ' yrs', l: 'Behind the camera' },
     { n: t(b.rating) + ' ★', l: `${v(b.reviewCount)} reviews` },
-    { n: t(b.yearsShooting) + ' yrs', l: 'Photographing families' },
-    { n: t(b.sessionsDelivered), l: 'Sessions delivered' },
-    { n: 'Chicago', l: 'Southwest suburbs' },
+    { n: t(c.serviceArea.radius), l: 'Travel included' },
+    { n: '24 hrs', l: 'Reply to every enquiry' },
   ];
   return `<section class="band trustbar">
     <div class="trustbar-inner">
@@ -90,8 +90,11 @@ export function meetShawna(c, voice, o = {}) {
     </div>
     <div class="meet-copy">
       ${heading(voice.sectionTitles.meet, { eyebrow: 'About' })}
+      <blockquote class="meet-quote">${t(s.quote)}</blockquote>
       ${phWrap(s.bio, `<div class="prose">${paras}</div>`)}
       <p class="meet-sig">${t(s.signature)}</p>
+      <ul class="values">${v(c.coreValues).map((val) => `<li><h3>${esc(val.title)}</h3><p>${esc(val.body)}</p></li>`).join('')}</ul>
+      <ol class="timeline">${v(c.milestones).map((m) => `<li><span class="tl-y">${esc(m.year)}</span><div><h3>${esc(m.title)}</h3><p>${esc(m.body)}</p></div></li>`).join('')}</ol>
     </div>
   </section>`;
 }
@@ -114,7 +117,7 @@ export function sessionTypes(c, voice, o = {}) {
         <p class="sess-blurb">${t(s.blurb)}</p>
         <p class="sess-for"><span>Who it suits</span> ${t(s.forWhom)}</p>
         <dl class="sess-facts">
-          <div><dt>Length</dt><dd>${t(s.duration)}</dd></div>
+          <div><dt>Length</dt><dd>${t(s.duration)}<small>${t(s.sessionLength)}</small></dd></div>
           <div><dt>Who</dt><dd>${t(s.groupSize)}</dd></div>
           <div><dt>Images</dt><dd>${t(s.imageCount)}</dd></div>
           <div><dt>Where</dt><dd>${t(s.locations)}</dd></div>
@@ -139,11 +142,12 @@ export function sessionTypes(c, voice, o = {}) {
 /* ── 06 ─ Featured gallery ─────────────────────────────────────────────── */
 export function gallery(c, voice, o = {}) {
   const cats = ['All', 'Family', 'Seniors', 'Branding', 'Pets'];
-  const tiles = [
-    ['family', '4/5'], ['seniors', '1/1'], ['pets', '4/5'], ['branding', '1/1'],
-    ['family', '1/1'], ['seniors', '4/5'], ['family', '1/1'], ['pets', '1/1'],
-  ]
-    .map(([s, r], i) => photo(s, { ratio: r, label: s, seed: 20 + i, cat: s }))
+  const ratios = ['4/5', '1/1', '4/5', '1/1', '1/1', '4/5', '1/1'];
+  const tiles = v(c.galleries)
+    .map((g, i) => `<article class="gal-item" data-cat="${esc(g.cat)}">
+      ${photo(g.cat, { ratio: ratios[i % ratios.length], label: g.title, seed: 20 + i })}
+      <div class="gal-meta"><h3>${esc(g.title)}</h3><span>${esc(g.count)} images · ${esc(g.cat)}</span><p>${esc(g.blurb)}</p></div>
+    </article>`)
     .join('');
   return `<section id="${A(o, 'work')}" class="band gallery">
     ${heading(voice.sectionTitles.gallery, { eyebrow: 'Portfolio' })}
@@ -179,16 +183,21 @@ export function howItWorks(c, voice) {
 export function reviews(c, voice, o = {}) {
   const list = v(c.testimonials);
   const cards = list
-    .map((r) => `<figure class="rev">
-      <div class="rev-stars" aria-label="5 out of 5">★★★★★</div>
+    .map((r) => {
+      const stars = r.stars || 5;
+      const meta = [r.town, r.session].filter(Boolean).join(' · ');
+      return `<figure class="rev">
+      <div class="rev-stars" aria-label="${stars} out of 5">${'★'.repeat(stars)}</div>
       <blockquote>${esc(r.quote)}</blockquote>
-      <figcaption>${esc(r.name)} <span>· ${esc(r.town)} · ${esc(r.session)}</span>${r.source ? `<span class="rev-src">${esc(r.source)}</span>` : '<span class="rev-src rev-src-missing">source pending</span>'}</figcaption>
-    </figure>`)
+      <figcaption>${esc(r.name)}${meta ? ` <span>· ${esc(meta)}</span>` : ''}${r.source ? `<span class="rev-src">${esc(r.source)}</span>` : '<span class="rev-src rev-src-missing">source pending</span>'}</figcaption>
+    </figure>`;
+    })
     .join('');
   return `<section id="${A(o, 'reviews')}" class="band reviews">
     ${heading(voice.sectionTitles.reviews, { eyebrow: 'Reviews' })}
-    <p class="band-lede">${t(c.business.rating)} average across ${t(c.business.reviewCount)} reviews on Google, Facebook and Yelp.</p>
+    <p class="band-lede">${t(c.business.rating)} average across ${t(c.business.reviewCount)} reviews.</p>
     ${phWrap(c.testimonials, `<div class="rev-grid">${cards}</div>`)}
+    <p class="rev-gap">${t(c.reviewGaps)}</p>
   </section>`;
 }
 
@@ -207,7 +216,7 @@ export function whereIShoot(c, voice, o = {}) {
     ${heading(voice.sectionTitles.where, { eyebrow: 'Service area' })}
     <p class="band-lede">${t(c.serviceArea.blurb)}</p>
     ${phWrap(c.serviceArea.towns, `<ul class="towns">${towns}</ul>`)}
-    <p class="where-note">Travelling up to ${t(c.serviceArea.radius)} as standard${v(c.business.insured) ? ', fully insured' : ''}. Further afield is usually possible — just ask.</p>
+    <p class="where-note">${t(c.serviceArea.travelNote)}</p>
     ${phWrap(c.locations, `<div class="loc-grid">${locs}</div>`)}
   </section>`;
 }
@@ -233,15 +242,15 @@ export function rightNow(c, voice, o = {}) {
 
 /* ── 12 ─ FAQ ──────────────────────────────────────────────────────────── */
 export function faq(c, voice, o = {}) {
-  const items = v(c.faq)
+  const items = c.faq
     .map((q, i) => `<details class="qa"${i === 0 ? ' open' : ''}>
-      <summary>${esc(q.q)}</summary>
-      <p>${esc(q.a)}</p>
+      <summary>${t(q.q)}</summary>
+      <p>${t(q.a)}</p>
     </details>`)
     .join('');
   return `<section id="${A(o, 'faq')}" class="band faq">
     ${heading(voice.sectionTitles.faq, { eyebrow: 'Questions' })}
-    ${phWrap(c.faq, `<div class="qa-list">${items}</div>`)}
+    <div class="qa-list">${items}</div>
   </section>`;
 }
 
@@ -272,18 +281,20 @@ export function enquiry(c, voice, o = {}) {
       <ul class="enq-assure">
         <li>No deposit to enquire</li>
         <li>Reply ${t(c.business.responseTime)}</li>
+        <li>${t(c.serviceArea.travelNote)}</li>
         <li>Booking ${t(c.business.bookingWindow)}</li>
       </ul>
       <p class="enq-alt">Prefer to talk? <a href="${v(c.business.contact.phoneHref)}">${t(c.business.contact.phone)}</a></p>
     </div>
     <form class="enq-form" onsubmit="return false">
-      <label>Your name<input type="text" placeholder="Jane Whitmore"></label>
-      <label>Email<input type="email" placeholder="jane@example.com"></label>
-      <label>Session type<select>${opts}</select></label>
-      <label>Rough date<input type="text" placeholder="Mid-October, a weekend if possible"></label>
-      <label>Who’s coming?<textarea rows="3" placeholder="Two adults, three kids, and a golden retriever who does not listen."></textarea></label>
-      <button class="btn btn-primary" type="submit">Send my date</button>
-      <p class="enq-fine">No payment, no commitment. Just a note.</p>
+      <label>Name <em>required</em><input type="text" placeholder="Jane Doe" required></label>
+      <label>Email <em>required</em><input type="email" placeholder="jane@example.com" required></label>
+      <label>Phone <em>optional</em><input type="tel" placeholder="(815) 555-0000"></label>
+      <label>Service <em>required</em><select required>${opts}</select></label>
+      <label>Preferred date <em>optional</em><input type="text" placeholder="Mid-October, a weekend if possible"></label>
+      <label>Message <em>required</em><textarea rows="3" placeholder="Two adults, three kids, and a golden retriever who does not listen." required></textarea></label>
+      <button class="btn btn-primary" type="submit">Send enquiry</button>
+      <p class="enq-fine">I reply to every enquiry within 24 hours.</p>
     </form>
     <div class="enq-capture">
       <p><strong>Not ready yet?</strong> Sessions open ${t(c.business.bookingWindow)}. I’ll email you when the next dates go up.</p>
@@ -298,7 +309,7 @@ export function instagram(c) {
   return `<section class="band insta">
     <div class="insta-head">
       <p class="eyebrow">Lately on Instagram</p>
-      <a href="#">${t(c.business.social.instagram)}</a>
+      <a href="${v(c.business.social.instagramUrl)}">${t(c.business.social.instagram)}</a>
     </div>
     <div class="insta-row">${tiles}</div>
   </section>`;
@@ -320,7 +331,8 @@ export function footer(c, voice, o = {}) {
       <a href="${v(b.contact.phoneHref)}">${t(b.contact.phone)}</a>
       <a href="mailto:${v(b.contact.email)}">${t(b.contact.email)}</a>
       <span>${t(b.contact.address)}</span>
-      <a href="#">${t(b.social.instagram)}</a>
+      <a href="${v(b.social.instagramUrl)}">Instagram</a>
+      <a href="${v(b.social.facebookUrl)}">Facebook</a>
     </div>
     <div class="foot-area"><h3>Serving</h3><p>${esc(towns)}</p></div>
     <div class="foot-fine"><span>© ${new Date().getFullYear()} ${esc(v(b.name))}</span><span>${t(b.contact.domain)}</span></div>
