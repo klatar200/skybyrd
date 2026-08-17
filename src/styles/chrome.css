@@ -1,0 +1,121 @@
+/* Review-tool chrome. Deliberately single-theme and neutral-dark so it reads as
+   tooling around the work rather than part of it — the same reason design tools
+   put a grey canvas behind an artboard. The mockups carry their own palettes. */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* Layout classes below use display:flex/grid, which would otherwise beat the
+   hidden attribute. Architecture switching depends on this. */
+[hidden] { display: none !important; }
+
+body {
+  background: #0E1013;
+  color: #E6E9ED;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.chrome {
+  position: sticky; top: 0; z-index: 100;
+  background: #15181C; border-bottom: 1px solid #262C33;
+}
+
+.chrome-bar {
+  display: flex; align-items: center; gap: 26px; flex-wrap: wrap;
+  padding: 12px 20px;
+}
+
+.ch-brand { display: flex; align-items: center; gap: 11px; margin-right: 6px; }
+.ch-dot { width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(140deg, #C8813A, #E8C08A); flex: none; }
+.ch-brand div { display: flex; flex-direction: column; line-height: 1.25; }
+.ch-brand strong { font-size: 13.5px; letter-spacing: .04em; }
+.ch-brand span { font-size: 11px; color: #79828E; }
+
+.ch-group { display: flex; align-items: center; gap: 11px; }
+.ch-label {
+  font-size: 10px; letter-spacing: .13em; text-transform: uppercase;
+  color: #6C7480; font-weight: 600; white-space: nowrap;
+}
+
+.segs { display: flex; gap: 4px; background: #0E1013; padding: 3px; border-radius: 6px; border: 1px solid #262C33; }
+.seg {
+  display: flex; align-items: center; gap: 7px; cursor: pointer;
+  background: transparent; border: 0; color: #99A2AE;
+  padding: 6px 12px; border-radius: 4px; font: inherit;
+  transition: background .16s ease, color .16s ease;
+  white-space: nowrap;
+}
+.seg:hover { color: #E6E9ED; }
+.seg.on { background: #272E37; color: #FFFFFF; }
+.seg-t { font-size: 12.5px; font-weight: 600; }
+.seg-s { font-size: 10px; color: #6C7480; }
+.seg.on .seg-s { color: #949DA9; }
+.sw { width: 13px; height: 13px; border-radius: 50%; border: 1px solid rgba(255,255,255,.28); flex: none; }
+
+.ch-toggles { margin-left: auto; gap: 16px; }
+.tog { display: flex; align-items: center; gap: 7px; cursor: pointer; font-size: 12.5px; color: #99A2AE; }
+.tog input { accent-color: #C8813A; width: 15px; height: 15px; cursor: pointer; }
+.tog:hover { color: #E6E9ED; }
+
+.ch-link {
+  background: transparent; border: 1px solid #3A424C; color: #E6E9ED;
+  padding: 7px 14px; border-radius: 5px; font: inherit; font-size: 12.5px;
+  font-weight: 600; cursor: pointer; white-space: nowrap;
+}
+.ch-link:hover { background: #272E37; border-color: #4A535F; }
+
+.chrome-notes { padding: 0 20px 13px; }
+.arch-note { display: flex; flex-direction: column; gap: 9px; max-width: 1200px; }
+.an-thesis { font-size: 14px; color: #C2C9D2; max-width: 82ch; }
+.an-meta { display: flex; flex-wrap: wrap; gap: 8px 30px; }
+.an-meta div { display: flex; gap: 8px; align-items: baseline; }
+.an-meta dt {
+  font-size: 9.5px; letter-spacing: .13em; text-transform: uppercase;
+  color: #6C7480; font-weight: 600; white-space: nowrap;
+}
+.an-meta dd { font-size: 12.5px; color: #99A2AE; }
+
+.stage { padding: 22px; display: flex; justify-content: center; }
+
+.frame {
+  width: 100%; max-width: 1440px;
+  border: 1px solid #262C33; border-radius: 8px; overflow: hidden;
+  box-shadow: 0 24px 60px -24px rgba(0,0,0,.7);
+  transition: max-width .3s ease;
+}
+.frame.frame-mobile { max-width: 402px; border-radius: 26px; }
+
+/* ── report dialog ── */
+.report {
+  border: 1px solid #2C333C; border-radius: 10px; padding: 0;
+  background: #15181C; color: #E6E9ED;
+  max-width: min(1000px, 92vw); width: 100%; max-height: 86vh;
+  margin: auto; /* dialog defaults to the top-left corner without this */
+}
+.report::backdrop { background: rgba(0,0,0,.66); }
+.rp-head {
+  display: flex; gap: 24px; align-items: start; justify-content: space-between;
+  padding: 22px 26px; border-bottom: 1px solid #262C33; position: sticky; top: 0; background: #15181C;
+}
+.rp-head h2 { font-size: 19px; margin-bottom: 5px; }
+.rp-head p { font-size: 13px; color: #8B94A0; max-width: 68ch; }
+.rp-head code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #C8A87A; }
+.rp-wrap { overflow: auto; max-height: calc(86vh - 92px); }
+.rp-table { border-collapse: collapse; width: 100%; font-size: 13px; }
+.rp-table th {
+  text-align: left; padding: 10px 16px; background: #1B1F24; color: #79828E;
+  font-size: 10px; letter-spacing: .11em; text-transform: uppercase;
+  position: sticky; top: 0; border-bottom: 1px solid #262C33;
+}
+.rp-table td { padding: 10px 16px; border-bottom: 1px solid #21262C; vertical-align: top; }
+.rp-path { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; color: #7FB0D8; white-space: nowrap; }
+.rp-val { color: #C2C9D2; max-width: 30ch; }
+.rp-note { color: #97A0AC; max-width: 46ch; }
+
+@media (max-width: 1100px) {
+  .ch-toggles { margin-left: 0; }
+  .chrome-bar { gap: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }

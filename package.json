@@ -1,0 +1,13 @@
+{
+  "name": "skybyrd-mockups",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Round-two homepage mockups for SkyByrd Photography — generated from a content + token system.",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.62.1"
+  }
+}
