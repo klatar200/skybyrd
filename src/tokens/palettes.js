@@ -7,6 +7,13 @@
 //
 // Every skin defines the SAME token names. Sections only ever reference tokens,
 // never literal colours — so adding a fifth palette needs no section changes.
+//
+// The accent comes in two tiers, and the split is a contrast contract:
+//   --accent      fills, rules, and text at 18px+ / 14px+ bold  (needs 3:1)
+//   --accent-ink  ANY accent-coloured text below that           (needs 4.5:1)
+// A new palette must satisfy both against --ground and --surface, and
+// --on-accent must clear 4.5:1 against --accent since it is the button label.
+// `npm run check` verifies this.
 
 const shared = {
   radius: '2px',
@@ -28,10 +35,10 @@ export const palettes = {
       surfaceAlt: '#F2EBE1',
       ink: '#2A241D',
       inkSoft: '#544A3E',
-      muted: '#8A7D6D',
+      muted: '#73685B',
       rule: 'rgba(42,36,29,.13)',
       ruleStrong: 'rgba(42,36,29,.26)',
-      accent: '#C8813A',
+      accent: '#9E662E',
       accentInk: '#8A5520',
       accentSoft: '#F6E9D8',
       onAccent: '#FFFBF5',
@@ -84,7 +91,7 @@ export const palettes = {
       surfaceAlt: '#EFF2E9',
       ink: '#1B2419',
       inkSoft: '#3F4A3C',
-      muted: '#75806F',
+      muted: '#677062',
       rule: 'rgba(27,36,25,.12)',
       ruleStrong: 'rgba(27,36,25,.24)',
       accent: '#3F6B3A',
@@ -112,10 +119,10 @@ export const palettes = {
       surfaceAlt: '#F1EAE6',
       ink: '#3B3330',
       inkSoft: '#5E5450',
-      muted: '#948881',
+      muted: '#726863',
       rule: 'rgba(59,51,48,.11)',
       ruleStrong: 'rgba(59,51,48,.22)',
-      accent: '#A08072',
+      accent: '#8B6F63',
       accentInk: '#7A5D51',
       accentSoft: '#F3E9E4',
       onAccent: '#FFFFFF',

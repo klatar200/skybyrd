@@ -3,9 +3,11 @@
   "version": "2.0.0",
   "private": true,
   "type": "module",
-  "description": "Round-two homepage mockups for SkyByrd Photography — generated from a content + token system.",
+  "description": "Round-two homepage mockups for SkyByrd Photography \u2014 generated from a content + token system.",
   "scripts": {
-    "build": "node build.js"
+    "build": "node build.js",
+    "check": "node check.js",
+    "prebuild": "node check.js"
   },
   "devDependencies": {
     "playwright": "^1.62.1"

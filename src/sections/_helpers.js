@@ -39,10 +39,10 @@ export function phWrap(field, html) {
  * name their subject. Deliberately readable as placeholders — a mockup full of
  * unrelated stock is worse than one that says what belongs there.
  */
-export function photo(subject, { ratio = '4/3', label = '', cls = '', seed = 0 } = {}) {
+export function photo(subject, { ratio = '4/3', label = '', cls = '', seed = 0, cat = '' } = {}) {
   const angle = 120 + ((seed * 37) % 90);
   const shift = 8 + ((seed * 13) % 22);
-  return `<figure class="ph-photo ${cls}" style="aspect-ratio:${ratio};--a:${angle}deg;--s:${shift}%">
+  return `<figure class="ph-photo ${cls}"${cat ? ` data-cat="${esc(cat)}"` : ''} style="aspect-ratio:${ratio};--a:${angle}deg;--s:${shift}%">
   <span class="ph-photo-tag">${esc(label || subject)}</span>
 </figure>`;
 }

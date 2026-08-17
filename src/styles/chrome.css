@@ -17,6 +17,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+.seg:focus-visible, .ch-link:focus-visible, .tog input:focus-visible {
+  outline: 2px solid #C8813A; outline-offset: 2px; border-radius: 4px;
+}
+
 .chrome {
   position: sticky; top: 0; z-index: 100;
   background: #15181C; border-bottom: 1px solid #262C33;

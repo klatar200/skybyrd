@@ -41,7 +41,7 @@
 .band-foot { display: flex; justify-content: center; padding-top: 8px; }
 .eyebrow {
   font-family: var(--label-font); font-size: 11px; font-weight: 600;
-  letter-spacing: var(--label-spacing); text-transform: uppercase; color: var(--accent);
+  letter-spacing: var(--label-spacing); text-transform: uppercase; color: var(--accent-ink);
 }
 
 /* ── buttons ── */
@@ -159,14 +159,14 @@
   text-transform: uppercase; padding: 4px 9px; border-radius: 999px;
   background: var(--accent); color: var(--on-accent);
 }
-.sess-tag { font-family: var(--label-font); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+.sess-tag { font-family: var(--label-font); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent-ink); }
 .sess-blurb { color: var(--ink-soft); max-width: var(--measure); }
 .sess-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; border-block: 1px solid var(--rule); padding: 14px 0; }
 .sess-facts dt { font-family: var(--label-font); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
 .sess-facts dd { margin: 2px 0 0; font-size: 14px; font-weight: 600; }
 .sess-inc { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 7px; }
 .sess-inc li { position: relative; padding-left: 20px; font-size: 14.5px; color: var(--ink-soft); }
-.sess-inc li::before { content: '✓'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.sess-inc li::before { content: '✓'; position: absolute; left: 0; color: var(--accent-ink); font-weight: 700; }
 .sess-quote {
   border-left: 2px solid var(--accent); padding-left: 16px;
   font-style: italic; color: var(--ink-soft); font-size: 15px; display: flex; flex-direction: column; gap: 6px;
@@ -197,8 +197,8 @@
 /* ── 08 process ── */
 .steps { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 22px; }
 .step { display: flex; gap: 14px; align-items: start; }
-.step-n { font-family: var(--label-font); font-size: 12px; font-weight: 700; color: var(--accent); padding-top: 3px; letter-spacing: .06em; }
-.step h4 { font-family: var(--body-font); font-size: 15.5px; font-weight: 700; letter-spacing: 0; margin-bottom: 5px; }
+.step-n { font-family: var(--label-font); font-size: 12px; font-weight: 700; color: var(--accent-ink); padding-top: 3px; letter-spacing: .06em; }
+.step h3 { font-family: var(--body-font); font-size: 15.5px; font-weight: 700; letter-spacing: 0; margin-bottom: 5px; }
 .step p { font-size: 14.5px; color: var(--muted); line-height: 1.6; }
 
 /* ── 09 reviews ── */
@@ -209,6 +209,13 @@
 .rev figcaption { font-size: 12.5px; font-weight: 600; display: flex; flex-wrap: wrap; gap: 6px; align-items: baseline; margin-top: auto; }
 .rev figcaption span { font-weight: 400; color: var(--muted); }
 .rev-src { font-family: var(--label-font); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; border: 1px solid var(--rule-strong); padding: 2px 6px; border-radius: 3px; }
+/* A pending source must not look like a real platform badge — the whole point
+   of this mockup is being honest about what is not yet real. */
+.rev-src-missing { border-style: dashed; color: var(--muted); opacity: .8; }
+.sess-for { font-size: 14px; color: var(--muted); }
+.sess-for span { font-family: var(--label-font); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent-ink); margin-right: 7px; font-weight: 600; }
+.where-note { font-size: 14.5px; color: var(--muted); }
+.gal-f[hidden], .ph-photo[hidden] { display: none; }
 
 /* ── 10 where ── */
 .towns { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
@@ -218,9 +225,9 @@
 }
 .loc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 20px; }
 .loc { display: flex; flex-direction: column; gap: 8px; }
-.loc h4 { font-family: var(--body-font); font-size: 16px; font-weight: 700; letter-spacing: 0; margin-top: 4px; }
+.loc h3 { font-family: var(--body-font); font-size: 16px; font-weight: 700; letter-spacing: 0; margin-top: 4px; }
 .loc p { font-size: 14px; color: var(--muted); line-height: 1.6; }
-.loc-season { font-family: var(--label-font); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+.loc-season { font-family: var(--label-font); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent-ink); }
 
 /* ── 11 right now ── */
 .now { padding-block: clamp(32px, 4vw, 56px); }
@@ -251,9 +258,9 @@
 /* ── 13 prints ── */
 .prod-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
 .prod { display: flex; flex-direction: column; gap: 7px; }
-.prod h4 { font-family: var(--body-font); font-size: 16px; font-weight: 700; letter-spacing: 0; margin-top: 6px; }
+.prod h3 { font-family: var(--body-font); font-size: 16px; font-weight: 700; letter-spacing: 0; margin-top: 6px; }
 .prod p { font-size: 14px; color: var(--muted); line-height: 1.6; }
-.prod-from { font-family: var(--label-font); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+.prod-from { font-family: var(--label-font); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent-ink); font-weight: 600; }
 
 /* ── 14 enquiry ── */
 .enquire {
@@ -266,9 +273,9 @@
 .enq-lede { color: var(--ink-soft); font-size: 17px; }
 .enq-assure { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
 .enq-assure li { position: relative; padding-left: 22px; font-size: 14.5px; color: var(--ink-soft); }
-.enq-assure li::before { content: '✓'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.enq-assure li::before { content: '✓'; position: absolute; left: 0; color: var(--accent-ink); font-weight: 700; }
 .enq-alt { font-size: 14px; color: var(--muted); }
-.enq-alt a { color: var(--accent); font-weight: 600; }
+.enq-alt a { color: var(--accent-ink); font-weight: 600; }
 .enq-form { display: flex; flex-direction: column; gap: 13px; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius-lg); padding: clamp(20px, 2.6vw, 30px); }
 .enq-form label { display: flex; flex-direction: column; gap: 6px; font-family: var(--label-font); font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
 .enq-form input, .enq-form select, .enq-form textarea {
@@ -287,7 +294,7 @@
 /* ── instagram ── */
 .insta { padding-block: clamp(28px, 3.4vw, 48px); }
 .insta-head { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
-.insta-head a { font-family: var(--label-font); font-size: 12px; font-weight: 600; color: var(--accent); }
+.insta-head a { font-family: var(--label-font); font-size: 12px; font-weight: 600; color: var(--accent-ink); }
 .insta-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
 
 /* ── 15 footer ── */
@@ -301,12 +308,12 @@
 .foot-tag { font-family: var(--display-font); font-size: 15px; color: var(--ink-soft); font-style: italic; }
 .foot-pos { font-size: 13px; color: var(--muted); }
 .foot-col { display: flex; flex-direction: column; gap: 8px; }
-.foot-col h5, .foot-area h5 {
+.foot-col h3, .foot-area h3 {
   font-family: var(--label-font); font-size: 10.5px; letter-spacing: .12em;
   text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 3px;
 }
 .foot-col a, .foot-col span { color: var(--ink-soft); font-size: 14px; }
-.foot-col a:hover { color: var(--accent); }
+.foot-col a:hover { color: var(--accent-ink); }
 .foot-area { grid-column: 1 / -1; border-top: 1px solid var(--rule); padding-top: 20px; }
 .foot-area p { color: var(--muted); font-size: 13px; }
 .foot-fine {

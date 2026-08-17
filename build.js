@@ -34,12 +34,13 @@ const content = {
 /* ── render one architecture ─────────────────────────────────────────────── */
 function renderArchitecture(arch) {
   const voice = voices[arch.id];
+  // idp namespaces every in-page id: all three architectures share one document.
+  const opts = { idp: `${arch.id}-`, variant: arch.heroVariant };
   return arch.bands
     .map((band) => {
       const fn = sections[band];
       if (!fn) throw new Error(`Unknown band "${band}" in architecture "${arch.id}"`);
-      if (band === 'hero') return fn(content, voice, { variant: arch.heroVariant });
-      return fn(content, voice);
+      return fn(content, voice, opts);
     })
     .join('\n');
 }
@@ -153,7 +154,7 @@ ${paletteBlocks}
     </div>
 
     <div class="ch-group ch-toggles">
-      <label class="tog"><input type="checkbox" id="phToggle"><span>Show placeholders</span></label>
+      <label class="tog"><input type="checkbox" id="phToggle" checked><span>Mark placeholders</span></label>
       <button class="ch-link" id="openReport" type="button">Needs Shawna (${placeholders.length})</button>
     </div>
   </div>
@@ -171,7 +172,7 @@ ${paletteBlocks}
 </div>
 
 <div class="stage">
-  <div class="frame" id="frame" data-palette="${paletteList[0].id}">
+  <div class="frame show-ph" id="frame" data-palette="${paletteList[0].id}">
     ${pages}
   </div>
 </div>
@@ -229,6 +230,26 @@ ${paletteBlocks}
     frame.classList.toggle('show-ph', e.target.checked);
   });
 
+  // Gallery filters looked interactive and did nothing. Make them work — the
+  // point of building mockups in code is that the behaviour is real.
+  document.querySelectorAll('.gal-filters').forEach(function (bar) {
+    var grid = bar.parentElement.querySelector('.gal-grid');
+    if (!grid) return;
+    bar.addEventListener('click', function (e) {
+      var btn = e.target.closest('.gal-f');
+      if (!btn) return;
+      var cat = btn.getAttribute('data-cat');
+      bar.querySelectorAll('.gal-f').forEach(function (b) {
+        var on = b === btn;
+        b.classList.toggle('on', on);
+        b.setAttribute('aria-pressed', String(on));
+      });
+      grid.querySelectorAll('.ph-photo').forEach(function (tile) {
+        tile.hidden = cat !== 'all' && tile.getAttribute('data-cat') !== cat;
+      });
+    });
+  });
+
   var dlg = document.getElementById('report');
   document.getElementById('openReport').addEventListener('click', function () { dlg.showModal(); });
   document.getElementById('closeReport').addEventListener('click', function () { dlg.close(); });
@@ -242,6 +263,15 @@ ${paletteBlocks}
 mkdirSync(join(__dirname, 'dist'), { recursive: true });
 writeFileSync(join(__dirname, 'dist/review.html'), html);
 
+/* The published artifact supplies its own <!doctype>/<head>/<body> skeleton, so
+   the canonical files are fragments. Opened straight off disk that puts the
+   browser in quirks mode, so we also emit proper standalone documents for local
+   viewing. Same bytes, valid wrapper, and a lang attribute for screen readers. */
+const standalone = (title, body) =>
+  `<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n` +
+  `<meta name="viewport" content="width=device-width, initial-scale=1">\n` +
+  `</head>\n<body>\n${body}\n</body>\n</html>\n`;
+
 /* ── intake sheet ────────────────────────────────────────────────────────── */
 const groupsUsed = new Set(placeholders.map((p) => p.path.split('.')[0]));
 const intake = renderIntake(placeholders, content, {
@@ -250,13 +280,18 @@ const intake = renderIntake(placeholders, content, {
 });
 writeFileSync(join(__dirname, 'dist/intake.html'), intake);
 
+mkdirSync(join(__dirname, 'dist/local'), { recursive: true });
+writeFileSync(join(__dirname, 'dist/local/review.html'), standalone('SkyByrd Mockup Studio', html));
+writeFileSync(join(__dirname, 'dist/local/intake.html'), standalone('SkyByrd Intake Sheet', intake));
+
 /* ── console summary ─────────────────────────────────────────────────────── */
 const combos = architectures.length * paletteList.length;
 console.log(`\n  SkyByrd mockups built`);
 console.log(`  ${architectures.length} architectures × ${paletteList.length} palettes = ${combos} combinations (× 2 viewports)`);
 console.log(`  ${architectures[0].bands.length} bands per page`);
 console.log(`  ${(html.length / 1024).toFixed(0)} KB → dist/review.html`);
-console.log(`  ${(intake.length / 1024).toFixed(0)} KB → dist/intake.html\n`);
+console.log(`  ${(intake.length / 1024).toFixed(0)} KB → dist/intake.html`);
+console.log(`  standalone copies for local viewing → dist/local/\n`);
 console.log(`  ${placeholders.length} placeholders awaiting Shawna:`);
 for (const p of placeholders.slice(0, 8)) console.log(`    · ${p.path}`);
 if (placeholders.length > 8) console.log(`    · …and ${placeholders.length - 8} more (see the report in the canvas)`);

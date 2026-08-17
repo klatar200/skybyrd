@@ -15,7 +15,7 @@ export const shawna = {
     ],
     'Drafted from your public bio. It needs to be in your own words — this block carries more weight than anything else on the page.'
   ),
-  signature: P('— Shawna', ''),
+  signature: P('— Shawna', 'How you want to sign off. First name, or something else?'),
 };
 
 // The five-step walkthrough. Concepts 07, 08 and 10 had the best writing in the

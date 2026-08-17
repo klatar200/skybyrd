@@ -4,8 +4,14 @@ Twelve homepage mockups generated from one content system: **3 architectures ×
 4 palettes**, each in desktop and phone views.
 
 ```bash
-node build.js      # → dist/review.html + dist/intake.html
+npm run build      # → dist/review.html + dist/intake.html
+npm run check      # WCAG AA contrast check across all four palettes
 ```
+
+`check` also runs before every build, so a palette that fails contrast cannot
+ship. `dist/local/` holds standalone copies of both pages for opening straight
+off disk; the files in `dist/` are fragments, because the publish target
+supplies its own document skeleton.
 
 **`dist/review.html`** — the mockups. Switch architecture, palette and viewport
 from the control bar, toggle **Show placeholders** to highlight every invented
@@ -34,8 +40,13 @@ Here, content and design are separate inputs:
 | `src/content/` | Every word, price and figure — the only place facts live |
 | `src/tokens/palettes.js` | Four skins as CSS custom properties |
 | `src/sections/` | Fifteen bands, each referencing tokens only, never literal colours |
+| `check.js` | Enforces the contrast contract the palettes promise |
 | `src/architectures.js` | Three orderings of those bands |
 | `build.js` | Renders each architecture once; palettes swap by data attribute |
+
+The accent is deliberately two-tier: `--accent` for fills and large text
+(3:1), `--accent-ink` for anything smaller (4.5:1). Sections pick the right one,
+and `check.js` fails the build if a palette breaks the contract.
 
 Three consequences worth the setup:
 
