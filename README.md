@@ -4,11 +4,21 @@ Twelve homepage mockups generated from one content system: **3 architectures ×
 4 palettes**, each in desktop and phone views.
 
 ```bash
-node build.js      # → dist/review.html
+node build.js      # → dist/review.html + dist/intake.html
 ```
 
-Open `dist/review.html` and use the control bar to switch architecture, palette
-and viewport, or toggle **Show placeholders** to highlight every invented fact.
+**`dist/review.html`** — the mockups. Switch architecture, palette and viewport
+from the control bar, toggle **Show placeholders** to highlight every invented
+fact in place, or open **Needs Shawna** for the full list.
+
+**Compare all three** puts the architectures side by side under one palette,
+each with its band order above it. The highlighted chips are the bands that
+move — where those sit is the entire difference between the three.
+
+**`dist/intake.html`** — the questions for Shawna, generated from the same
+placeholder data so it cannot drift from what is actually unconfirmed on the
+page. Grouped by how long each takes to answer, ordered by how much it unblocks.
+Readable on screen or printable.
 
 ## Why it is built this way
 
@@ -54,7 +64,8 @@ The marker disappears everywhere and the "Needs Shawna" count drops by one.
 
 - **16 bands** per page (round one averaged 6)
 - **~1,680 words** per page (round one averaged 248)
-- **78 placeholders** outstanding — every one listed in the canvas report
+- **78 placeholders** outstanding across 12 groups — listed in the canvas
+  report and as questions in `dist/intake.html`
 
 Contact details, the business name, the tagline and the service positioning are
 **real**, verified against public listings. Everything else is a placeholder

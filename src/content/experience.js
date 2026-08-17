@@ -6,14 +6,14 @@ import { R, P } from './_placeholder.js';
 export const shawna = {
   name: R('Shawna Latarewicz', 'public listings'),
   role: R('Photographer and owner', ''),
-  portrait: P(null, 'NEEDED: a real portrait of Shawna. This is the highest-value missing asset on the whole site.'),
+  portrait: P(null, 'NEEDED: a real photograph of you. This is the highest-value missing asset on the whole site.'),
   bio: P(
     [
       'I’m Shawna. I’ve been photographing families around Plainfield since 2014, and before that I was just the person at every gathering with a camera nobody asked her to bring.',
       'I’m a mom, a wife, and a Nonna, which is most of why I do this work. I know how fast it goes. I know the year you keep meaning to book and don’t, and then the kids are taller.',
       'Most people who write to me open with some version of *I hate having my picture taken*. That’s fine. We start there, and then we go for a walk.',
     ],
-    'Draft, written from her public bio. Needs Shawna’s own words and her approval — this block carries more weight than anything else on the page.'
+    'Drafted from your public bio. It needs to be in your own words — this block carries more weight than anything else on the page.'
   ),
   signature: P('— Shawna', ''),
 };
@@ -47,7 +47,7 @@ export const faq = P(
     { q: 'Can we include grandparents or extended family?', a: 'Please do. Extended family sessions are some of my favourite work, and they are frequently the reason people book in the first place.' },
     { q: 'Can we order prints, or just download the files?', a: 'Both. Prints, albums and canvases can be ordered straight from your gallery, and you also get a print release to use the files anywhere you like.' },
   ],
-  'Ten questions drafted from common enquiries. Every answer needs Shawna’s confirmation — particularly the rain policy, travel radius, deposit terms and delivery times.'
+  'Ten questions drafted from common enquiries. Every answer needs your confirmation — particularly the rain policy, travel radius, deposit terms and delivery times.'
 );
 
 // Portrait work is deadline-driven and round one used that exactly once

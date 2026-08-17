@@ -87,6 +87,42 @@ body {
 }
 .frame.frame-mobile { max-width: 402px; border-radius: 26px; }
 
+/* ── compare mode ──
+   Three architectures at once. `zoom` rather than transform:scale so each
+   column still claims its scaled height in flow — no wrapper height maths, and
+   the columns stay aligned so the same scroll position shows the same depth in
+   all three. */
+.frame.frame-compare {
+  max-width: none; border: 0; border-radius: 0; box-shadow: none; overflow: visible;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; align-items: start;
+}
+.frame-compare .arch-col {
+  border: 1px solid #262C33; border-radius: 8px; overflow: hidden; background: #0E1013;
+}
+.frame-compare .page-body { zoom: .34; }
+.frame-compare .col-head { display: flex; }
+
+/* The header sits outside the zoomed body so it stays legible. */
+.col-head { display: none; flex-direction: column; gap: 9px; padding: 14px 16px; border-bottom: 1px solid #262C33; }
+.col-head h3 { font-size: 14px; letter-spacing: .02em; }
+.col-head > p { font-size: 11.5px; color: #79828E; }
+.bandstrip { list-style: none; display: flex; flex-wrap: wrap; gap: 4px; padding: 0; margin-top: 2px; }
+.bandchip {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 10px; line-height: 1; padding: 4px 7px; border-radius: 3px;
+  background: #1B1F24; color: #8B94A0; border: 1px solid #23282F; white-space: nowrap;
+}
+.bandchip span { font-size: 8.5px; color: #5C646F; font-variant-numeric: tabular-nums; }
+.bandchip-key { background: #2A2114; color: #E0B978; border-color: #4A3A1E; }
+.bandchip-key span { color: #A8853F; }
+
+.ch-dim { opacity: .38; pointer-events: none; }
+
+@media (max-width: 1000px) {
+  .frame.frame-compare { grid-template-columns: 1fr; }
+  .frame-compare .page-body { zoom: .5; }
+}
+
 /* ── report dialog ── */
 .report {
   border: 1px solid #2C333C; border-radius: 10px; padding: 0;

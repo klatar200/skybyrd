@@ -44,7 +44,7 @@ export const testimonials = P(
       name: 'The Whitmores', town: 'Yorkville', session: 'family', source: null, featured: false,
     },
   ],
-  'All eight invented — five carried over from round one, three written to show the layout at volume. Replace with real reviews from Google, Facebook and Yelp, and set `source` so the platform badge renders.'
+  'All eight invented — five carried over from round one, three written to show the layout at volume. Replace them with your real reviews from Google, Facebook and Yelp, and set `source` so the platform badge renders.'
 );
 
 /** One quote per session type, for the inline slot in each session block. */

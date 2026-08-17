@@ -89,6 +89,42 @@ body {
 }
 .frame.frame-mobile { max-width: 402px; border-radius: 26px; }
 
+/* ── compare mode ──
+   Three architectures at once. `zoom` rather than transform:scale so each
+   column still claims its scaled height in flow — no wrapper height maths, and
+   the columns stay aligned so the same scroll position shows the same depth in
+   all three. */
+.frame.frame-compare {
+  max-width: none; border: 0; border-radius: 0; box-shadow: none; overflow: visible;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; align-items: start;
+}
+.frame-compare .arch-col {
+  border: 1px solid #262C33; border-radius: 8px; overflow: hidden; background: #0E1013;
+}
+.frame-compare .page-body { zoom: .34; }
+.frame-compare .col-head { display: flex; }
+
+/* The header sits outside the zoomed body so it stays legible. */
+.col-head { display: none; flex-direction: column; gap: 9px; padding: 14px 16px; border-bottom: 1px solid #262C33; }
+.col-head h3 { font-size: 14px; letter-spacing: .02em; }
+.col-head > p { font-size: 11.5px; color: #79828E; }
+.bandstrip { list-style: none; display: flex; flex-wrap: wrap; gap: 4px; padding: 0; margin-top: 2px; }
+.bandchip {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 10px; line-height: 1; padding: 4px 7px; border-radius: 3px;
+  background: #1B1F24; color: #8B94A0; border: 1px solid #23282F; white-space: nowrap;
+}
+.bandchip span { font-size: 8.5px; color: #5C646F; font-variant-numeric: tabular-nums; }
+.bandchip-key { background: #2A2114; color: #E0B978; border-color: #4A3A1E; }
+.bandchip-key span { color: #A8853F; }
+
+.ch-dim { opacity: .38; pointer-events: none; }
+
+@media (max-width: 1000px) {
+  .frame.frame-compare { grid-template-columns: 1fr; }
+  .frame-compare .page-body { zoom: .5; }
+}
+
 /* ── report dialog ── */
 .report {
   border: 1px solid #2C333C; border-radius: 10px; padding: 0;
@@ -587,7 +623,7 @@ body {
       <div><strong>SkyByrd</strong><span>Mockup studio · round two</span></div>
     </div>
 
-    <div class="ch-group">
+    <div class="ch-group" id="archGroup">
       <span class="ch-label">Architecture</span>
       <div class="segs"><button class="seg on" data-set="arch" data-val="gallery" type="button">
     <span class="seg-t">Gallery Led</span><span class="seg-s">16 bands</span></button><button class="seg " data-set="arch" data-val="booking" type="button">
@@ -613,6 +649,7 @@ body {
       <div class="segs">
         <button class="seg on" data-set="frame" data-val="desktop" type="button"><span class="seg-t">Desktop</span></button>
         <button class="seg" data-set="frame" data-val="mobile" type="button"><span class="seg-t">Phone</span></button>
+        <button class="seg" data-set="frame" data-val="compare" type="button"><span class="seg-t">Compare all three</span></button>
       </div>
     </div>
 
@@ -622,7 +659,8 @@ body {
     </div>
   </div>
 
-  <div class="chrome-notes"><div class="arch-note" data-arch="gallery">
+  <div class="chrome-notes">
+    <div class="arch-note" data-arch="gallery">
     <p class="an-thesis">The work sells itself. Photographs land before any argument does, and the practical detail follows once someone is already interested.</p>
     <dl class="an-meta">
       <div><dt>Voice</dt><dd>Warm and plain-spoken</dd></div>
@@ -643,12 +681,26 @@ body {
       <div><dt>Best for</dt><dd>Visitors who are nervous about being photographed — which, by Shawna’s own account, is most of them.</dd></div>
       <div><dt>Lineage</dt><dd>Evolved from concepts 08, 09 and 10 — the letter voice, with the specificity of the magazine.</dd></div>
     </dl>
-  </div></div>
+  </div>
+    <div class="arch-note" id="compareHint" hidden>
+      <p class="an-thesis">All three side by side, same palette. The numbered strip above each column is its band order — the highlighted bands are the ones that move, and where they sit is the whole difference between these three.</p>
+      <dl class="an-meta">
+        <div><dt>Scroll</dt><dd>All three columns scroll together</dd></div>
+        <div><dt>Palette</dt><dd>Still applies to all three at once</dd></div>
+      </dl>
+    </div>
+  </div>
 </div>
 
 <div class="stage">
   <div class="frame" id="frame" data-palette="linen">
-    <div class="page page-body" data-arch="gallery"><header class="nav">
+    <div class="arch-col" data-arch="gallery">
+  <div class="col-head">
+    <h3>Gallery Led</h3>
+    <p>Warm and plain-spoken</p>
+    <ol class="bandstrip"><li class="bandchip"><span>01</span>Nav</li><li class="bandchip"><span>02</span>Hero</li><li class="bandchip"><span>03</span>Trust bar</li><li class="bandchip bandchip-key"><span>04</span>Gallery</li><li class="bandchip bandchip-key"><span>05</span>Meet Shawna</li><li class="bandchip bandchip-key"><span>06</span>Sessions + pricing</li><li class="bandchip"><span>07</span>What you receive</li><li class="bandchip"><span>08</span>How it works</li><li class="bandchip bandchip-key"><span>09</span>Reviews</li><li class="bandchip"><span>10</span>Where I shoot</li><li class="bandchip"><span>11</span>Availability</li><li class="bandchip"><span>12</span>FAQ</li><li class="bandchip"><span>13</span>Prints</li><li class="bandchip"><span>14</span>Enquiry</li><li class="bandchip"><span>15</span>Instagram</li><li class="bandchip"><span>16</span>Footer</li></ol>
+  </div>
+  <div class="page page-body"><header class="nav">
   <a class="nav-brand" href="#top">
     <span class="nav-mark" aria-hidden="true"></span>
     <span class="nav-name">SkyByrd</span>
@@ -718,7 +770,7 @@ body {
     <p class="eyebrow">About</p>
     <h2>The person behind the camera</h2>
   </div>
-      <div data-ph="1" data-ph-block="1" title="Placeholder — Draft, written from her public bio. Needs Shawna’s own words and her approval — this block carries more weight than anything else on the page."><div class="prose"><p>I’m Shawna. I’ve been photographing families around Plainfield since 2014, and before that I was just the person at every gathering with a camera nobody asked her to bring.</p><p>I’m a mom, a wife, and a Nonna, which is most of why I do this work. I know how fast it goes. I know the year you keep meaning to book and don’t, and then the kids are taller.</p><p>Most people who write to me open with some version of <em>I hate having my picture taken</em>. That’s fine. We start there, and then we go for a walk.</p></div></div>
+      <div data-ph="1" data-ph-block="1" title="Placeholder — Drafted from your public bio. It needs to be in your own words — this block carries more weight than anything else on the page."><div class="prose"><p>I’m Shawna. I’ve been photographing families around Plainfield since 2014, and before that I was just the person at every gathering with a camera nobody asked her to bring.</p><p>I’m a mom, a wife, and a Nonna, which is most of why I do this work. I know how fast it goes. I know the year you keep meaning to book and don’t, and then the kids are taller.</p><p>Most people who write to me open with some version of <em>I hate having my picture taken</em>. That’s fine. We start there, and then we go for a walk.</p></div></div>
       <p class="meet-sig"><span data-ph="1" title="Placeholder — needs Shawna">— Shawna</span></p>
     </div>
   </section>
@@ -749,7 +801,7 @@ body {
         <ul class="sess-inc"><li>Pre-session call and wardrobe guidance</li><li>90 minutes on location</li><li>40+ edited high-resolution images</li><li>Private online gallery within two weeks</li><li>Print release for personal use</li></ul>
         <blockquote class="sess-quote">She got my two-year-old laughing within a minute. The photos on our wall are the first thing people mention, and they’re the first thing I look at every morning.<cite>Megan R. · Plainfield</cite></blockquote>
         <div class="sess-foot">
-          <span class="sess-price"><span data-ph="1" title="Placeholder — INVENTED in concept 07. Needs Shawna’s real pricing.">$450</span><small><span data-ph="1" title="Placeholder — Invented. Does she charge for larger groups?">Additional people $25 each</span></small></span>
+          <span class="sess-price"><span data-ph="1" title="Placeholder — INVENTED in concept 07. What do you actually charge for this?">$450</span><small><span data-ph="1" title="Placeholder — Invented. Do you charge extra for larger groups?">Additional people $25 each</span></small></span>
           <a class="btn btn-primary" href="#enquire">Book Family</a>
         </div>
       </div>
@@ -773,7 +825,7 @@ body {
         <ul class="sess-inc"><li>Planning call with the senior, not just the parents</li><li>Two locations, three outfit changes</li><li>50+ edited high-resolution images</li><li>Private gallery within two weeks</li><li>Graduation announcement files sized and ready</li></ul>
         <blockquote class="sess-quote">My senior photos actually look like me. My mom cried. My friends all rebooked.<cite>Ava M. · Oswego</cite></blockquote>
         <div class="sess-foot">
-          <span class="sess-price"><span data-ph="1" title="Placeholder — INVENTED in concept 07. Needs real pricing.">$525</span><small><span data-ph="1" title="Placeholder — Invented — does she offer this?">Cap and gown add-on available</span></small></span>
+          <span class="sess-price"><span data-ph="1" title="Placeholder — INVENTED in concept 07. What do you actually charge for this?">$525</span><small><span data-ph="1" title="Placeholder — Invented — do you offer this?">Cap and gown add-on available</span></small></span>
           <a class="btn btn-primary" href="#enquire">Book Seniors</a>
         </div>
       </div>
@@ -797,7 +849,7 @@ body {
         <ul class="sess-inc"><li>Strategy call about how you will actually use the images</li><li>Half day of shooting</li><li>60+ edited images in web and print sizes</li><li>Cropped variants for LinkedIn, Instagram and your website</li><li>Commercial usage rights</li></ul>
         <blockquote class="sess-quote">I’ve never liked a photo of myself. I have eleven of these framed.<cite>Daniel K. · Naperville</cite></blockquote>
         <div class="sess-foot">
-          <span class="sess-price"><span data-ph="1" title="Placeholder — INVENTED in concept 07. Needs real pricing.">$680</span><small><span data-ph="1" title="Placeholder — Invented — does she shoot teams?">Team rates available</span></small></span>
+          <span class="sess-price"><span data-ph="1" title="Placeholder — INVENTED in concept 07. What do you actually charge for this?">$680</span><small><span data-ph="1" title="Placeholder — Invented — do you shoot teams, and at what rate?">Team rates available</span></small></span>
           <a class="btn btn-primary" href="#enquire">Book Personal Branding</a>
         </div>
       </div>
@@ -821,7 +873,7 @@ body {
         <ul class="sess-inc"><li>A short chat about what makes them comfortable</li><li>45 minutes, at their pace</li><li>25+ edited images</li><li>Private gallery within two weeks</li><li>Treats provided, and used shamelessly</li></ul>
         <blockquote class="sess-quote">Our dog is genuinely feral in front of a camera. She got twenty frames we love. I still don’t know how.<cite>Colin B. · Romeoville</cite></blockquote>
         <div class="sess-foot">
-          <span class="sess-price"><span data-ph="1" title="Placeholder — INVENTED in concept 07. Needs real pricing.">$275</span><small><span data-ph="1" title="Placeholder — Invented.">Add your people for $75</span></small></span>
+          <span class="sess-price"><span data-ph="1" title="Placeholder — INVENTED in concept 07. What do you actually charge for this?">$275</span><small><span data-ph="1" title="Placeholder — Invented.">Add your people for $75</span></small></span>
           <a class="btn btn-primary" href="#enquire">Book Pets</a>
         </div>
       </div>
@@ -850,7 +902,7 @@ body {
     <h2>What people say afterwards</h2>
   </div>
     <p class="band-lede"><span data-ph="1" title="Placeholder — Pull the real average from Google once reviews are connected.">5.0</span> average across <span data-ph="1" title="Placeholder — Real count across Google, Facebook and Yelp?">40+</span> reviews on Google, Facebook and Yelp.</p>
-    <div data-ph="1" data-ph-block="1" title="Placeholder — All eight invented — five carried over from round one, three written to show the layout at volume. Replace with real reviews from Google, Facebook and Yelp, and set `source` so the platform badge renders."><div class="rev-grid"><figure class="rev">
+    <div data-ph="1" data-ph-block="1" title="Placeholder — All eight invented — five carried over from round one, three written to show the layout at volume. Replace them with your real reviews from Google, Facebook and Yelp, and set `source` so the platform badge renders."><div class="rev-grid"><figure class="rev">
       <div class="rev-stars" aria-label="5 out of 5">★★★★★</div>
       <blockquote>She got my two-year-old laughing within a minute. The photos on our wall are the first thing people mention, and they’re the first thing I look at every morning.</blockquote>
       <figcaption>Megan R. <span>· Plainfield · family</span><span class="rev-src rev-src-missing">source pending</span></figcaption>
@@ -890,9 +942,9 @@ body {
     <p class="eyebrow">Service area</p>
     <h2>Where we shoot</h2>
   </div>
-    <p class="band-lede"><span data-ph="1" title="Placeholder — Draft copy. Rewrite in Shawna’s voice.">Based in Plainfield and shooting across the southwest suburbs — Naperville, Joliet, Oswego, Shorewood and the towns in between. Travel further afield is usually possible; just ask.</span></p>
-    <div data-ph="1" data-ph-block="1" title="Placeholder — Towns chosen by proximity. Which does Shawna actually travel to, and how far will she go?"><ul class="towns"><li>Plainfield</li><li>Naperville</li><li>Joliet</li><li>Oswego</li><li>Shorewood</li><li>Yorkville</li><li>Romeoville</li><li>Bolingbrook</li></ul></div>
-    <div data-ph="1" data-ph-block="1" title="Placeholder — All six invented. Replace with the locations Shawna genuinely uses and loves."><div class="loc-grid"><article class="loc">
+    <p class="band-lede"><span data-ph="1" title="Placeholder — Draft copy — rewrite it in your own words.">Based in Plainfield and shooting across the southwest suburbs — Naperville, Joliet, Oswego, Shorewood and the towns in between. Travel further afield is usually possible; just ask.</span></p>
+    <div data-ph="1" data-ph-block="1" title="Placeholder — Which of these do you actually travel to, and how far are you willing to go?"><ul class="towns"><li>Plainfield</li><li>Naperville</li><li>Joliet</li><li>Oswego</li><li>Shorewood</li><li>Yorkville</li><li>Romeoville</li><li>Bolingbrook</li></ul></div>
+    <div data-ph="1" data-ph-block="1" title="Placeholder — All six invented. Replace them with the places you genuinely use and love."><div class="loc-grid"><article class="loc">
       <figure class="ph-photo " style="aspect-ratio:3/2;--a:150deg;--s:24%">
   <span class="ph-photo-tag">The DuPage River</span>
 </figure>
@@ -956,7 +1008,7 @@ body {
     <p class="eyebrow">Questions</p>
     <h2>Questions people ask</h2>
   </div>
-    <div data-ph="1" data-ph-block="1" title="Placeholder — Ten questions drafted from common enquiries. Every answer needs Shawna’s confirmation — particularly the rain policy, travel radius, deposit terms and delivery times."><div class="qa-list"><details class="qa" open>
+    <div data-ph="1" data-ph-block="1" title="Placeholder — Ten questions drafted from common enquiries. Every answer needs your confirmation — particularly the rain policy, travel radius, deposit terms and delivery times."><div class="qa-list"><details class="qa" open>
       <summary>I’m not photogenic. Really.</summary>
       <p>Nobody thinks they are — it is genuinely the most common thing people say to me. That is why the first ten minutes are throwaway frames and why we spend them talking. You will forget the camera is there sooner than you expect.</p>
     </details><details class="qa">
@@ -995,7 +1047,7 @@ body {
     <h2>Prints, albums and gift cards</h2>
   </div>
     <p class="band-lede">The gallery is yours to keep, but the things people live with are printed.</p>
-    <div data-ph="1" data-ph-block="1" title="Placeholder — Entirely invented. Does Shawna sell prints and albums, and at what prices? This is where studio revenue per client usually comes from."><div class="prod-grid"><article class="prod">
+    <div data-ph="1" data-ph-block="1" title="Placeholder — Entirely invented. Do you sell prints, albums or gift certificates, and at roughly what prices? This is usually where studio revenue per client comes from."><div class="prod-grid"><article class="prod">
       <figure class="ph-photo " style="aspect-ratio:1/1;--a:160deg;--s:22%">
   <span class="ph-photo-tag">Framed prints</span>
 </figure>
@@ -1086,7 +1138,14 @@ body {
     <div class="foot-area"><h5>Serving</h5><p>Plainfield · Naperville · Joliet · Oswego · Shorewood · Yorkville · Romeoville · Bolingbrook</p></div>
     <div class="foot-fine"><span>© 2026 SkyByrd Photography</span><span>skybyrdphotography.com</span></div>
   </footer></div>
-<div class="page page-body" data-arch="booking" hidden><header class="nav">
+</div>
+<div class="arch-col" data-arch="booking" hidden>
+  <div class="col-head">
+    <h3>Booking Led</h3>
+    <p>Direct and practical</p>
+    <ol class="bandstrip"><li class="bandchip"><span>01</span>Nav</li><li class="bandchip"><span>02</span>Hero</li><li class="bandchip"><span>03</span>Trust bar</li><li class="bandchip bandchip-key"><span>04</span>Sessions + pricing</li><li class="bandchip"><span>05</span>Availability</li><li class="bandchip"><span>06</span>How it works</li><li class="bandchip"><span>07</span>What you receive</li><li class="bandchip bandchip-key"><span>08</span>Reviews</li><li class="bandchip bandchip-key"><span>09</span>Gallery</li><li class="bandchip"><span>10</span>Where I shoot</li><li class="bandchip"><span>11</span>FAQ</li><li class="bandchip bandchip-key"><span>12</span>Meet Shawna</li><li class="bandchip"><span>13</span>Prints</li><li class="bandchip"><span>14</span>Enquiry</li><li class="bandchip"><span>15</span>Instagram</li><li class="bandchip"><span>16</span>Footer</li></ol>
+  </div>
+  <div class="page page-body"><header class="nav">
   <a class="nav-brand" href="#top">
     <span class="nav-mark" aria-hidden="true"></span>
     <span class="nav-name">SkyByrd</span>
@@ -1144,7 +1203,7 @@ body {
         <ul class="sess-inc"><li>Pre-session call and wardrobe guidance</li><li>90 minutes on location</li><li>40+ edited high-resolution images</li><li>Private online gallery within two weeks</li><li>Print release for personal use</li></ul>
         <blockquote class="sess-quote">She got my two-year-old laughing within a minute. The photos on our wall are the first thing people mention, and they’re the first thing I look at every morning.<cite>Megan R. · Plainfield</cite></blockquote>
         <div class="sess-foot">
-          <span class="sess-price"><span data-ph="1" title="Placeholder — INVENTED in concept 07. Needs Shawna’s real pricing.">$450</span><small><span data-ph="1" title="Placeholder — Invented. Does she charge for larger groups?">Additional people $25 each</span></small></span>
+          <span class="sess-price"><span data-ph="1" title="Placeholder — INVENTED in concept 07. What do you actually charge for this?">$450</span><small><span data-ph="1" title="Placeholder — Invented. Do you charge extra for larger groups?">Additional people $25 each</span></small></span>
           <a class="btn btn-primary" href="#enquire">Book Family</a>
         </div>
       </div>
@@ -1168,7 +1227,7 @@ body {
         <ul class="sess-inc"><li>Planning call with the senior, not just the parents</li><li>Two locations, three outfit changes</li><li>50+ edited high-resolution images</li><li>Private gallery within two weeks</li><li>Graduation announcement files sized and ready</li></ul>
         <blockquote class="sess-quote">My senior photos actually look like me. My mom cried. My friends all rebooked.<cite>Ava M. · Oswego</cite></blockquote>
         <div class="sess-foot">
-          <span class="sess-price"><span data-ph="1" title="Placeholder — INVENTED in concept 07. Needs real pricing.">$525</span><small><span data-ph="1" title="Placeholder — Invented — does she offer this?">Cap and gown add-on available</span></small></span>
+          <span class="sess-price"><span data-ph="1" title="Placeholder — INVENTED in concept 07. What do you actually charge for this?">$525</span><small><span data-ph="1" title="Placeholder — Invented — do you offer this?">Cap and gown add-on available</span></small></span>
           <a class="btn btn-primary" href="#enquire">Book Seniors</a>
         </div>
       </div>
@@ -1192,7 +1251,7 @@ body {
         <ul class="sess-inc"><li>Strategy call about how you will actually use the images</li><li>Half day of shooting</li><li>60+ edited images in web and print sizes</li><li>Cropped variants for LinkedIn, Instagram and your website</li><li>Commercial usage rights</li></ul>
         <blockquote class="sess-quote">I’ve never liked a photo of myself. I have eleven of these framed.<cite>Daniel K. · Naperville</cite></blockquote>
         <div class="sess-foot">
-          <span class="sess-price"><span data-ph="1" title="Placeholder — INVENTED in concept 07. Needs real pricing.">$680</span><small><span data-ph="1" title="Placeholder — Invented — does she shoot teams?">Team rates available</span></small></span>
+          <span class="sess-price"><span data-ph="1" title="Placeholder — INVENTED in concept 07. What do you actually charge for this?">$680</span><small><span data-ph="1" title="Placeholder — Invented — do you shoot teams, and at what rate?">Team rates available</span></small></span>
           <a class="btn btn-primary" href="#enquire">Book Personal Branding</a>
         </div>
       </div>
@@ -1216,7 +1275,7 @@ body {
         <ul class="sess-inc"><li>A short chat about what makes them comfortable</li><li>45 minutes, at their pace</li><li>25+ edited images</li><li>Private gallery within two weeks</li><li>Treats provided, and used shamelessly</li></ul>
         <blockquote class="sess-quote">Our dog is genuinely feral in front of a camera. She got twenty frames we love. I still don’t know how.<cite>Colin B. · Romeoville</cite></blockquote>
         <div class="sess-foot">
-          <span class="sess-price"><span data-ph="1" title="Placeholder — INVENTED in concept 07. Needs real pricing.">$275</span><small><span data-ph="1" title="Placeholder — Invented.">Add your people for $75</span></small></span>
+          <span class="sess-price"><span data-ph="1" title="Placeholder — INVENTED in concept 07. What do you actually charge for this?">$275</span><small><span data-ph="1" title="Placeholder — Invented.">Add your people for $75</span></small></span>
           <a class="btn btn-primary" href="#enquire">Book Pets</a>
         </div>
       </div>
@@ -1259,7 +1318,7 @@ body {
     <h2>From people who booked</h2>
   </div>
     <p class="band-lede"><span data-ph="1" title="Placeholder — Pull the real average from Google once reviews are connected.">5.0</span> average across <span data-ph="1" title="Placeholder — Real count across Google, Facebook and Yelp?">40+</span> reviews on Google, Facebook and Yelp.</p>
-    <div data-ph="1" data-ph-block="1" title="Placeholder — All eight invented — five carried over from round one, three written to show the layout at volume. Replace with real reviews from Google, Facebook and Yelp, and set `source` so the platform badge renders."><div class="rev-grid"><figure class="rev">
+    <div data-ph="1" data-ph-block="1" title="Placeholder — All eight invented — five carried over from round one, three written to show the layout at volume. Replace them with your real reviews from Google, Facebook and Yelp, and set `source` so the platform badge renders."><div class="rev-grid"><figure class="rev">
       <div class="rev-stars" aria-label="5 out of 5">★★★★★</div>
       <blockquote>She got my two-year-old laughing within a minute. The photos on our wall are the first thing people mention, and they’re the first thing I look at every morning.</blockquote>
       <figcaption>Megan R. <span>· Plainfield · family</span><span class="rev-src rev-src-missing">source pending</span></figcaption>
@@ -1325,9 +1384,9 @@ body {
     <p class="eyebrow">Service area</p>
     <h2>Where I shoot</h2>
   </div>
-    <p class="band-lede"><span data-ph="1" title="Placeholder — Draft copy. Rewrite in Shawna’s voice.">Based in Plainfield and shooting across the southwest suburbs — Naperville, Joliet, Oswego, Shorewood and the towns in between. Travel further afield is usually possible; just ask.</span></p>
-    <div data-ph="1" data-ph-block="1" title="Placeholder — Towns chosen by proximity. Which does Shawna actually travel to, and how far will she go?"><ul class="towns"><li>Plainfield</li><li>Naperville</li><li>Joliet</li><li>Oswego</li><li>Shorewood</li><li>Yorkville</li><li>Romeoville</li><li>Bolingbrook</li></ul></div>
-    <div data-ph="1" data-ph-block="1" title="Placeholder — All six invented. Replace with the locations Shawna genuinely uses and loves."><div class="loc-grid"><article class="loc">
+    <p class="band-lede"><span data-ph="1" title="Placeholder — Draft copy — rewrite it in your own words.">Based in Plainfield and shooting across the southwest suburbs — Naperville, Joliet, Oswego, Shorewood and the towns in between. Travel further afield is usually possible; just ask.</span></p>
+    <div data-ph="1" data-ph-block="1" title="Placeholder — Which of these do you actually travel to, and how far are you willing to go?"><ul class="towns"><li>Plainfield</li><li>Naperville</li><li>Joliet</li><li>Oswego</li><li>Shorewood</li><li>Yorkville</li><li>Romeoville</li><li>Bolingbrook</li></ul></div>
+    <div data-ph="1" data-ph-block="1" title="Placeholder — All six invented. Replace them with the places you genuinely use and love."><div class="loc-grid"><article class="loc">
       <figure class="ph-photo " style="aspect-ratio:3/2;--a:150deg;--s:24%">
   <span class="ph-photo-tag">The DuPage River</span>
 </figure>
@@ -1377,7 +1436,7 @@ body {
     <p class="eyebrow">Questions</p>
     <h2>Before you book</h2>
   </div>
-    <div data-ph="1" data-ph-block="1" title="Placeholder — Ten questions drafted from common enquiries. Every answer needs Shawna’s confirmation — particularly the rain policy, travel radius, deposit terms and delivery times."><div class="qa-list"><details class="qa" open>
+    <div data-ph="1" data-ph-block="1" title="Placeholder — Ten questions drafted from common enquiries. Every answer needs your confirmation — particularly the rain policy, travel radius, deposit terms and delivery times."><div class="qa-list"><details class="qa" open>
       <summary>I’m not photogenic. Really.</summary>
       <p>Nobody thinks they are — it is genuinely the most common thing people say to me. That is why the first ten minutes are throwaway frames and why we spend them talking. You will forget the camera is there sooner than you expect.</p>
     </details><details class="qa">
@@ -1422,7 +1481,7 @@ body {
     <p class="eyebrow">About</p>
     <h2>Who you’ll be working with</h2>
   </div>
-      <div data-ph="1" data-ph-block="1" title="Placeholder — Draft, written from her public bio. Needs Shawna’s own words and her approval — this block carries more weight than anything else on the page."><div class="prose"><p>I’m Shawna. I’ve been photographing families around Plainfield since 2014, and before that I was just the person at every gathering with a camera nobody asked her to bring.</p><p>I’m a mom, a wife, and a Nonna, which is most of why I do this work. I know how fast it goes. I know the year you keep meaning to book and don’t, and then the kids are taller.</p><p>Most people who write to me open with some version of <em>I hate having my picture taken</em>. That’s fine. We start there, and then we go for a walk.</p></div></div>
+      <div data-ph="1" data-ph-block="1" title="Placeholder — Drafted from your public bio. It needs to be in your own words — this block carries more weight than anything else on the page."><div class="prose"><p>I’m Shawna. I’ve been photographing families around Plainfield since 2014, and before that I was just the person at every gathering with a camera nobody asked her to bring.</p><p>I’m a mom, a wife, and a Nonna, which is most of why I do this work. I know how fast it goes. I know the year you keep meaning to book and don’t, and then the kids are taller.</p><p>Most people who write to me open with some version of <em>I hate having my picture taken</em>. That’s fine. We start there, and then we go for a walk.</p></div></div>
       <p class="meet-sig"><span data-ph="1" title="Placeholder — needs Shawna">— Shawna</span></p>
     </div>
   </section>
@@ -1433,7 +1492,7 @@ body {
     <h2>Prints and gift cards</h2>
   </div>
     <p class="band-lede">The gallery is yours to keep, but the things people live with are printed.</p>
-    <div data-ph="1" data-ph-block="1" title="Placeholder — Entirely invented. Does Shawna sell prints and albums, and at what prices? This is where studio revenue per client usually comes from."><div class="prod-grid"><article class="prod">
+    <div data-ph="1" data-ph-block="1" title="Placeholder — Entirely invented. Do you sell prints, albums or gift certificates, and at roughly what prices? This is usually where studio revenue per client comes from."><div class="prod-grid"><article class="prod">
       <figure class="ph-photo " style="aspect-ratio:1/1;--a:160deg;--s:22%">
   <span class="ph-photo-tag">Framed prints</span>
 </figure>
@@ -1524,7 +1583,14 @@ body {
     <div class="foot-area"><h5>Serving</h5><p>Plainfield · Naperville · Joliet · Oswego · Shorewood · Yorkville · Romeoville · Bolingbrook</p></div>
     <div class="foot-fine"><span>© 2026 SkyByrd Photography</span><span>skybyrdphotography.com</span></div>
   </footer></div>
-<div class="page page-body" data-arch="story" hidden><header class="nav">
+</div>
+<div class="arch-col" data-arch="story" hidden>
+  <div class="col-head">
+    <h3>Story Led</h3>
+    <p>Documentary and specific</p>
+    <ol class="bandstrip"><li class="bandchip"><span>01</span>Nav</li><li class="bandchip"><span>02</span>Hero</li><li class="bandchip bandchip-key"><span>03</span>Meet Shawna</li><li class="bandchip"><span>04</span>How it works</li><li class="bandchip"><span>05</span>Trust bar</li><li class="bandchip bandchip-key"><span>06</span>Reviews</li><li class="bandchip"><span>07</span>Where I shoot</li><li class="bandchip bandchip-key"><span>08</span>Sessions + pricing</li><li class="bandchip"><span>09</span>What you receive</li><li class="bandchip bandchip-key"><span>10</span>Gallery</li><li class="bandchip"><span>11</span>Availability</li><li class="bandchip"><span>12</span>FAQ</li><li class="bandchip"><span>13</span>Prints</li><li class="bandchip"><span>14</span>Enquiry</li><li class="bandchip"><span>15</span>Instagram</li><li class="bandchip"><span>16</span>Footer</li></ol>
+  </div>
+  <div class="page page-body"><header class="nav">
   <a class="nav-brand" href="#top">
     <span class="nav-mark" aria-hidden="true"></span>
     <span class="nav-name">SkyByrd</span>
@@ -1563,7 +1629,7 @@ body {
     <p class="eyebrow">About</p>
     <h2>Before you write to me</h2>
   </div>
-      <div data-ph="1" data-ph-block="1" title="Placeholder — Draft, written from her public bio. Needs Shawna’s own words and her approval — this block carries more weight than anything else on the page."><div class="prose"><p>I’m Shawna. I’ve been photographing families around Plainfield since 2014, and before that I was just the person at every gathering with a camera nobody asked her to bring.</p><p>I’m a mom, a wife, and a Nonna, which is most of why I do this work. I know how fast it goes. I know the year you keep meaning to book and don’t, and then the kids are taller.</p><p>Most people who write to me open with some version of <em>I hate having my picture taken</em>. That’s fine. We start there, and then we go for a walk.</p></div></div>
+      <div data-ph="1" data-ph-block="1" title="Placeholder — Drafted from your public bio. It needs to be in your own words — this block carries more weight than anything else on the page."><div class="prose"><p>I’m Shawna. I’ve been photographing families around Plainfield since 2014, and before that I was just the person at every gathering with a camera nobody asked her to bring.</p><p>I’m a mom, a wife, and a Nonna, which is most of why I do this work. I know how fast it goes. I know the year you keep meaning to book and don’t, and then the kids are taller.</p><p>Most people who write to me open with some version of <em>I hate having my picture taken</em>. That’s fine. We start there, and then we go for a walk.</p></div></div>
       <p class="meet-sig"><span data-ph="1" title="Placeholder — needs Shawna">— Shawna</span></p>
     </div>
   </section>
@@ -1587,7 +1653,7 @@ body {
     <h2>What people said afterwards</h2>
   </div>
     <p class="band-lede"><span data-ph="1" title="Placeholder — Pull the real average from Google once reviews are connected.">5.0</span> average across <span data-ph="1" title="Placeholder — Real count across Google, Facebook and Yelp?">40+</span> reviews on Google, Facebook and Yelp.</p>
-    <div data-ph="1" data-ph-block="1" title="Placeholder — All eight invented — five carried over from round one, three written to show the layout at volume. Replace with real reviews from Google, Facebook and Yelp, and set `source` so the platform badge renders."><div class="rev-grid"><figure class="rev">
+    <div data-ph="1" data-ph-block="1" title="Placeholder — All eight invented — five carried over from round one, three written to show the layout at volume. Replace them with your real reviews from Google, Facebook and Yelp, and set `source` so the platform badge renders."><div class="rev-grid"><figure class="rev">
       <div class="rev-stars" aria-label="5 out of 5">★★★★★</div>
       <blockquote>She got my two-year-old laughing within a minute. The photos on our wall are the first thing people mention, and they’re the first thing I look at every morning.</blockquote>
       <figcaption>Megan R. <span>· Plainfield · family</span><span class="rev-src rev-src-missing">source pending</span></figcaption>
@@ -1627,9 +1693,9 @@ body {
     <p class="eyebrow">Service area</p>
     <h2>The places I keep going back to</h2>
   </div>
-    <p class="band-lede"><span data-ph="1" title="Placeholder — Draft copy. Rewrite in Shawna’s voice.">Based in Plainfield and shooting across the southwest suburbs — Naperville, Joliet, Oswego, Shorewood and the towns in between. Travel further afield is usually possible; just ask.</span></p>
-    <div data-ph="1" data-ph-block="1" title="Placeholder — Towns chosen by proximity. Which does Shawna actually travel to, and how far will she go?"><ul class="towns"><li>Plainfield</li><li>Naperville</li><li>Joliet</li><li>Oswego</li><li>Shorewood</li><li>Yorkville</li><li>Romeoville</li><li>Bolingbrook</li></ul></div>
-    <div data-ph="1" data-ph-block="1" title="Placeholder — All six invented. Replace with the locations Shawna genuinely uses and loves."><div class="loc-grid"><article class="loc">
+    <p class="band-lede"><span data-ph="1" title="Placeholder — Draft copy — rewrite it in your own words.">Based in Plainfield and shooting across the southwest suburbs — Naperville, Joliet, Oswego, Shorewood and the towns in between. Travel further afield is usually possible; just ask.</span></p>
+    <div data-ph="1" data-ph-block="1" title="Placeholder — Which of these do you actually travel to, and how far are you willing to go?"><ul class="towns"><li>Plainfield</li><li>Naperville</li><li>Joliet</li><li>Oswego</li><li>Shorewood</li><li>Yorkville</li><li>Romeoville</li><li>Bolingbrook</li></ul></div>
+    <div data-ph="1" data-ph-block="1" title="Placeholder — All six invented. Replace them with the places you genuinely use and love."><div class="loc-grid"><article class="loc">
       <figure class="ph-photo " style="aspect-ratio:3/2;--a:150deg;--s:24%">
   <span class="ph-photo-tag">The DuPage River</span>
 </figure>
@@ -1700,7 +1766,7 @@ body {
         <ul class="sess-inc"><li>Pre-session call and wardrobe guidance</li><li>90 minutes on location</li><li>40+ edited high-resolution images</li><li>Private online gallery within two weeks</li><li>Print release for personal use</li></ul>
         <blockquote class="sess-quote">She got my two-year-old laughing within a minute. The photos on our wall are the first thing people mention, and they’re the first thing I look at every morning.<cite>Megan R. · Plainfield</cite></blockquote>
         <div class="sess-foot">
-          <span class="sess-price"><span data-ph="1" title="Placeholder — INVENTED in concept 07. Needs Shawna’s real pricing.">$450</span><small><span data-ph="1" title="Placeholder — Invented. Does she charge for larger groups?">Additional people $25 each</span></small></span>
+          <span class="sess-price"><span data-ph="1" title="Placeholder — INVENTED in concept 07. What do you actually charge for this?">$450</span><small><span data-ph="1" title="Placeholder — Invented. Do you charge extra for larger groups?">Additional people $25 each</span></small></span>
           <a class="btn btn-primary" href="#enquire">Book Family</a>
         </div>
       </div>
@@ -1724,7 +1790,7 @@ body {
         <ul class="sess-inc"><li>Planning call with the senior, not just the parents</li><li>Two locations, three outfit changes</li><li>50+ edited high-resolution images</li><li>Private gallery within two weeks</li><li>Graduation announcement files sized and ready</li></ul>
         <blockquote class="sess-quote">My senior photos actually look like me. My mom cried. My friends all rebooked.<cite>Ava M. · Oswego</cite></blockquote>
         <div class="sess-foot">
-          <span class="sess-price"><span data-ph="1" title="Placeholder — INVENTED in concept 07. Needs real pricing.">$525</span><small><span data-ph="1" title="Placeholder — Invented — does she offer this?">Cap and gown add-on available</span></small></span>
+          <span class="sess-price"><span data-ph="1" title="Placeholder — INVENTED in concept 07. What do you actually charge for this?">$525</span><small><span data-ph="1" title="Placeholder — Invented — do you offer this?">Cap and gown add-on available</span></small></span>
           <a class="btn btn-primary" href="#enquire">Book Seniors</a>
         </div>
       </div>
@@ -1748,7 +1814,7 @@ body {
         <ul class="sess-inc"><li>Strategy call about how you will actually use the images</li><li>Half day of shooting</li><li>60+ edited images in web and print sizes</li><li>Cropped variants for LinkedIn, Instagram and your website</li><li>Commercial usage rights</li></ul>
         <blockquote class="sess-quote">I’ve never liked a photo of myself. I have eleven of these framed.<cite>Daniel K. · Naperville</cite></blockquote>
         <div class="sess-foot">
-          <span class="sess-price"><span data-ph="1" title="Placeholder — INVENTED in concept 07. Needs real pricing.">$680</span><small><span data-ph="1" title="Placeholder — Invented — does she shoot teams?">Team rates available</span></small></span>
+          <span class="sess-price"><span data-ph="1" title="Placeholder — INVENTED in concept 07. What do you actually charge for this?">$680</span><small><span data-ph="1" title="Placeholder — Invented — do you shoot teams, and at what rate?">Team rates available</span></small></span>
           <a class="btn btn-primary" href="#enquire">Book Personal Branding</a>
         </div>
       </div>
@@ -1772,7 +1838,7 @@ body {
         <ul class="sess-inc"><li>A short chat about what makes them comfortable</li><li>45 minutes, at their pace</li><li>25+ edited images</li><li>Private gallery within two weeks</li><li>Treats provided, and used shamelessly</li></ul>
         <blockquote class="sess-quote">Our dog is genuinely feral in front of a camera. She got twenty frames we love. I still don’t know how.<cite>Colin B. · Romeoville</cite></blockquote>
         <div class="sess-foot">
-          <span class="sess-price"><span data-ph="1" title="Placeholder — INVENTED in concept 07. Needs real pricing.">$275</span><small><span data-ph="1" title="Placeholder — Invented.">Add your people for $75</span></small></span>
+          <span class="sess-price"><span data-ph="1" title="Placeholder — INVENTED in concept 07. What do you actually charge for this?">$275</span><small><span data-ph="1" title="Placeholder — Invented.">Add your people for $75</span></small></span>
           <a class="btn btn-primary" href="#enquire">Book Pets</a>
         </div>
       </div>
@@ -1832,7 +1898,7 @@ body {
     <p class="eyebrow">Questions</p>
     <h2>Things people ask me</h2>
   </div>
-    <div data-ph="1" data-ph-block="1" title="Placeholder — Ten questions drafted from common enquiries. Every answer needs Shawna’s confirmation — particularly the rain policy, travel radius, deposit terms and delivery times."><div class="qa-list"><details class="qa" open>
+    <div data-ph="1" data-ph-block="1" title="Placeholder — Ten questions drafted from common enquiries. Every answer needs your confirmation — particularly the rain policy, travel radius, deposit terms and delivery times."><div class="qa-list"><details class="qa" open>
       <summary>I’m not photogenic. Really.</summary>
       <p>Nobody thinks they are — it is genuinely the most common thing people say to me. That is why the first ten minutes are throwaway frames and why we spend them talking. You will forget the camera is there sooner than you expect.</p>
     </details><details class="qa">
@@ -1871,7 +1937,7 @@ body {
     <h2>Prints, albums and gift cards</h2>
   </div>
     <p class="band-lede">The gallery is yours to keep, but the things people live with are printed.</p>
-    <div data-ph="1" data-ph-block="1" title="Placeholder — Entirely invented. Does Shawna sell prints and albums, and at what prices? This is where studio revenue per client usually comes from."><div class="prod-grid"><article class="prod">
+    <div data-ph="1" data-ph-block="1" title="Placeholder — Entirely invented. Do you sell prints, albums or gift certificates, and at roughly what prices? This is usually where studio revenue per client comes from."><div class="prod-grid"><article class="prod">
       <figure class="ph-photo " style="aspect-ratio:1/1;--a:160deg;--s:22%">
   <span class="ph-photo-tag">Framed prints</span>
 </figure>
@@ -1962,6 +2028,7 @@ body {
     <div class="foot-area"><h5>Serving</h5><p>Plainfield · Naperville · Joliet · Oswego · Shorewood · Yorkville · Romeoville · Bolingbrook</p></div>
     <div class="foot-fine"><span>© 2026 SkyByrd Photography</span><span>skybyrdphotography.com</span></div>
   </footer></div>
+</div>
   </div>
 </div>
 
@@ -1976,7 +2043,7 @@ body {
   <div class="rp-wrap">
     <table class="rp-table">
       <thead><tr><th>Field</th><th>Current placeholder</th><th>What’s needed</th></tr></thead>
-      <tbody><tr><td class="rp-path">business.founded</td><td class="rp-val">2014</td><td class="rp-note">Concepts disagreed — 03 said 2016, 08/09/10 said 2014. Which is right?</td></tr><tr><td class="rp-path">business.yearsShooting</td><td class="rp-val">11</td><td class="rp-note">Derived from founded year. Recalculates once the year is settled.</td></tr><tr><td class="rp-path">business.sessionsDelivered</td><td class="rp-val">300+</td><td class="rp-note">Invented in concept 04. Real number?</td></tr><tr><td class="rp-path">business.rating</td><td class="rp-val">5.0</td><td class="rp-note">Pull the real average from Google once reviews are connected.</td></tr><tr><td class="rp-path">business.reviewCount</td><td class="rp-val">40+</td><td class="rp-note">Real count across Google, Facebook and Yelp?</td></tr><tr><td class="rp-path">business.responseTime</td><td class="rp-val">within a day, usually the same evening</td><td class="rp-note">From concept 07. Is this accurate?</td></tr><tr><td class="rp-path">business.bookingWindow</td><td class="rp-val">about two months out</td><td class="rp-note">From concepts 05 and 09. Still true?</td></tr><tr><td class="rp-path">business.insured</td><td class="rp-val">true</td><td class="rp-note">Confirm — worth stating plainly if so.</td></tr><tr><td class="rp-path">serviceArea.towns</td><td class="rp-val">Plainfield, Naperville, Joliet, Oswego, Shorewood, Yorkville, Romeoville, Bolingbrook</td><td class="rp-note">Towns chosen by proximity. Which does Shawna actually travel to, and how far will she go?</td></tr><tr><td class="rp-path">serviceArea.radius</td><td class="rp-val">30 miles</td><td class="rp-note">Confirm travel radius and whether there is a fee beyond it.</td></tr><tr><td class="rp-path">serviceArea.blurb</td><td class="rp-val">Based in Plainfield and shooting across the southwest suburbs — Naperville, Joliet, Oswego, Shorewood and the …</td><td class="rp-note">Draft copy. Rewrite in Shawna’s voice.</td></tr><tr><td class="rp-path">locations</td><td class="rp-val">The DuPage River, Downtown Plainfield, Lake Renwick Preserve, Settlers’ Park, The studio, Your own home</td><td class="rp-note">All six invented. Replace with the locations Shawna genuinely uses and loves.</td></tr><tr><td class="rp-path">sessions.0.forWhom</td><td class="rp-val">Growing families, extended families, grandparents visiting, anyone overdue for a decent photo together.</td><td class="rp-note">Draft.</td></tr><tr><td class="rp-path">sessions.0.blurb</td><td class="rp-val">Everyone in one frame, nobody performing. We walk, we talk, and I photograph what happens in between the bits …</td><td class="rp-note">Draft — closest to concept 03’s voice, which read best.</td></tr><tr><td class="rp-path">sessions.0.duration</td><td class="rp-val">90 minutes</td><td class="rp-note">From concept 07.</td></tr><tr><td class="rp-path">sessions.0.groupSize</td><td class="rp-val">Up to 8 people</td><td class="rp-note">From concept 07.</td></tr><tr><td class="rp-path">sessions.0.locations</td><td class="rp-val">One location of your choosing</td><td class="rp-note">Confirm.</td></tr><tr><td class="rp-path">sessions.0.imageCount</td><td class="rp-val">40+ edited images</td><td class="rp-note">From concept 07.</td></tr><tr><td class="rp-path">sessions.0.price</td><td class="rp-val">$450</td><td class="rp-note">INVENTED in concept 07. Needs Shawna’s real pricing.</td></tr><tr><td class="rp-path">sessions.0.priceNote</td><td class="rp-val">Additional people $25 each</td><td class="rp-note">Invented. Does she charge for larger groups?</td></tr><tr><td class="rp-path">sessions.0.includes</td><td class="rp-val">Pre-session call and wardrobe guidance, 90 minutes on location, 40+ edited high-resolution images, Private onl…</td><td class="rp-note">Draft inclusions — confirm each line.</td></tr><tr><td class="rp-path">sessions.1.forWhom</td><td class="rp-val">High school seniors and their parents, usually booked the summer before senior year.</td><td class="rp-note">Draft.</td></tr><tr><td class="rp-path">sessions.1.blurb</td><td class="rp-val">The year they became themselves, photographed before it goes by. Two locations, three outfits, and enough time…</td><td class="rp-note">Draft.</td></tr><tr><td class="rp-path">sessions.1.duration</td><td class="rp-val">2 hours</td><td class="rp-note">From concept 07.</td></tr><tr><td class="rp-path">sessions.1.groupSize</td><td class="rp-val">The senior, plus family for a few frames</td><td class="rp-note">Confirm.</td></tr><tr><td class="rp-path">sessions.1.locations</td><td class="rp-val">Two locations</td><td class="rp-note">From concept 07.</td></tr><tr><td class="rp-path">sessions.1.imageCount</td><td class="rp-val">50+ edited images</td><td class="rp-note">Invented.</td></tr><tr><td class="rp-path">sessions.1.price</td><td class="rp-val">$525</td><td class="rp-note">INVENTED in concept 07. Needs real pricing.</td></tr><tr><td class="rp-path">sessions.1.priceNote</td><td class="rp-val">Cap and gown add-on available</td><td class="rp-note">Invented — does she offer this?</td></tr><tr><td class="rp-path">sessions.1.includes</td><td class="rp-val">Planning call with the senior, not just the parents, Two locations, three outfit changes, 50+ edited high-reso…</td><td class="rp-note">Draft inclusions.</td></tr><tr><td class="rp-path">sessions.2.forWhom</td><td class="rp-val">Small business owners, realtors, therapists, coaches — anyone whose face is part of the offer.</td><td class="rp-note">Draft.</td></tr><tr><td class="rp-path">sessions.2.blurb</td><td class="rp-val">A library of images that sound like the person running the business. Not one stiff headshot, but a year of thi…</td><td class="rp-note">Draft.</td></tr><tr><td class="rp-path">sessions.2.duration</td><td class="rp-val">Half day</td><td class="rp-note">From concept 07.</td></tr><tr><td class="rp-path">sessions.2.groupSize</td><td class="rp-val">One person, or small teams by arrangement</td><td class="rp-note">Confirm team pricing.</td></tr><tr><td class="rp-path">sessions.2.locations</td><td class="rp-val">Your workplace, the studio, or both</td><td class="rp-note">Confirm.</td></tr><tr><td class="rp-path">sessions.2.imageCount</td><td class="rp-val">60+ edited images</td><td class="rp-note">Invented.</td></tr><tr><td class="rp-path">sessions.2.price</td><td class="rp-val">$680</td><td class="rp-note">INVENTED in concept 07. Needs real pricing.</td></tr><tr><td class="rp-path">sessions.2.priceNote</td><td class="rp-val">Team rates available</td><td class="rp-note">Invented — does she shoot teams?</td></tr><tr><td class="rp-path">sessions.2.includes</td><td class="rp-val">Strategy call about how you will actually use the images, Half day of shooting, 60+ edited images in web and p…</td><td class="rp-note">Draft inclusions — commercial rights in particular needs confirming.</td></tr><tr><td class="rp-path">sessions.3.forWhom</td><td class="rp-val">Dogs mostly, but she has photographed cats, horses and one very patient rabbit.</td><td class="rp-note">INVENTED detail — is this true? It is a lovely line if so.</td></tr><tr><td class="rp-path">sessions.3.blurb</td><td class="rp-val">Treats allowed, chaos expected. Studio or your favourite trail, and we work at their pace rather than mine.</td><td class="rp-note">Draft — this line survives from round one.</td></tr><tr><td class="rp-path">sessions.3.duration</td><td class="rp-val">45 minutes</td><td class="rp-note">From concept 07.</td></tr><tr><td class="rp-path">sessions.3.groupSize</td><td class="rp-val">Up to 2 pets, humans welcome</td><td class="rp-note">Confirm.</td></tr><tr><td class="rp-path">sessions.3.locations</td><td class="rp-val">Studio or a trail of your choosing</td><td class="rp-note">Confirm.</td></tr><tr><td class="rp-path">sessions.3.imageCount</td><td class="rp-val">25+ edited images</td><td class="rp-note">Invented.</td></tr><tr><td class="rp-path">sessions.3.price</td><td class="rp-val">$275</td><td class="rp-note">INVENTED in concept 07. Needs real pricing.</td></tr><tr><td class="rp-path">sessions.3.priceNote</td><td class="rp-val">Add your people for $75</td><td class="rp-note">Invented.</td></tr><tr><td class="rp-path">sessions.3.includes</td><td class="rp-val">A short chat about what makes them comfortable, 45 minutes, at their pace, 25+ edited images, Private gallery …</td><td class="rp-note">Draft inclusions.</td></tr><tr><td class="rp-path">deliverables</td><td class="rp-val">2 weeks, 40+, 10 years, Included</td><td class="rp-note">All four figures invented from concept 10. Confirm delivery time, image counts, archive policy and print rights.</td></tr><tr><td class="rp-path">products</td><td class="rp-val">Framed prints, Albums, Canvases, Gift certificates</td><td class="rp-note">Entirely invented. Does Shawna sell prints and albums, and at what prices? This is where studio revenue per client usually comes from.</td></tr><tr><td class="rp-path">testimonials</td><td class="rp-val">Megan R., Tasha &amp; Rob, Daniel K., Ava M., Priya S., Colin B., Renée T., The Whitmores</td><td class="rp-note">All eight invented — five carried over from round one, three written to show the layout at volume. Replace with real reviews from Google, Facebook and Yelp, and set `source` so the platform badge renders.</td></tr><tr><td class="rp-path">shawna.portrait</td><td class="rp-val">null</td><td class="rp-note">NEEDED: a real portrait of Shawna. This is the highest-value missing asset on the whole site.</td></tr><tr><td class="rp-path">shawna.bio</td><td class="rp-val">I’m Shawna. I’ve been photographing families around Plainfield since 2014, and before that I was just the pers…</td><td class="rp-note">Draft, written from her public bio. Needs Shawna’s own words and her approval — this block carries more weight than anything else on the page.</td></tr><tr><td class="rp-path">shawna.signature</td><td class="rp-val">— Shawna</td><td class="rp-note"></td></tr><tr><td class="rp-path">process</td><td class="rp-val">…, …, …, …, …</td><td class="rp-note">Steps 03 and 04 survive from concept 08 and are the strongest writing in the set. Confirm the response time and delivery window are accurate.</td></tr><tr><td class="rp-path">faq</td><td class="rp-val">I’m not photogenic. Really., What should we wear?, How long does a session take?, What if the kids melt down?,…</td><td class="rp-note">Ten questions drafted from common enquiries. Every answer needs Shawna’s confirmation — particularly the rain policy, travel radius, deposit terms and delivery times.</td></tr><tr><td class="rp-path">rightNow.headline</td><td class="rp-val">Autumn dates are open</td><td class="rp-note">Should reflect the real season and real availability.</td></tr><tr><td class="rp-path">rightNow.body</td><td class="rp-val">Autumn family sessions book up first, and holiday card orders need to be placed by the first week of December …</td><td class="rp-note">Draft. Rewrite each season, or wire to a real calendar.</td></tr><tr><td class="rp-path">rightNow.urgency</td><td class="rp-val">4 weekend slots left in October</td><td class="rp-note">INVENTED. Only show a number like this if it is true.</td></tr><tr><td class="rp-path">rightNow.deadline</td><td class="rp-val">Holiday card orders close 5 December</td><td class="rp-note">Invented deadline — confirm.</td></tr><tr><td class="rp-path">voice.gallery.eyebrow</td><td class="rp-val">Portrait studio · Plainfield, Illinois</td><td class="rp-note"></td></tr><tr><td class="rp-path">voice.gallery.headline</td><td class="rp-val">Celebrate life and make our time stand still.</td><td class="rp-note">Shawna’s own tagline, used as the headline.</td></tr><tr><td class="rp-path">voice.gallery.sub</td><td class="rp-val">Family, seniors, personal branding and pets — photographed the way you actually are, in the light of an ordina…</td><td class="rp-note">Draft, from concept 01.</td></tr><tr><td class="rp-path">voice.gallery.ctaPrimary</td><td class="rp-val">View Portfolio</td><td class="rp-note"></td></tr><tr><td class="rp-path">voice.gallery.ctaSecondary</td><td class="rp-val">Book a Session</td><td class="rp-note"></td></tr><tr><td class="rp-path">voice.gallery.closingLine</td><td class="rp-val">Sessions run about 90 minutes. Bring the dog, bring the grandparents, bring whoever makes it feel like yours.</td><td class="rp-note">From concept 01 — the best closing line in round one.</td></tr><tr><td class="rp-path">voice.booking.eyebrow</td><td class="rp-val">Now booking · Plainfield, Illinois</td><td class="rp-note"></td></tr><tr><td class="rp-path">voice.booking.headline</td><td class="rp-val">Never done this before? Most of my clients haven’t either.</td><td class="rp-note">Draft, expanded from concept 07’s sub-heading — the most disarming line in round one.</td></tr><tr><td class="rp-path">voice.booking.sub</td><td class="rp-val">Pick a session, send me a date, and I’ll walk you through the rest. No deposit to ask, and I reply within a da…</td><td class="rp-note">Draft, from concept 07.</td></tr><tr><td class="rp-path">voice.booking.ctaPrimary</td><td class="rp-val">Check Availability</td><td class="rp-note"></td></tr><tr><td class="rp-path">voice.booking.ctaSecondary</td><td class="rp-val">See the Work</td><td class="rp-note"></td></tr><tr><td class="rp-path">voice.booking.closingLine</td><td class="rp-val">No deposit to ask. Tell me who’s coming and roughly when, and I’ll send times that work.</td><td class="rp-note">From concept 07.</td></tr><tr><td class="rp-path">voice.story.eyebrow</td><td class="rp-val">Plainfield, Illinois · since 2014</td><td class="rp-note">Year needs confirming.</td></tr><tr><td class="rp-path">voice.story.headline</td><td class="rp-val">Hi, I’m the artist behind SkyByrd.</td><td class="rp-note">From concept 08.</td></tr><tr><td class="rp-path">voice.story.sub</td><td class="rp-val">I photograph families, seniors, small businesses and very good dogs around the southwest suburbs. Nothing stif…</td><td class="rp-note">Draft, merging concepts 03 and 08.</td></tr><tr><td class="rp-path">voice.story.ctaPrimary</td><td class="rp-val">Write to Me</td><td class="rp-note"></td></tr><tr><td class="rp-path">voice.story.ctaSecondary</td><td class="rp-val">View Portfolio</td><td class="rp-note"></td></tr><tr><td class="rp-path">voice.story.closingLine</td><td class="rp-val">If any of this sounds like what you’ve been meaning to do, write to me. Tell me who’s coming — that’s the whol…</td><td class="rp-note">From concept 08.</td></tr></tbody>
+      <tbody><tr><td class="rp-path">business.founded</td><td class="rp-val">2014</td><td class="rp-note">Concepts disagreed — 03 said 2016, 08/09/10 said 2014. Which is right?</td></tr><tr><td class="rp-path">business.yearsShooting</td><td class="rp-val">11</td><td class="rp-note">Derived from founded year. Recalculates once the year is settled.</td></tr><tr><td class="rp-path">business.sessionsDelivered</td><td class="rp-val">300+</td><td class="rp-note">Invented in concept 04. Real number?</td></tr><tr><td class="rp-path">business.rating</td><td class="rp-val">5.0</td><td class="rp-note">Pull the real average from Google once reviews are connected.</td></tr><tr><td class="rp-path">business.reviewCount</td><td class="rp-val">40+</td><td class="rp-note">Real count across Google, Facebook and Yelp?</td></tr><tr><td class="rp-path">business.responseTime</td><td class="rp-val">within a day, usually the same evening</td><td class="rp-note">From concept 07. Is this accurate?</td></tr><tr><td class="rp-path">business.bookingWindow</td><td class="rp-val">about two months out</td><td class="rp-note">From concepts 05 and 09. Still true?</td></tr><tr><td class="rp-path">business.insured</td><td class="rp-val">true</td><td class="rp-note">Confirm — worth stating plainly if so.</td></tr><tr><td class="rp-path">serviceArea.towns</td><td class="rp-val">Plainfield, Naperville, Joliet, Oswego, Shorewood, Yorkville, Romeoville, Bolingbrook</td><td class="rp-note">Which of these do you actually travel to, and how far are you willing to go?</td></tr><tr><td class="rp-path">serviceArea.radius</td><td class="rp-val">30 miles</td><td class="rp-note">Confirm travel radius and whether there is a fee beyond it.</td></tr><tr><td class="rp-path">serviceArea.blurb</td><td class="rp-val">Based in Plainfield and shooting across the southwest suburbs — Naperville, Joliet, Oswego, Shorewood and the …</td><td class="rp-note">Draft copy — rewrite it in your own words.</td></tr><tr><td class="rp-path">locations</td><td class="rp-val">The DuPage River, Downtown Plainfield, Lake Renwick Preserve, Settlers’ Park, The studio, Your own home</td><td class="rp-note">All six invented. Replace them with the places you genuinely use and love.</td></tr><tr><td class="rp-path">sessions.0.forWhom</td><td class="rp-val">Growing families, extended families, grandparents visiting, anyone overdue for a decent photo together.</td><td class="rp-note">Draft.</td></tr><tr><td class="rp-path">sessions.0.blurb</td><td class="rp-val">Everyone in one frame, nobody performing. We walk, we talk, and I photograph what happens in between the bits …</td><td class="rp-note">Draft — closest to concept 03’s voice, which read best.</td></tr><tr><td class="rp-path">sessions.0.duration</td><td class="rp-val">90 minutes</td><td class="rp-note">From concept 07.</td></tr><tr><td class="rp-path">sessions.0.groupSize</td><td class="rp-val">Up to 8 people</td><td class="rp-note">From concept 07.</td></tr><tr><td class="rp-path">sessions.0.locations</td><td class="rp-val">One location of your choosing</td><td class="rp-note">Confirm.</td></tr><tr><td class="rp-path">sessions.0.imageCount</td><td class="rp-val">40+ edited images</td><td class="rp-note">From concept 07.</td></tr><tr><td class="rp-path">sessions.0.price</td><td class="rp-val">$450</td><td class="rp-note">INVENTED in concept 07. What do you actually charge for this?</td></tr><tr><td class="rp-path">sessions.0.priceNote</td><td class="rp-val">Additional people $25 each</td><td class="rp-note">Invented. Do you charge extra for larger groups?</td></tr><tr><td class="rp-path">sessions.0.includes</td><td class="rp-val">Pre-session call and wardrobe guidance, 90 minutes on location, 40+ edited high-resolution images, Private onl…</td><td class="rp-note">Draft inclusions — confirm each line.</td></tr><tr><td class="rp-path">sessions.1.forWhom</td><td class="rp-val">High school seniors and their parents, usually booked the summer before senior year.</td><td class="rp-note">Draft.</td></tr><tr><td class="rp-path">sessions.1.blurb</td><td class="rp-val">The year they became themselves, photographed before it goes by. Two locations, three outfits, and enough time…</td><td class="rp-note">Draft.</td></tr><tr><td class="rp-path">sessions.1.duration</td><td class="rp-val">2 hours</td><td class="rp-note">From concept 07.</td></tr><tr><td class="rp-path">sessions.1.groupSize</td><td class="rp-val">The senior, plus family for a few frames</td><td class="rp-note">Confirm.</td></tr><tr><td class="rp-path">sessions.1.locations</td><td class="rp-val">Two locations</td><td class="rp-note">From concept 07.</td></tr><tr><td class="rp-path">sessions.1.imageCount</td><td class="rp-val">50+ edited images</td><td class="rp-note">Invented.</td></tr><tr><td class="rp-path">sessions.1.price</td><td class="rp-val">$525</td><td class="rp-note">INVENTED in concept 07. What do you actually charge for this?</td></tr><tr><td class="rp-path">sessions.1.priceNote</td><td class="rp-val">Cap and gown add-on available</td><td class="rp-note">Invented — do you offer this?</td></tr><tr><td class="rp-path">sessions.1.includes</td><td class="rp-val">Planning call with the senior, not just the parents, Two locations, three outfit changes, 50+ edited high-reso…</td><td class="rp-note">Draft inclusions.</td></tr><tr><td class="rp-path">sessions.2.forWhom</td><td class="rp-val">Small business owners, realtors, therapists, coaches — anyone whose face is part of the offer.</td><td class="rp-note">Draft.</td></tr><tr><td class="rp-path">sessions.2.blurb</td><td class="rp-val">A library of images that sound like the person running the business. Not one stiff headshot, but a year of thi…</td><td class="rp-note">Draft.</td></tr><tr><td class="rp-path">sessions.2.duration</td><td class="rp-val">Half day</td><td class="rp-note">From concept 07.</td></tr><tr><td class="rp-path">sessions.2.groupSize</td><td class="rp-val">One person, or small teams by arrangement</td><td class="rp-note">Confirm team pricing.</td></tr><tr><td class="rp-path">sessions.2.locations</td><td class="rp-val">Your workplace, the studio, or both</td><td class="rp-note">Confirm.</td></tr><tr><td class="rp-path">sessions.2.imageCount</td><td class="rp-val">60+ edited images</td><td class="rp-note">Invented.</td></tr><tr><td class="rp-path">sessions.2.price</td><td class="rp-val">$680</td><td class="rp-note">INVENTED in concept 07. What do you actually charge for this?</td></tr><tr><td class="rp-path">sessions.2.priceNote</td><td class="rp-val">Team rates available</td><td class="rp-note">Invented — do you shoot teams, and at what rate?</td></tr><tr><td class="rp-path">sessions.2.includes</td><td class="rp-val">Strategy call about how you will actually use the images, Half day of shooting, 60+ edited images in web and p…</td><td class="rp-note">Draft inclusions — commercial rights in particular needs confirming.</td></tr><tr><td class="rp-path">sessions.3.forWhom</td><td class="rp-val">Dogs mostly, though I have photographed cats, horses and one very patient rabbit.</td><td class="rp-note">Invented detail — is this true? It is a lovely line if so.</td></tr><tr><td class="rp-path">sessions.3.blurb</td><td class="rp-val">Treats allowed, chaos expected. Studio or your favourite trail, and we work at their pace rather than mine.</td><td class="rp-note">Draft — this line survives from round one.</td></tr><tr><td class="rp-path">sessions.3.duration</td><td class="rp-val">45 minutes</td><td class="rp-note">From concept 07.</td></tr><tr><td class="rp-path">sessions.3.groupSize</td><td class="rp-val">Up to 2 pets, humans welcome</td><td class="rp-note">Confirm.</td></tr><tr><td class="rp-path">sessions.3.locations</td><td class="rp-val">Studio or a trail of your choosing</td><td class="rp-note">Confirm.</td></tr><tr><td class="rp-path">sessions.3.imageCount</td><td class="rp-val">25+ edited images</td><td class="rp-note">Invented.</td></tr><tr><td class="rp-path">sessions.3.price</td><td class="rp-val">$275</td><td class="rp-note">INVENTED in concept 07. What do you actually charge for this?</td></tr><tr><td class="rp-path">sessions.3.priceNote</td><td class="rp-val">Add your people for $75</td><td class="rp-note">Invented.</td></tr><tr><td class="rp-path">sessions.3.includes</td><td class="rp-val">A short chat about what makes them comfortable, 45 minutes, at their pace, 25+ edited images, Private gallery …</td><td class="rp-note">Draft inclusions.</td></tr><tr><td class="rp-path">deliverables</td><td class="rp-val">2 weeks, 40+, 10 years, Included</td><td class="rp-note">All four figures invented from concept 10. Confirm delivery time, image counts, archive policy and print rights.</td></tr><tr><td class="rp-path">products</td><td class="rp-val">Framed prints, Albums, Canvases, Gift certificates</td><td class="rp-note">Entirely invented. Do you sell prints, albums or gift certificates, and at roughly what prices? This is usually where studio revenue per client comes from.</td></tr><tr><td class="rp-path">testimonials</td><td class="rp-val">Megan R., Tasha &amp; Rob, Daniel K., Ava M., Priya S., Colin B., Renée T., The Whitmores</td><td class="rp-note">All eight invented — five carried over from round one, three written to show the layout at volume. Replace them with your real reviews from Google, Facebook and Yelp, and set `source` so the platform badge renders.</td></tr><tr><td class="rp-path">shawna.portrait</td><td class="rp-val">null</td><td class="rp-note">NEEDED: a real photograph of you. This is the highest-value missing asset on the whole site.</td></tr><tr><td class="rp-path">shawna.bio</td><td class="rp-val">I’m Shawna. I’ve been photographing families around Plainfield since 2014, and before that I was just the pers…</td><td class="rp-note">Drafted from your public bio. It needs to be in your own words — this block carries more weight than anything else on the page.</td></tr><tr><td class="rp-path">shawna.signature</td><td class="rp-val">— Shawna</td><td class="rp-note"></td></tr><tr><td class="rp-path">process</td><td class="rp-val">…, …, …, …, …</td><td class="rp-note">Steps 03 and 04 survive from concept 08 and are the strongest writing in the set. Confirm the response time and delivery window are accurate.</td></tr><tr><td class="rp-path">faq</td><td class="rp-val">I’m not photogenic. Really., What should we wear?, How long does a session take?, What if the kids melt down?,…</td><td class="rp-note">Ten questions drafted from common enquiries. Every answer needs your confirmation — particularly the rain policy, travel radius, deposit terms and delivery times.</td></tr><tr><td class="rp-path">rightNow.headline</td><td class="rp-val">Autumn dates are open</td><td class="rp-note">Should reflect the real season and real availability.</td></tr><tr><td class="rp-path">rightNow.body</td><td class="rp-val">Autumn family sessions book up first, and holiday card orders need to be placed by the first week of December …</td><td class="rp-note">Draft. Rewrite each season, or wire to a real calendar.</td></tr><tr><td class="rp-path">rightNow.urgency</td><td class="rp-val">4 weekend slots left in October</td><td class="rp-note">INVENTED. Only show a number like this if it is true.</td></tr><tr><td class="rp-path">rightNow.deadline</td><td class="rp-val">Holiday card orders close 5 December</td><td class="rp-note">Invented deadline — confirm.</td></tr><tr><td class="rp-path">voice.gallery.eyebrow</td><td class="rp-val">Portrait studio · Plainfield, Illinois</td><td class="rp-note"></td></tr><tr><td class="rp-path">voice.gallery.headline</td><td class="rp-val">Celebrate life and make our time stand still.</td><td class="rp-note">Shawna’s own tagline, used as the headline.</td></tr><tr><td class="rp-path">voice.gallery.sub</td><td class="rp-val">Family, seniors, personal branding and pets — photographed the way you actually are, in the light of an ordina…</td><td class="rp-note">Draft, from concept 01.</td></tr><tr><td class="rp-path">voice.gallery.ctaPrimary</td><td class="rp-val">View Portfolio</td><td class="rp-note"></td></tr><tr><td class="rp-path">voice.gallery.ctaSecondary</td><td class="rp-val">Book a Session</td><td class="rp-note"></td></tr><tr><td class="rp-path">voice.gallery.closingLine</td><td class="rp-val">Sessions run about 90 minutes. Bring the dog, bring the grandparents, bring whoever makes it feel like yours.</td><td class="rp-note">From concept 01 — the best closing line in round one.</td></tr><tr><td class="rp-path">voice.booking.eyebrow</td><td class="rp-val">Now booking · Plainfield, Illinois</td><td class="rp-note"></td></tr><tr><td class="rp-path">voice.booking.headline</td><td class="rp-val">Never done this before? Most of my clients haven’t either.</td><td class="rp-note">Draft, expanded from concept 07’s sub-heading — the most disarming line in round one.</td></tr><tr><td class="rp-path">voice.booking.sub</td><td class="rp-val">Pick a session, send me a date, and I’ll walk you through the rest. No deposit to ask, and I reply within a da…</td><td class="rp-note">Draft, from concept 07.</td></tr><tr><td class="rp-path">voice.booking.ctaPrimary</td><td class="rp-val">Check Availability</td><td class="rp-note"></td></tr><tr><td class="rp-path">voice.booking.ctaSecondary</td><td class="rp-val">See the Work</td><td class="rp-note"></td></tr><tr><td class="rp-path">voice.booking.closingLine</td><td class="rp-val">No deposit to ask. Tell me who’s coming and roughly when, and I’ll send times that work.</td><td class="rp-note">From concept 07.</td></tr><tr><td class="rp-path">voice.story.eyebrow</td><td class="rp-val">Plainfield, Illinois · since 2014</td><td class="rp-note">Year needs confirming.</td></tr><tr><td class="rp-path">voice.story.headline</td><td class="rp-val">Hi, I’m the artist behind SkyByrd.</td><td class="rp-note">From concept 08.</td></tr><tr><td class="rp-path">voice.story.sub</td><td class="rp-val">I photograph families, seniors, small businesses and very good dogs around the southwest suburbs. Nothing stif…</td><td class="rp-note">Draft, merging concepts 03 and 08.</td></tr><tr><td class="rp-path">voice.story.ctaPrimary</td><td class="rp-val">Write to Me</td><td class="rp-note"></td></tr><tr><td class="rp-path">voice.story.ctaSecondary</td><td class="rp-val">View Portfolio</td><td class="rp-note"></td></tr><tr><td class="rp-path">voice.story.closingLine</td><td class="rp-val">If any of this sounds like what you’ve been meaning to do, write to me. Tell me who’s coming — that’s the whol…</td><td class="rp-note">From concept 08.</td></tr></tbody>
     </table>
   </div>
 </dialog>
@@ -1987,14 +2054,21 @@ body {
   var state = { arch: 'gallery', palette: 'linen', frame: 'desktop' };
 
   function apply() {
+    var comparing = state.frame === 'compare';
     frame.setAttribute('data-palette', state.palette);
     frame.classList.toggle('frame-mobile', state.frame === 'mobile');
-    document.querySelectorAll('.page-body').forEach(function (el) {
-      el.hidden = el.getAttribute('data-arch') !== state.arch;
+    frame.classList.toggle('frame-compare', comparing);
+
+    // Compare shows all three at once, so the architecture picker has nothing
+    // to switch — dim it rather than leaving a dead control.
+    document.querySelectorAll('.arch-col').forEach(function (el) {
+      el.hidden = !comparing && el.getAttribute('data-arch') !== state.arch;
     });
     document.querySelectorAll('.arch-note').forEach(function (el) {
-      el.hidden = el.getAttribute('data-arch') !== state.arch;
+      el.hidden = comparing || el.getAttribute('data-arch') !== state.arch;
     });
+    document.getElementById('archGroup').classList.toggle('ch-dim', comparing);
+    document.getElementById('compareHint').hidden = !comparing;
   }
 
   document.querySelectorAll('.seg').forEach(function (btn) {

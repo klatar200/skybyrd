@@ -21,6 +21,7 @@ import { collectPlaceholders } from './src/content/_placeholder.js';
 import { palettes, paletteList, paletteCss } from './src/tokens/palettes.js';
 import { architectures } from './src/architectures.js';
 import { sections } from './src/sections/index.js';
+import { renderIntake } from './src/intake.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const read = (p) => readFileSync(join(__dirname, p), 'utf8');
@@ -68,8 +69,32 @@ const paletteBlocks = paletteList
   .map((p) => paletteCss(p, `[data-palette="${p.id}"]`))
   .join('\n');
 
+/* Human labels for the band keys, used by the compare view's order strip. The
+   whole point of compare mode is seeing WHERE each architecture puts things, so
+   the key decision bands are marked and the rest stay quiet. */
+const BAND_LABELS = {
+  nav: 'Nav', hero: 'Hero', trustBar: 'Trust bar', meetShawna: 'Meet Shawna',
+  sessionTypes: 'Sessions + pricing', gallery: 'Gallery', whatYouReceive: 'What you receive',
+  howItWorks: 'How it works', reviews: 'Reviews', whereIShoot: 'Where I shoot',
+  rightNow: 'Availability', faq: 'FAQ', prints: 'Prints', enquiry: 'Enquiry',
+  instagram: 'Instagram', footer: 'Footer',
+};
+const KEY_BANDS = new Set(['sessionTypes', 'gallery', 'meetShawna', 'reviews']);
+
+const bandStrip = (arch) =>
+  arch.bands
+    .map((b, i) => `<li class="bandchip${KEY_BANDS.has(b) ? ' bandchip-key' : ''}"><span>${String(i + 1).padStart(2, '0')}</span>${esc(BAND_LABELS[b] || b)}</li>`)
+    .join('');
+
 const pages = architectures
-  .map((a) => `<div class="page page-body" data-arch="${a.id}"${a.id === architectures[0].id ? '' : ' hidden'}>${renderArchitecture(a)}</div>`)
+  .map((a) => `<div class="arch-col" data-arch="${a.id}"${a.id === architectures[0].id ? '' : ' hidden'}>
+  <div class="col-head">
+    <h3>${esc(a.label)}</h3>
+    <p>${esc(voices[a.id].voiceName)}</p>
+    <ol class="bandstrip">${bandStrip(a)}</ol>
+  </div>
+  <div class="page page-body">${renderArchitecture(a)}</div>
+</div>`)
   .join('\n');
 
 const archButtons = architectures
@@ -108,7 +133,7 @@ ${paletteBlocks}
       <div><strong>SkyByrd</strong><span>Mockup studio · round two</span></div>
     </div>
 
-    <div class="ch-group">
+    <div class="ch-group" id="archGroup">
       <span class="ch-label">Architecture</span>
       <div class="segs">${archButtons}</div>
     </div>
@@ -123,6 +148,7 @@ ${paletteBlocks}
       <div class="segs">
         <button class="seg on" data-set="frame" data-val="desktop" type="button"><span class="seg-t">Desktop</span></button>
         <button class="seg" data-set="frame" data-val="mobile" type="button"><span class="seg-t">Phone</span></button>
+        <button class="seg" data-set="frame" data-val="compare" type="button"><span class="seg-t">Compare all three</span></button>
       </div>
     </div>
 
@@ -132,7 +158,16 @@ ${paletteBlocks}
     </div>
   </div>
 
-  <div class="chrome-notes">${archNotes}</div>
+  <div class="chrome-notes">
+    ${archNotes}
+    <div class="arch-note" id="compareHint" hidden>
+      <p class="an-thesis">All three side by side, same palette. The numbered strip above each column is its band order — the highlighted bands are the ones that move, and where they sit is the whole difference between these three.</p>
+      <dl class="an-meta">
+        <div><dt>Scroll</dt><dd>All three columns scroll together</dd></div>
+        <div><dt>Palette</dt><dd>Still applies to all three at once</dd></div>
+      </dl>
+    </div>
+  </div>
 </div>
 
 <div class="stage">
@@ -163,14 +198,21 @@ ${paletteBlocks}
   var state = { arch: '${architectures[0].id}', palette: '${paletteList[0].id}', frame: 'desktop' };
 
   function apply() {
+    var comparing = state.frame === 'compare';
     frame.setAttribute('data-palette', state.palette);
     frame.classList.toggle('frame-mobile', state.frame === 'mobile');
-    document.querySelectorAll('.page-body').forEach(function (el) {
-      el.hidden = el.getAttribute('data-arch') !== state.arch;
+    frame.classList.toggle('frame-compare', comparing);
+
+    // Compare shows all three at once, so the architecture picker has nothing
+    // to switch — dim it rather than leaving a dead control.
+    document.querySelectorAll('.arch-col').forEach(function (el) {
+      el.hidden = !comparing && el.getAttribute('data-arch') !== state.arch;
     });
     document.querySelectorAll('.arch-note').forEach(function (el) {
-      el.hidden = el.getAttribute('data-arch') !== state.arch;
+      el.hidden = comparing || el.getAttribute('data-arch') !== state.arch;
     });
+    document.getElementById('archGroup').classList.toggle('ch-dim', comparing);
+    document.getElementById('compareHint').hidden = !comparing;
   }
 
   document.querySelectorAll('.seg').forEach(function (btn) {
@@ -200,12 +242,21 @@ ${paletteBlocks}
 mkdirSync(join(__dirname, 'dist'), { recursive: true });
 writeFileSync(join(__dirname, 'dist/review.html'), html);
 
+/* ── intake sheet ────────────────────────────────────────────────────────── */
+const groupsUsed = new Set(placeholders.map((p) => p.path.split('.')[0]));
+const intake = renderIntake(placeholders, content, {
+  count: placeholders.length,
+  groups: groupsUsed.size,
+});
+writeFileSync(join(__dirname, 'dist/intake.html'), intake);
+
 /* ── console summary ─────────────────────────────────────────────────────── */
 const combos = architectures.length * paletteList.length;
 console.log(`\n  SkyByrd mockups built`);
 console.log(`  ${architectures.length} architectures × ${paletteList.length} palettes = ${combos} combinations (× 2 viewports)`);
 console.log(`  ${architectures[0].bands.length} bands per page`);
-console.log(`  ${(html.length / 1024).toFixed(0)} KB → dist/review.html\n`);
+console.log(`  ${(html.length / 1024).toFixed(0)} KB → dist/review.html`);
+console.log(`  ${(intake.length / 1024).toFixed(0)} KB → dist/intake.html\n`);
 console.log(`  ${placeholders.length} placeholders awaiting Shawna:`);
 for (const p of placeholders.slice(0, 8)) console.log(`    · ${p.path}`);
 if (placeholders.length > 8) console.log(`    · …and ${placeholders.length - 8} more (see the report in the canvas)`);

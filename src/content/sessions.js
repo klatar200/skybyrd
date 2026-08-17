@@ -22,8 +22,8 @@ export const sessions = [
     groupSize: P('Up to 8 people', 'From concept 07.'),
     locations: P('One location of your choosing', 'Confirm.'),
     imageCount: P('40+ edited images', 'From concept 07.'),
-    price: P('$450', 'INVENTED in concept 07. Needs Shawna’s real pricing.'),
-    priceNote: P('Additional people $25 each', 'Invented. Does she charge for larger groups?'),
+    price: P('$450', 'INVENTED in concept 07. What do you actually charge for this?'),
+    priceNote: P('Additional people $25 each', 'Invented. Do you charge extra for larger groups?'),
     includes: P(
       ['Pre-session call and wardrobe guidance', '90 minutes on location', '40+ edited high-resolution images', 'Private online gallery within two weeks', 'Print release for personal use'],
       'Draft inclusions — confirm each line.'
@@ -43,8 +43,8 @@ export const sessions = [
     groupSize: P('The senior, plus family for a few frames', 'Confirm.'),
     locations: P('Two locations', 'From concept 07.'),
     imageCount: P('50+ edited images', 'Invented.'),
-    price: P('$525', 'INVENTED in concept 07. Needs real pricing.'),
-    priceNote: P('Cap and gown add-on available', 'Invented — does she offer this?'),
+    price: P('$525', 'INVENTED in concept 07. What do you actually charge for this?'),
+    priceNote: P('Cap and gown add-on available', 'Invented — do you offer this?'),
     includes: P(
       ['Planning call with the senior, not just the parents', 'Two locations, three outfit changes', '50+ edited high-resolution images', 'Private gallery within two weeks', 'Graduation announcement files sized and ready'],
       'Draft inclusions.'
@@ -64,8 +64,8 @@ export const sessions = [
     groupSize: P('One person, or small teams by arrangement', 'Confirm team pricing.'),
     locations: P('Your workplace, the studio, or both', 'Confirm.'),
     imageCount: P('60+ edited images', 'Invented.'),
-    price: P('$680', 'INVENTED in concept 07. Needs real pricing.'),
-    priceNote: P('Team rates available', 'Invented — does she shoot teams?'),
+    price: P('$680', 'INVENTED in concept 07. What do you actually charge for this?'),
+    priceNote: P('Team rates available', 'Invented — do you shoot teams, and at what rate?'),
     includes: P(
       ['Strategy call about how you will actually use the images', 'Half day of shooting', '60+ edited images in web and print sizes', 'Cropped variants for LinkedIn, Instagram and your website', 'Commercial usage rights'],
       'Draft inclusions — commercial rights in particular needs confirming.'
@@ -76,7 +76,7 @@ export const sessions = [
     id: 'pets',
     name: R('Pets', 'services list'),
     tag: R('Members of the family, obviously', ''),
-    forWhom: P('Dogs mostly, but she has photographed cats, horses and one very patient rabbit.', 'INVENTED detail — is this true? It is a lovely line if so.'),
+    forWhom: P('Dogs mostly, though I have photographed cats, horses and one very patient rabbit.', 'Invented detail — is this true? It is a lovely line if so.'),
     blurb: P(
       'Treats allowed, chaos expected. Studio or your favourite trail, and we work at their pace rather than mine.',
       'Draft — this line survives from round one.'
@@ -85,7 +85,7 @@ export const sessions = [
     groupSize: P('Up to 2 pets, humans welcome', 'Confirm.'),
     locations: P('Studio or a trail of your choosing', 'Confirm.'),
     imageCount: P('25+ edited images', 'Invented.'),
-    price: P('$275', 'INVENTED in concept 07. Needs real pricing.'),
+    price: P('$275', 'INVENTED in concept 07. What do you actually charge for this?'),
     priceNote: P('Add your people for $75', 'Invented.'),
     includes: P(
       ['A short chat about what makes them comfortable', '45 minutes, at their pace', '25+ edited images', 'Private gallery within two weeks', 'Treats provided, and used shamelessly'],
@@ -114,5 +114,5 @@ export const products = P(
     { name: 'Canvases', blurb: 'For the wall you have been meaning to do something with.', from: 'from $190' },
     { name: 'Gift certificates', blurb: 'A session for someone else — new babies, new homes, big birthdays.', from: 'any amount' },
   ],
-  'Entirely invented. Does Shawna sell prints and albums, and at what prices? This is where studio revenue per client usually comes from.'
+  'Entirely invented. Do you sell prints, albums or gift certificates, and at roughly what prices? This is usually where studio revenue per client comes from.'
 );

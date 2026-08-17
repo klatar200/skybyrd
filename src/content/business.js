@@ -46,12 +46,12 @@ export const serviceArea = {
   primary: R('Plainfield', 'public listings'),
   towns: P(
     ['Plainfield', 'Naperville', 'Joliet', 'Oswego', 'Shorewood', 'Yorkville', 'Romeoville', 'Bolingbrook'],
-    'Towns chosen by proximity. Which does Shawna actually travel to, and how far will she go?'
+    'Which of these do you actually travel to, and how far are you willing to go?'
   ),
   radius: P('30 miles', 'Confirm travel radius and whether there is a fee beyond it.'),
   blurb: P(
     'Based in Plainfield and shooting across the southwest suburbs — Naperville, Joliet, Oswego, Shorewood and the towns in between. Travel further afield is usually possible; just ask.',
-    'Draft copy. Rewrite in Shawna’s voice.'
+    'Draft copy — rewrite it in your own words.'
   ),
 };
 
@@ -64,5 +64,5 @@ export const locations = P(
     { name: 'The studio', blurb: 'Controlled light, no weather, no wind. Best for headshots and newborns.', season: 'Year round', subject: 'branding' },
     { name: 'Your own home', blurb: 'The rooms you actually live in. Quietly the most sentimental option.', season: 'Year round', subject: 'family' },
   ],
-  'All six invented. Replace with the locations Shawna genuinely uses and loves.'
+  'All six invented. Replace them with the places you genuinely use and love.'
 );
