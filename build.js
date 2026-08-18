@@ -160,7 +160,7 @@ ${paletteBlocks}
     </div>
 
     <div class="ch-group ch-toggles">
-      <label class="tog"><input type="checkbox" id="phToggle" checked><span>Mark placeholders</span></label>
+      <label class="tog"><input type="checkbox" id="phToggle"><span>Mark placeholders</span></label>
       <button class="ch-link" id="openReport" type="button">Needs Shawna (${placeholders.length})</button>
     </div>
   </div>
@@ -178,7 +178,7 @@ ${paletteBlocks}
 </div>
 
 <div class="stage">
-  <div class="frame show-ph" id="frame" data-palette="${paletteList[0].id}">
+  <div class="frame" id="frame" data-palette="${paletteList[0].id}">
     ${pages}
   </div>
 </div>
